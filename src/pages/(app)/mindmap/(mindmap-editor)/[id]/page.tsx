@@ -4,7 +4,7 @@ import { initialNodes, nodeTypes } from "@/nodes"
 import { useSelectedNodes } from "@/stores/selected-node-store"
 import { ActionIcon } from "@mantine/core"
 import { IconMaximize, IconMinimize } from "@tabler/icons-react"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import ReactFlow, {
     addEdge,
     Background,

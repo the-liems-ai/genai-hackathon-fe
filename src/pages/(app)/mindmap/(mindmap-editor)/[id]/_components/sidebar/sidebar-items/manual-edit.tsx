@@ -24,6 +24,7 @@ const ManualEdit = () => {
                         },
                         data: { label: `Node ${id}` },
                     })
+                    reactflow.fitView()
                 },
             },
             {
