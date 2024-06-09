@@ -8,7 +8,7 @@ import {
     Tooltip,
 } from "@mantine/core"
 import { IconEdit } from "@tabler/icons-react"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { ManualEdit } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
 
@@ -48,6 +48,12 @@ const Sidebar = () => {
         setActiveItem(item)
         openNav()
     }
+
+    useEffect(() => {
+        if (!activeItem) {
+            closeNav()
+        }
+    }, [])
 
     return (
         <>

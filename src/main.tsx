@@ -16,35 +16,45 @@ import MindmapEditorPage from "./pages/(app)/mindmap/(mindmap-editor)/[id]/page"
 import MindmapLayout from "./pages/(app)/mindmap/(mindmap)/layout"
 import MindmapPage from "./pages/(app)/mindmap/(mindmap)/page"
 import DrawerUI from "./components/drawer"
+import NotFoundPage from "./pages/404/page"
+import axios from "axios"
 
 const queryClient = new QueryClient()
 
 const routers = createBrowserRouter([
     {
         path: "/",
-        element: <HomePage />,
-    },
-    {
-        path: "/Mindmap",
         element: <Outlet />,
+        errorElement: <NotFoundPage />,
         children: [
             {
                 path: "",
-                element: <MindmapLayout />,
-                children: [
-                    {
-                        index: true,
-                        element: <MindmapPage />,
-                    },
-                ],
+                element: <HomePage />,
             },
             {
-                path: ":id",
-                element: <MindmapEditorLayout />,
+                path: "mindmap",
+                element: <Outlet />,
                 children: [
                     {
-                        index: true,
-                        element: <MindmapEditorPage />,
+                        path: "",
+                        element: <MindmapLayout />,
+                        children: [
+                            {
+                                index: true,
+                                element: <MindmapPage />,
+                            },
+                        ],
+                    },
+                    {
+                        id: "mindmap-editor-page",
+                        path: ":id",
+                        element: <MindmapEditorLayout />,
+                        children: [
+                            {
+                                index: true,
+                                element: <MindmapEditorPage />,
+                            },
+                        ],
                     },
                 ],
             },

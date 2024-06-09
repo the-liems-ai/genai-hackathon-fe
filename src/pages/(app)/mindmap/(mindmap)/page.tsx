@@ -1,7 +1,11 @@
 import { Button, Container, Group, Title } from "@mantine/core"
 import MindmapCard from "./_components/mindmap-card"
 import { useMemo } from "react"
-import { useNavigate } from "react-router-dom"
+import {
+    useLoaderData,
+    useNavigate,
+    useRouteLoaderData,
+} from "react-router-dom"
 
 const MindmapPage = () => {
     const mockData = useMemo(
@@ -19,6 +23,9 @@ const MindmapPage = () => {
     const handleCreateMindmap = () => {
         navigate("/mindmap/new")
     }
+
+    const data = useRouteLoaderData("mindmap-page")
+    console.log(data)
 
     return (
         <Container size="xl">
