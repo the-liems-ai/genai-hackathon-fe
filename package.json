@@ -29,6 +29,10 @@
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.10",
+<<<<<<< HEAD
+=======
+    "html-to-image": "^1.11.11",
+>>>>>>> ac930c3c122b1a70e1543f192df90f2c73c96969
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -38,6 +42,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/node": "^20.14.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
