@@ -15,6 +15,7 @@ import MindmapEditorLayout from "./pages/(app)/mindmap/(mindmap-editor)/[id]/lay
 import MindmapEditorPage from "./pages/(app)/mindmap/(mindmap-editor)/[id]/page"
 import MindmapLayout from "./pages/(app)/mindmap/(mindmap)/layout"
 import MindmapPage from "./pages/(app)/mindmap/(mindmap)/page"
+import DrawerUI from "./components/drawer"
 
 const queryClient = new QueryClient()
 
@@ -59,6 +60,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                     <ReactFlowProvider>
                         <RouterProvider router={routers} />
                         <Toaster />
+                        <DrawerUI />
                     </ReactFlowProvider>
                 </ModalsProvider>
             </MantineProvider>

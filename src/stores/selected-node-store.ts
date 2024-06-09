@@ -1,21 +1,16 @@
 import { Node } from "reactflow"
 import { create } from "zustand"
+import { ExtractState } from "./extract-state"
 
 interface SelectedNodeStore {
     nodes: Node[]
     setSelectedNodes: (nodes: Node[]) => void
 }
 
-export const useSelectedNodeStore = create<SelectedNodeStore>((set) => ({
+const useSelectedNodeStore = create<SelectedNodeStore>((set) => ({
     nodes: [],
     setSelectedNodes: (nodes: Node[]) => set(() => ({ nodes })),
 }))
-
-export type ExtractState<S> = S extends {
-    getState: () => infer T
-}
-    ? T
-    : never
 
 const selectedNodeSelector = (
     state: ExtractState<typeof useSelectedNodeStore>

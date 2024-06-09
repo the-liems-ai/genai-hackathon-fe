@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { ExtractState } from "./extract-state"
 
 interface AppShellStore {
     showed: boolean
@@ -14,7 +15,7 @@ interface AppShellStore {
     toggleNav: () => void
 }
 
-export const useAppShellStore = create<AppShellStore>((set) => ({
+const useAppShellStore = create<AppShellStore>((set) => ({
     showed: true,
     navOpened: false,
     sideOpened: true,
@@ -29,12 +30,6 @@ export const useAppShellStore = create<AppShellStore>((set) => ({
     closeNav: () => set(() => ({ navOpened: false })),
     toggleNav: () => set((state) => ({ navOpened: !state.navOpened })),
 }))
-
-export type ExtractState<S> = S extends {
-    getState: () => infer T
-}
-    ? T
-    : never
 
 const appShellSelector = (state: ExtractState<typeof useAppShellStore>) => {
     return [

@@ -1,12 +1,14 @@
-import { useMemo } from "react";
-import { useReactFlow } from "reactflow";
-import { Button, Group } from "@mantine/core";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { useMemo } from "react"
+import { useReactFlow } from "reactflow"
+import { Button, Group } from "@mantine/core"
+import { IconMenu, IconPlus, IconTrash } from "@tabler/icons-react"
+import { useDrawer } from "@/stores/drawer-store"
 
-let id = 0;
+let id = 0
 
 const ManualEdit = () => {
-    const reactflow = useReactFlow();
+    const reactflow = useReactFlow()
+    const drawer = useDrawer()
     const editTools = useMemo(
         () => [
             {
@@ -21,20 +23,31 @@ const ManualEdit = () => {
                             y: -200,
                         },
                         data: { label: `Node ${id}` },
-                    });
+                    })
                 },
             },
             {
                 icon: <IconTrash size={28} />,
                 label: "Clear canvas",
                 action: () => {
-                    reactflow.setEdges([]);
-                    reactflow.setNodes([]);
+                    reactflow.setEdges([])
+                    reactflow.setNodes([])
+                },
+            },
+            {
+                icon: <IconMenu size={28} />,
+                label: "Open drawer",
+                action: () => {
+                    drawer.openDrawer({
+                        title: "Drawer",
+                        size: "lg",
+                        children: <div>Drawer content</div>,
+                    })
                 },
             },
         ],
         []
-    );
+    )
 
     return (
         <div className="flex flex-col gap-4">
@@ -54,7 +67,7 @@ const ManualEdit = () => {
                 ))}
             </Group>
         </div>
-    );
-};
+    )
+}
 
-export default ManualEdit;
+export default ManualEdit
