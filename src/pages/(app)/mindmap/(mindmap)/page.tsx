@@ -12,7 +12,7 @@ const MindmapPage = () => {
         () =>
             Array.from({ length: 8 }, (_, index) => ({
                 imageUrl: `https://placehold.co/300x160?text=Mindmap+${index}`,
-                title: `Mindmap ${index}`,
+                title: `Mindmap ${index + 1}`,
                 description: `Mindmap description ${index}`,
                 href: index.toString(),
             })),
