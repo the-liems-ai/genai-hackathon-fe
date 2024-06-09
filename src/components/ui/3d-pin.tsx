@@ -47,7 +47,7 @@ export const Pin = ({
           style={{
             transform: transform,
           }}
-          className="absolute left-1/2 p-4 top-1/2 flex justify-center items-center rounded-2xl bg-[url('./bg.png')] bg-center bg-cover group-hover/pin:border-white/[0.1] group-hover/pin:shadow-blue-100/[1.5] group-hover/pin:shadow-md transition duration-700 overflow-hidden"
+          className="absolute left-1/2 p-4 top-1/2 flex justify-center items-center rounded-2xl group-hover/pin:border-white/[0.1] group-hover/pin:shadow-blue-100/[1.5] group-hover/pin:shadow-md transition duration-700 overflow-hidden"
         >
           <div className={cn(" relative z-50 ", className)}>{children}</div>
         </div>
