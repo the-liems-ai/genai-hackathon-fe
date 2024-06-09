@@ -41,13 +41,13 @@ export const Pin = ({
           perspective: "1000px",
           transform: "rotateX(70deg) translateZ(0deg)",
         }}
-        className="absolute left-1/2 top-1/2 ml-[0.09375rem] mt-2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 ml-[0.09375rem] mt-4 -translate-x-1/2 -translate-y-1/2"
       >
         <div
           style={{
             transform: transform,
           }}
-          className="absolute left-1/2 p-4 top-1/2 flex justify-center items-center rounded-2xl bg-[url('./bg.png')] bg-center bg-cover group-hover/pin:border-white/[0.1] group-hover/pin:shadow-blue-100/[1.5] group-hover/pin:shadow-lg transition duration-700 overflow-hidden"
+          className="absolute left-1/2 p-4 top-1/2 flex justify-center items-center rounded-2xl bg-[url('./bg.png')] bg-center bg-cover group-hover/pin:border-white/[0.1] group-hover/pin:shadow-blue-100/[1.5] group-hover/pin:shadow-md transition duration-700 overflow-hidden"
         >
           <div className={cn(" relative z-50 ", className)}>{children}</div>
         </div>
@@ -65,13 +65,13 @@ export const PinPerspective = ({
   href?: string;
 }) => {
   return (
-    <motion.div className="pointer-events-none  w-96 h-[550px] flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-700">
-      <div className=" w-full h-full -mt-7 flex inset-0">
+    <motion.div className="pointer-events-none  w-96 h-[450px] flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-700">
+      <div className=" w-full h-full -mt-4 flex inset-0">
         <div className="absolute inset-x-0 flex justify-center">
           <a
             href={href}
             target={"_blank"}
-            className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-4 px-14 ring-1 ring-white/20"
+            className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-3 px-8 ring-1 ring-white/20"
           >
             <span className="relative uppercase text-md z-20 text-blue-100 font-semibold inline-block py-0.5">
               Get Started
