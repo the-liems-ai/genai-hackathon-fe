@@ -1,7 +1,8 @@
-"use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../utils/cn";
+import { UnstyledButton } from "@mantine/core";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Pin = ({
   children,
@@ -65,12 +66,11 @@ export const PinPerspective = ({
   href?: string;
 }) => {
   return (
-    <motion.div className="pointer-events-none  w-96 h-[450px] flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-700">
+    <motion.div className="w-96 h-[450px] flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-700">
       <div className=" w-full h-full -mt-4 flex inset-0">
         <div className="absolute inset-x-0 flex justify-center">
-          <a
-            href={href}
-            target={"_blank"}
+          <Link
+            to={href}
             className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-3 px-8 ring-1 ring-white/20"
           >
             <span className="relative uppercase text-md z-20 text-blue-100 font-semibold inline-block py-0.5">
@@ -78,7 +78,7 @@ export const PinPerspective = ({
             </span>
 
             <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-blue-300 to-emerald-400/0 transition-opacity duration-500 group-hover/btn:opacity-40"></span>
-          </a>
+          </Link>
         </div>
 
         <div
