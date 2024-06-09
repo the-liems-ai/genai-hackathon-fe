@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import Layout from "./_components/mindmap-layout"
+import { Layout } from "./_components"
 
 const MindmapLayout = () => {
     return (

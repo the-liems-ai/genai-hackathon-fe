@@ -1,21 +1,17 @@
-import { create } from "zustand";
+import { create } from "zustand"
 
 interface AppShellStore {
-    showed: boolean;
-    navOpened: boolean;
-    sideOpened: boolean;
+    showed: boolean
+    navOpened: boolean
+    sideOpened: boolean
 
-    showAppShell: () => void;
-    hideAppShell: () => void;
-    toggleAppShell: () => void;
+    showAppShell: () => void
+    hideAppShell: () => void
+    toggleAppShell: () => void
 
-    openNav: () => void;
-    closeNav: () => void;
-    toggleNav: () => void;
-
-    openSide: () => void;
-    closeSide: () => void;
-    toggleSide: () => void;
+    openNav: () => void
+    closeNav: () => void
+    toggleNav: () => void
 }
 
 export const useAppShellStore = create<AppShellStore>((set) => ({
@@ -32,17 +28,13 @@ export const useAppShellStore = create<AppShellStore>((set) => ({
     openNav: () => set(() => ({ navOpened: true })),
     closeNav: () => set(() => ({ navOpened: false })),
     toggleNav: () => set((state) => ({ navOpened: !state.navOpened })),
-
-    openSide: () => set(() => ({ sideOpened: true })),
-    closeSide: () => set(() => ({ sideOpened: false })),
-    toggleSide: () => set((state) => ({ sideOpened: !state.sideOpened })),
-}));
+}))
 
 export type ExtractState<S> = S extends {
-    getState: () => infer T;
+    getState: () => infer T
 }
     ? T
-    : never;
+    : never
 
 const appShellSelector = (state: ExtractState<typeof useAppShellStore>) => {
     return [
@@ -52,10 +44,10 @@ const appShellSelector = (state: ExtractState<typeof useAppShellStore>) => {
             hide: state.hideAppShell,
             toggle: state.toggleAppShell,
         },
-    ] as const;
-};
+    ] as const
+}
 
-export const useAppShell = () => useAppShellStore(appShellSelector);
+export const useAppShell = () => useAppShellStore(appShellSelector)
 
 const navSelector = (state: ExtractState<typeof useAppShellStore>) => {
     return [
@@ -65,20 +57,7 @@ const navSelector = (state: ExtractState<typeof useAppShellStore>) => {
             close: state.closeNav,
             toggle: state.toggleNav,
         },
-    ] as const;
-};
+    ] as const
+}
 
-export const useNav = () => useAppShellStore(navSelector);
-
-const sideSelector = (state: ExtractState<typeof useAppShellStore>) => {
-    return [
-        state.sideOpened,
-        {
-            open: state.openSide,
-            close: state.closeSide,
-            toggle: state.toggleSide,
-        },
-    ] as const;
-};
-
-export const useSide = () => useAppShellStore(sideSelector);
+export const useNav = () => useAppShellStore(navSelector)

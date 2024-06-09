@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom"
+import { Layout } from "./_components"
 
 const MindmapEditorLayout = () => {
     return (
-        <>
-            MindmapEditorLayout
+        <Layout>
             <Outlet />
-        </>
+        </Layout>
     )
 }
 
