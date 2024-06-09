@@ -1,4 +1,4 @@
-import { Pin } from "../components/ui/3d-pin"
+import { Pin } from "../../components/ui/3d-pin"
 
 const HomePage = () => {
     return (

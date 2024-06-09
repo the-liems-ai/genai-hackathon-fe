@@ -10,10 +10,7 @@ import "./styles/index.css"
 import "reactflow/dist/style.css"
 import "@mantine/core/styles.css"
 import "@mantine/tiptap/styles.css"
-import HomePage from "./pages/page"
-import DiagramPage from "./pages/diagram/page"
-import DiagramLayout from "./pages/diagram/layout"
-import TestPage from "./pages/diagram/test/page"
+import HomePage from "./pages/(marketing)/page"
 
 const queryClient = new QueryClient()
 
@@ -22,20 +19,20 @@ const routers = createBrowserRouter([
         path: "/",
         element: <HomePage />,
     },
-    {
-        path: "/diagram",
-        element: <DiagramLayout />,
-        children: [
-            {
-                index: true,
-                element: <DiagramPage />,
-            },
-            {
-                path: "test",
-                element: <TestPage />,
-            },
-        ],
-    },
+    // {
+    //     path: "/diagram",
+    //     element: <DiagramLayout />,
+    //     children: [
+    //         {
+    //             index: true,
+    //             element: <DiagramPage />,
+    //         },
+    //         {
+    //             path: "test",
+    //             element: <TestPage />,
+    //         },
+    //     ],
+    // },
 ])
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
