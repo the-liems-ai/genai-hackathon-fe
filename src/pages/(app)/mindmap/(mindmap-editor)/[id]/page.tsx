@@ -1,6 +1,6 @@
-import { edgeTypes } from "@/edges"
+import { edgeTypes, initialEdges } from "@/edges"
 import { useRemoveLogo, useToggleAppShell } from "@/hooks"
-import { nodeTypes } from "@/nodes"
+import { initialNodes, nodeTypes } from "@/nodes"
 import { useSelectedNodes } from "@/stores/selected-node-store"
 import { ActionIcon } from "@mantine/core"
 import { IconMaximize, IconMinimize } from "@tabler/icons-react"
@@ -19,8 +19,8 @@ import ReactFlow, {
 const MindmapEditorPage = () => {
     useRemoveLogo()
     const { fitView } = useReactFlow()
-    const [nodes, setNodes, onNodesChange] = useNodesState([])
-    const [edges, setEdges, onEdgesChange] = useEdgesState([])
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
     const onConnect: OnConnect = useCallback(
         (connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]

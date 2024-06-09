@@ -9,29 +9,15 @@ import { GroupShape } from "./GroupShape"
 export const initialNodes = [
     {
         id: "A",
-        type: "group",
-        data: { label: "Hello" },
-        position: { x: 0, y: 0 },
-        style: {
-            width: 400,
-            height: 300,
-        },
-    },
-    {
-        id: "B",
         type: "default",
         data: { label: "child node 1" },
         position: { x: 10, y: 10 },
-        parentNode: "A",
-        extent: "parent",
     },
     {
-        id: "C",
+        id: "B",
         type: "circle",
         data: { label: "child node 2" },
         position: { x: 10, y: 90 },
-        parentNode: "A",
-        extent: "parent",
     },
 ] satisfies Node[]
 
