@@ -8,7 +8,8 @@ import {
     Tooltip,
 } from "@mantine/core"
 import { IconEdit } from "@tabler/icons-react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
+import { useSetState } from '@mantine/hooks';
 import { ManualEdit } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
 
@@ -35,10 +36,10 @@ const Sidebar = () => {
 
     const [appShellShowed] = useAppShell()
 
-    const [activeItem, setActiveItem] = useState<SidebarItem | null>(null)
+    const [activeItem, setActiveItem] = useSetState<SidebarItem | null>(null)
 
     const handleCloseNav = () => {
-        setActiveItem(prev => ({id: "", ...prev}))
+        setActiveItem({id: ""})
         closeNav()
         setTimeout(() => {
             setActiveItem(null)
