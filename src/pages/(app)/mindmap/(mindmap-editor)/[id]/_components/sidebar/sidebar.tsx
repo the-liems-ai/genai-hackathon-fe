@@ -46,7 +46,7 @@ const Sidebar = () => {
     }
 
     const handleActiveItem = (item: SidebarItem) => {
-        if (activeItem.id === item.id) {
+        if (activeItem?.id === item?.id) {
             handleCloseNav()
             return
         }
@@ -71,7 +71,7 @@ const Sidebar = () => {
                                 label={item.label}
                                 position="right"
                                 withArrow
-                                disabled={activeItem.id === item.id}
+                                disabled={activeItem?.id === item?.id}
                             >
                                 <ActionIcon
                                     aria-label={item.label}
