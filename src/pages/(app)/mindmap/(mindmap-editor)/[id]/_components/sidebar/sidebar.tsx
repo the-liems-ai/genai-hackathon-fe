@@ -13,6 +13,7 @@ import { ManualEdit } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
 
 interface SidebarItem {
+    id: string
     icon: React.ReactNode
     label: string
     chilren: React.ReactNode
@@ -22,6 +23,7 @@ const Sidebar = () => {
     const sidebarItems = useMemo<SidebarItem[]>(() => {
         return [
             {
+                id: "manual-edit",
                 icon: <IconEdit size={24} />,
                 label: "Manual edit",
                 chilren: <ManualEdit />,
@@ -36,12 +38,15 @@ const Sidebar = () => {
     const [activeItem, setActiveItem] = useState<SidebarItem | null>(null)
 
     const handleCloseNav = () => {
-        setActiveItem(null)
+        setActiveItem(prev => ({id: "", ...prev}))
         closeNav()
+        setTimeout(() => {
+            setActiveItem(null)
+        }, 300)
     }
 
     const handleActiveItem = (item: SidebarItem) => {
-        if (activeItem === item) {
+        if (activeItem.id === item.id) {
             handleCloseNav()
             return
         }
@@ -66,7 +71,7 @@ const Sidebar = () => {
                                 label={item.label}
                                 position="right"
                                 withArrow
-                                disabled={activeItem === item}
+                                disabled={activeItem.id === item.id}
                             >
                                 <ActionIcon
                                     aria-label={item.label}
