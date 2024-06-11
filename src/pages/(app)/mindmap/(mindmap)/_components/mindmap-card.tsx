@@ -44,7 +44,7 @@ function MindmapCard({ imageUrl, title, description, href }: MindmapCardProps) {
                 >
                     Edit
                 </Button>
-                <Button radius="md" color="red" px="sm">
+                <Button radius="md" color="red" px="sm" variant="outline">
                     <IconTrash size={16} />
                 </Button>
             </Group>
