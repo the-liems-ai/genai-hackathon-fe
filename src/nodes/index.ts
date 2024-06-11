@@ -9,7 +9,7 @@ import { GroupShape } from "./GroupShape"
 export const initialNodes = [
     {
         id: "A",
-        type: "default",
+        type: "common",
         data: { label: "child node 1" },
         position: { x: 10, y: 10 },
     },
