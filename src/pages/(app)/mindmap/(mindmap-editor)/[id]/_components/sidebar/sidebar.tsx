@@ -7,10 +7,10 @@ import {
     Title,
     Tooltip,
 } from "@mantine/core"
-import { IconEdit } from "@tabler/icons-react"
+import { IconEdit, IconMessageCircle } from "@tabler/icons-react"
 import { useEffect, useMemo } from "react"
-import { useSetState } from '@mantine/hooks';
-import { ManualEdit } from "./sidebar-items"
+import { useSetState } from "@mantine/hooks"
+import { Chat, ManualEdit } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
 
 interface SidebarItem {
@@ -23,6 +23,12 @@ interface SidebarItem {
 const Sidebar = () => {
     const sidebarItems = useMemo<SidebarItem[]>(() => {
         return [
+            {
+                id: "chat",
+                icon: <IconMessageCircle size={24} />,
+                label: "Chat",
+                chilren: <Chat />,
+            },
             {
                 id: "manual-edit",
                 icon: <IconEdit size={24} />,
@@ -39,7 +45,7 @@ const Sidebar = () => {
     const [activeItem, setActiveItem] = useSetState<SidebarItem | null>(null)
 
     const handleCloseNav = () => {
-        setActiveItem({id: ""})
+        setActiveItem({ id: "" })
         closeNav()
         setTimeout(() => {
             setActiveItem(null)
@@ -78,7 +84,7 @@ const Sidebar = () => {
                                     aria-label={item.label}
                                     onClick={() => handleActiveItem(item)}
                                     variant={
-                                        activeItem === item
+                                        activeItem.id === item.id
                                             ? "filled"
                                             : "transparent"
                                     }
@@ -103,9 +109,7 @@ const Sidebar = () => {
                         <CloseButton onClick={handleCloseNav} />
                     </Group>
                 </AppShell.Section>
-                <AppShell.Section my={"md"} grow>
-                    {activeItem?.chilren}
-                </AppShell.Section>
+                {activeItem?.chilren}
             </AppShell.Navbar>
         </>
     )
