@@ -4,7 +4,6 @@ import {
     Group,
     Loader,
     ScrollArea,
-    Stack,
     Textarea,
 } from "@mantine/core"
 import { useListState } from "@mantine/hooks"
@@ -19,6 +18,7 @@ interface Message {
 
 const Chat = () => {
     const chatSectionViewport = useRef<HTMLDivElement>(null)
+
     const scrollBottom = () => {
         setTimeout(() => {
             chatSectionViewport.current!.scrollTo({
@@ -33,6 +33,8 @@ const Chat = () => {
     ])
 
     const [chat, setChat] = useState<string>("")
+
+    const handleChat = () => {}
 
     return (
         <>
@@ -60,7 +62,7 @@ const Chat = () => {
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault()
-                                // handleChat()
+                                handleChat()
                             }
                         }}
                     />
@@ -68,7 +70,7 @@ const Chat = () => {
                         aria-label="Send message"
                         size="lg"
                         // disabled={}
-                        // onClick={}
+                        onClick={handleChat}
                     >
                         {/* {messaging ? (
                             <Loader size="sm" />

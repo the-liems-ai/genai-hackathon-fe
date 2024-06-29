@@ -26,7 +26,7 @@ const Sidebar = () => {
             {
                 id: "chat",
                 icon: <IconMessageCircle size={24} />,
-                label: "Chat",
+                label: "Chat with AI",
                 chilren: <Chat />,
             },
             {
