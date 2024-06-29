@@ -17,7 +17,6 @@ import MindmapLayout from "./pages/(app)/mindmap/(mindmap)/layout"
 import MindmapPage from "./pages/(app)/mindmap/(mindmap)/page"
 import DrawerUI from "./components/drawer"
 import NotFoundPage from "./pages/404/page"
-import axios from "axios"
 
 const queryClient = new QueryClient()
 
@@ -46,7 +45,6 @@ const routers = createBrowserRouter([
                         ],
                     },
                     {
-                        id: "mindmap-editor-page",
                         path: ":id",
                         element: <MindmapEditorLayout />,
                         children: [

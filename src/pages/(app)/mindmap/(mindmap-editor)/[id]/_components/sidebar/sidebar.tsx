@@ -84,7 +84,7 @@ const Sidebar = () => {
                                     aria-label={item.label}
                                     onClick={() => handleActiveItem(item)}
                                     variant={
-                                        activeItem.id === item.id
+                                        activeItem?.id === item?.id
                                             ? "filled"
                                             : "transparent"
                                     }

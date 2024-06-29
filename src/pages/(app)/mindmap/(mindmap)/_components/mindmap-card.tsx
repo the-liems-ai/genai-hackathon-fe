@@ -1,36 +1,34 @@
 import { Card, Image, Text, Button, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Link } from "react-router-dom"
+import { DiagramResponse } from "../_api/types"
 
-interface MindmapCardProps {
-    imageUrl?: string
-    title?: string
-    description?: string
-    href: string
-}
-
-function MindmapCard({ imageUrl, title, description, href }: MindmapCardProps) {
+function MindmapCard({
+    diagram: { id, name, prompt },
+}: {
+    diagram: DiagramResponse
+}) {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
-                <Link to={`/mindmap/${href}`}>
+                <Link to={`/mindmap/${id}`}>
                     <Image
-                        src={imageUrl}
+                        src={""}
                         height={160}
-                        alt={title || "Mindmap"}
+                        alt={name || "Mindmap"}
                         fallbackSrc={` https://placehold.co/300x160?text=${
-                            title || "Mindmap"
+                            name || "Mindmap"
                         }`}
                     />
                 </Link>
             </Card.Section>
 
             <Group justify="space-between" mt="md" mb="xs">
-                <Text fw={500}>{title || "Mindmap"}</Text>
+                <Text fw={500}>{name || "Mindmap"}</Text>
             </Group>
 
             <Text size="sm" c="dimmed">
-                {description || "Mindmap description"}
+                {prompt || "Mindmap description"}
             </Text>
 
             <Group mt="md" gap={8}>
@@ -38,7 +36,7 @@ function MindmapCard({ imageUrl, title, description, href }: MindmapCardProps) {
                     color="blue"
                     radius="md"
                     component={Link}
-                    to={`/mindmap/${href}`}
+                    to={`/mindmap/${id}`}
                     leftSection={<IconEdit size={16} />}
                     className="grow"
                 >
