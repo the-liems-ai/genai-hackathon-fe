@@ -38,8 +38,10 @@ const Chat = () => {
         if (data) {
             conversationHandler.append({
                 role: "user",
-                message: data.data.prompt,
+                message: data?.data?.data.prompt,
             })
+
+            scrollBottom()
         }
     }, [isPending])
 

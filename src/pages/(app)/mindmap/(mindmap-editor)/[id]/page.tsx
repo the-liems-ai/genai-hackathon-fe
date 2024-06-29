@@ -1,10 +1,11 @@
 import { edgeTypes, initialEdges } from "@/edges"
-import { useRemoveLogo, useToggleAppShell } from "@/hooks"
+import { useLayoutedElements, useRemoveLogo, useToggleAppShell } from "@/hooks"
 import { initialNodes, nodeTypes } from "@/nodes"
 import { useSelectedNodes } from "@/stores/selected-node-store"
 import { ActionIcon } from "@mantine/core"
 import { IconMaximize, IconMinimize } from "@tabler/icons-react"
 import { useCallback, useEffect } from "react"
+import { useParams } from "react-router-dom"
 import ReactFlow, {
     addEdge,
     Background,
@@ -15,12 +16,17 @@ import ReactFlow, {
     useNodesState,
     useReactFlow,
 } from "reactflow"
+import { useMindmap } from "../_api/hooks"
+import { convertEdge, convertNode } from "@/utils"
 
 const MindmapEditorPage = () => {
+    const { id } = useParams()
+    const { data, error, isError, isPending } = useMindmap(id)
+
     useRemoveLogo()
     const { fitView } = useReactFlow()
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+    const [nodes, setNodes, onNodesChange] = useNodesState([])
+    const [edges, setEdges, onEdgesChange] = useEdgesState([])
     const onConnect: OnConnect = useCallback(
         (connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
@@ -35,6 +41,32 @@ const MindmapEditorPage = () => {
     )
 
     const { appShellShowed, handleToggleAppShell } = useToggleAppShell()
+
+    const { getLayoutedElements } = useLayoutedElements()
+    useEffect(() => {
+        if (!isPending) {
+            setNodes(
+                Object.values(data?.data.data.data.new.vertices).map(
+                    (value) => {
+                        return convertNode(value)
+                    }
+                )
+            )
+            setEdges(
+                Object.values(data?.data.data.data.new.links).map((value) =>
+                    convertEdge(value)
+                )
+            )
+
+            setTimeout(() => {
+                getLayoutedElements()
+            }, 100)
+
+            setTimeout(() => {
+                fitView()
+            }, 200)
+        }
+    }, [isPending])
 
     return (
         <ReactFlow

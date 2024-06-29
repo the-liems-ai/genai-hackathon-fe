@@ -66,17 +66,17 @@ const routers = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <MantineProvider>
-                <ModalsProvider>
-                    <ReactFlowProvider>
-                        <RouterProvider router={routers} />
-                        <Toaster />
-                        <DrawerUI />
-                    </ReactFlowProvider>
-                </ModalsProvider>
-            </MantineProvider>
-        </QueryClientProvider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+        <MantineProvider>
+            <ModalsProvider>
+                <ReactFlowProvider>
+                    <RouterProvider router={routers} />
+                    <Toaster />
+                    <DrawerUI />
+                </ReactFlowProvider>
+            </ModalsProvider>
+        </MantineProvider>
+    </QueryClientProvider>
+    // </React.StrictMode>
 )
