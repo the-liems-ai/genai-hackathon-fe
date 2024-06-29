@@ -29,17 +29,24 @@ function NewMindmapPage() {
 
         setLoading(true)
 
+        const toastLoading = toast.loading("Generating mindmap...")
+
         createMindmap(prompt, {
             onSuccess: (data) => {
+                toast.success("Mindmap generated successfully")
                 navigate(`/mindmap/${data?.data.data.id}`)
             },
             onError: (error) => {
                 toast.error(error.message)
             },
+            onSettled: () => {
+                setLoading(false)
+                toast.dismiss(toastLoading)
+            },
         })
     }
     return (
-        <div className="flex items-center justify-center h-full w-full">
+        <div className="flex items-center justify-center h-screen w-full">
             <Container className={classes.wrapper} size={1400} w={"100%"}>
                 <Dots className={classes.dots} style={{ left: 0, top: 0 }} />
                 <Dots className={classes.dots} style={{ left: 60, top: 0 }} />

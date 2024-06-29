@@ -4,6 +4,7 @@ import { instance } from "@/utils/axios"
 enum EditDiagramEndpoint {
     CREATE = "/create/diagram",
     GET_BY_ID = "/diagram",
+    UPDATE = "/update/diagram",
 }
 
 export const createMindmap = (prompt: string) => {
@@ -15,3 +16,5 @@ export const getMindmapById = (id: string) => {
         `${EditDiagramEndpoint.GET_BY_ID}/${id}`
     )
 }
+
+// export const updateMindmap = (id: string, ) => {

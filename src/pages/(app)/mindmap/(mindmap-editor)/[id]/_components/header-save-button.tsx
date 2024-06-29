@@ -1,26 +1,19 @@
 import { getParams } from "@/utils"
 import { Button } from "@mantine/core"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useMindmap } from "../../_api/hooks"
 
 const HeaderSaveButton = () => {
     const navigate = useNavigate()
-    const { pathname } = useLocation()
-    const path = getParams(pathname)
+    const params = useParams()
+    const { data, isLoading } = useMindmap(params.id)
 
-    const handleSave = () => {
-        if (path === "new") {
-            navigate("/mindmap")
-            return
-        }
+    const handleSave = async () => {
         navigate("/mindmap")
     }
 
     return (
-        <Button
-            color="green"
-            onClick={handleSave}
-            disabled={path === "new" || path === "" || path === undefined}
-        >
+        <Button color="green" onClick={handleSave}>
             Save
         </Button>
     )
