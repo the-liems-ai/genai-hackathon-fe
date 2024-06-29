@@ -12,6 +12,10 @@ const MindmapPage = () => {
         navigate("/mindmap/new")
     }
 
+    data?.data.sort((a, b) => {
+        return +b.id - +a.id
+    })
+
     return (
         <Container size="xl">
             <Group justify="space-between" align="center" mt="lg" mb="xl">
