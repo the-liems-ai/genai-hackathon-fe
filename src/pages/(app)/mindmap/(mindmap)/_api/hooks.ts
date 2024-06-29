@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
 import { getDiagrams } from "./api"
 
-export const useDiagrams = () => {
+export const useMindmaps = () => {
     return useQuery({
-        queryKey: ["diagrams"],
+        queryKey: ["mindmaps"],
         queryFn: getDiagrams,
     })
 }

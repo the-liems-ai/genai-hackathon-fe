@@ -11,12 +11,13 @@ import "reactflow/dist/style.css"
 import "@mantine/core/styles.css"
 import "@mantine/tiptap/styles.css"
 import HomePage from "./pages/(marketing)/page"
-import MindmapEditorLayout from "./pages/(app)/mindmap/(mindmap-editor)/[id]/layout"
 import MindmapEditorPage from "./pages/(app)/mindmap/(mindmap-editor)/[id]/page"
 import MindmapLayout from "./pages/(app)/mindmap/(mindmap)/layout"
 import MindmapPage from "./pages/(app)/mindmap/(mindmap)/page"
 import DrawerUI from "./components/drawer"
 import NotFoundPage from "./pages/404/page"
+import NewMindmapPage from "./pages/(app)/mindmap/(mindmap-editor)/new/page"
+import MindmapEditorLayout from "./pages/(app)/mindmap/(mindmap-editor)/[id]/layout"
 
 const queryClient = new QueryClient()
 
@@ -53,6 +54,10 @@ const routers = createBrowserRouter([
                                 element: <MindmapEditorPage />,
                             },
                         ],
+                    },
+                    {
+                        path: "new",
+                        element: <NewMindmapPage />,
                     },
                 ],
             },

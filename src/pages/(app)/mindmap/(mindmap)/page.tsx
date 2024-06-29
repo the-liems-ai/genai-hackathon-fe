@@ -1,10 +1,11 @@
 import { Button, Container, Group, Title } from "@mantine/core"
 import MindmapCard from "./_components/mindmap-card"
 import { useNavigate } from "react-router-dom"
-import { useDiagrams } from "./_api/hooks"
+import { useMindmaps } from "./_api/hooks"
+import { useMutation } from "@tanstack/react-query"
 
 const MindmapPage = () => {
-    const { data, error, isLoading, isError } = useDiagrams()
+    const { data, error, isLoading, isError } = useMindmaps()
 
     const navigate = useNavigate()
     const handleCreateMindmap = () => {

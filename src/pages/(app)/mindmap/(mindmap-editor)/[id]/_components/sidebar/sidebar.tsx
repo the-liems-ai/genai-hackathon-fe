@@ -12,6 +12,8 @@ import { useEffect, useMemo } from "react"
 import { useSetState } from "@mantine/hooks"
 import { Chat, ManualEdit } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
+import { useLocation, useParams } from "react-router-dom"
+import { getParams } from "@/utils"
 
 interface SidebarItem {
     id: string
@@ -42,7 +44,9 @@ const Sidebar = () => {
 
     const [appShellShowed] = useAppShell()
 
-    const [activeItem, setActiveItem] = useSetState<SidebarItem | null>(null)
+    const [activeItem, setActiveItem] = useSetState<SidebarItem | null>(
+        sidebarItems[0]
+    )
 
     const handleCloseNav = () => {
         setActiveItem({ id: "" })

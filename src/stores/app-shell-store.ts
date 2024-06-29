@@ -4,7 +4,6 @@ import { ExtractState } from "./extract-state"
 interface AppShellStore {
     showed: boolean
     navOpened: boolean
-    sideOpened: boolean
 
     showAppShell: () => void
     hideAppShell: () => void
@@ -17,8 +16,7 @@ interface AppShellStore {
 
 const useAppShellStore = create<AppShellStore>((set) => ({
     showed: true,
-    navOpened: false,
-    sideOpened: true,
+    navOpened: true,
 
     showAppShell: () => set(() => ({ showed: true })),
     hideAppShell: () =>
