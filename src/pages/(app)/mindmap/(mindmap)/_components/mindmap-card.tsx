@@ -1,13 +1,9 @@
+import { Diagram } from "@/types"
 import { Card, Image, Text, Button, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Link } from "react-router-dom"
-import { DiagramResponse } from "../_api/types"
 
-function MindmapCard({
-    diagram: { id, name, prompt },
-}: {
-    diagram: DiagramResponse
-}) {
+function MindmapCard({ diagram: { id, name, prompt } }: { diagram: Diagram }) {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
