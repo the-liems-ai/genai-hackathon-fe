@@ -52,7 +52,7 @@ export function Layout({
             >
                 <Header title={title} rightSection={<HeaderRightSection />} />
                 <Sidebar />
-                <AppShell.Main ml={showed ? 60 : 0} className="h-full">
+                <AppShell.Main ml={showed ? 60 : 0} className="h-screen">
                     {children}
                 </AppShell.Main>
             </AppShell>
