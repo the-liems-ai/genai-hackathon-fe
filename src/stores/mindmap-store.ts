@@ -49,4 +49,10 @@ const mindmapSelector = (state: ExtractState<typeof useMermaidStore>) => {
     }
 }
 
+const setMindmapSelector = (state: ExtractState<typeof useMermaidStore>) => {
+    return state.setMindmap
+}
+
 export const useCurrentMindmap = () => useMermaidStore(mindmapSelector)
+
+export const useSetMindmap = () => useMermaidStore(setMindmapSelector)

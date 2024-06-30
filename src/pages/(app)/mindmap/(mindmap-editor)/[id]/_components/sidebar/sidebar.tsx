@@ -14,6 +14,7 @@ import { Chat, ManualEdit, Summary } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
 import { useLocation, useParams } from "react-router-dom"
 import { getParams } from "@/utils"
+import { useMindMapLoading } from "@/stores/mindmap-loading"
 
 interface SidebarItem {
     id: string
@@ -77,6 +78,8 @@ const Sidebar = () => {
         }
     }, [])
 
+    const [loading] = useMindMapLoading()
+
     return (
         <>
             {appShellShowed && (
@@ -88,7 +91,9 @@ const Sidebar = () => {
                                 label={item.label}
                                 position="right"
                                 withArrow
-                                disabled={activeItem?.id === item?.id}
+                                disabled={
+                                    activeItem?.id === item?.id || loading
+                                }
                             >
                                 <ActionIcon
                                     aria-label={item.label}
@@ -98,6 +103,7 @@ const Sidebar = () => {
                                             ? "filled"
                                             : "transparent"
                                     }
+                                    disabled={loading}
                                 >
                                     {item.icon}
                                 </ActionIcon>

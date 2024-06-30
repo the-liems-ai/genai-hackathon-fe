@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 export default function NotFoundPage() {
     return (
-        <Container className={cn(classes.root, "h-full")}>
+        <Container className={cn(classes.root, "h-screen")}>
             <div
                 className={cn(
                     classes.inner,

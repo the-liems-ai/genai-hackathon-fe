@@ -18,7 +18,7 @@ import ReactFlow, {
 } from "reactflow"
 import { useMindmap } from "../_api/hooks"
 import { convertEdge, convertNode } from "@/utils"
-import { useCurrentMindmap } from "@/stores/mindmap-store"
+import { useCurrentMindmap, useSetMindmap } from "@/stores/mindmap-store"
 
 const MindmapEditorPage = () => {
     const { id } = useParams()
@@ -42,7 +42,7 @@ const MindmapEditorPage = () => {
     )
 
     const { appShellShowed, handleToggleAppShell } = useToggleAppShell()
-    const { setMindmap } = useCurrentMindmap()
+    const setMindmap = useSetMindmap()
 
     const { getLayoutedElements } = useLayoutedElements()
     useEffect(() => {

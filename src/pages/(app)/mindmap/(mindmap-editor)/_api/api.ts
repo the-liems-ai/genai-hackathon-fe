@@ -5,6 +5,7 @@ import {
     EditNodesResponse,
     ExplainNodeRequest,
     ExplainNodeResponse,
+    SummaryResponse,
 } from "@/types"
 import { instance } from "@/utils/axios"
 
@@ -13,6 +14,7 @@ enum EditDiagramEndpoint {
     GET_BY_ID = "/diagram",
     EXPLAIN_NODES = "/take-note",
     EDIT_NODES = "/update-prompt",
+    SUMMARY = "/summary",
 }
 
 export const createMindmap = (prompt: string) => {
@@ -55,4 +57,8 @@ export const editNodes = ({
         `${EditDiagramEndpoint.EDIT_NODES}/${id}`,
         request
     )
+}
+
+export const summary = (id: number) => {
+    return instance.put<SummaryResponse>(`${EditDiagramEndpoint.SUMMARY}/${id}`)
 }

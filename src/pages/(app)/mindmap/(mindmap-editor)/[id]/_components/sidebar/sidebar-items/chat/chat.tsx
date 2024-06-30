@@ -5,7 +5,6 @@ import {
     ScrollArea,
     Textarea,
     Loader,
-    Flex,
     SegmentedControl,
     Text,
     Skeleton,
@@ -17,11 +16,7 @@ import { useParams } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
 import ChatUi, { Message } from "./chat-ui"
-import {
-    useEditNodes,
-    useExplainNodes,
-    useMindmap,
-} from "../../../../../_api/hooks"
+import { useEditNodes, useExplainNodes } from "../../../../../_api/hooks"
 import { useSelectedNodes } from "@/stores/selected-node-store"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
 import { useQueryClient } from "@tanstack/react-query"
@@ -42,7 +37,6 @@ const Conversation = ({ conversation }: { conversation: Message[] }) => {
 
 const Chat = () => {
     const { id } = useParams()
-    const { isPending } = useMindmap(+id)
 
     const chatSectionViewport = useRef<HTMLDivElement>(null)
     const [isLoading, loadingHandlers] = useMindMapLoading()
@@ -224,14 +218,14 @@ const Chat = () => {
     return (
         <>
             <AppShell.Section mt={12}>
-                {!isPending ? (
+                {mindmap ? (
                     <SegmentedControl
                         size="xs"
                         fullWidth
                         data={chatTypes}
                         value={chatType}
                         onChange={setChatType}
-                        disabled={isPending || isLoading}
+                        disabled={isLoading}
                     />
                 ) : (
                     <Skeleton height={36} />
@@ -243,7 +237,7 @@ const Chat = () => {
                 py={16}
                 viewportRef={chatSectionViewport}
             >
-                {!isPending && (
+                {mindmap && (
                     <Conversation
                         conversation={
                             chatType === "explain"
@@ -267,9 +261,7 @@ const Chat = () => {
                         maxRows={10}
                         onChange={(e) => setChat(e.currentTarget.value)}
                         value={chat}
-                        disabled={
-                            isPending || isLoading || chatType === "explain"
-                        }
+                        disabled={isLoading || chatType === "explain"}
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault()
@@ -280,10 +272,10 @@ const Chat = () => {
                     <ActionIcon
                         aria-label="Send message"
                         size="lg"
-                        disabled={isLoading || isPending}
+                        disabled={isLoading}
                         onClick={handleChat}
                     >
-                        {isLoading || isPending ? (
+                        {isLoading ? (
                             <Loader size="sm" />
                         ) : (
                             <IconSend size={20} />

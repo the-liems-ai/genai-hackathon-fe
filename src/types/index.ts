@@ -117,3 +117,7 @@ export interface ExplainNodeRequest {
 export interface ExplainNodeResponse {
     data: string
 }
+
+export interface SummaryResponse {
+    data: string
+}
