@@ -7,13 +7,16 @@ import {
     Title,
     Tooltip,
 } from "@mantine/core"
-import { IconEdit, IconMessageCircle, IconPageBreak } from "@tabler/icons-react"
+import {
+    IconEdit,
+    IconMessageCircle,
+    IconPageBreak,
+    IconPuzzle,
+} from "@tabler/icons-react"
 import { useEffect, useMemo } from "react"
 import { useSetState } from "@mantine/hooks"
-import { Chat, ManualEdit, Summary } from "./sidebar-items"
+import { Chat, GenQuiz, ManualEdit, Summary } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
-import { useLocation, useParams } from "react-router-dom"
-import { getParams } from "@/utils"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
 
 interface SidebarItem {
@@ -37,6 +40,12 @@ const Sidebar = () => {
                 icon: <IconPageBreak size={24} />,
                 label: "Summary",
                 chilren: <Summary />,
+            },
+            {
+                id: "gen-quiz",
+                icon: <IconPuzzle size={24} />,
+                label: "Generate quiz",
+                chilren: <GenQuiz />,
             },
             {
                 id: "manual-edit",

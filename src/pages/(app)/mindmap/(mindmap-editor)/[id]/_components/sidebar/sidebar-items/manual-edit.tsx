@@ -35,17 +35,17 @@ const ManualEdit = () => {
                     reactflow.setNodes([])
                 },
             },
-            {
-                icon: <IconMenu size={28} />,
-                label: "Open drawer",
-                action: () => {
-                    drawer.openDrawer({
-                        title: "Drawer",
-                        size: "lg",
-                        children: <div>Drawer content</div>,
-                    })
-                },
-            },
+            // {
+            //     icon: <IconMenu size={28} />,
+            //     label: "Open drawer",
+            //     action: () => {
+            //         drawer.openDrawer({
+            //             title: "Drawer",
+            //             size: "lg",
+            //             children: <div>Drawer content</div>,
+            //         })
+            //     },
+            // },
         ],
         []
     )

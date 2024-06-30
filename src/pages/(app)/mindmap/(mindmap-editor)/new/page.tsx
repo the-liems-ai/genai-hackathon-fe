@@ -6,6 +6,7 @@ import {
     Group,
     Stack,
     Textarea,
+    Loader,
 } from "@mantine/core"
 import { Dots } from "./_components/dots"
 import classes from "./_components/HeroText.module.css"
@@ -14,6 +15,7 @@ import { useState } from "react"
 import { IconWand } from "@tabler/icons-react"
 import toast from "react-hot-toast"
 import { useCreateMindmap } from "../_api/hooks"
+import LoadingDots from "@/components/ui/loading-dots"
 
 function NewMindmapPage() {
     const [prompt, setPrompt] = useState("")
@@ -95,11 +97,11 @@ function NewMindmapPage() {
                         </Button>
                         <Button
                             size="lg"
-                            leftSection={<IconWand />}
+                            leftSection={loading ? <></> : <IconWand />}
                             onClick={handlePrompt}
                             disabled={loading}
                         >
-                            Generate
+                            {loading ? <Loader size="sm" /> : "Generate"}
                         </Button>
                     </Group>
                 </Stack>

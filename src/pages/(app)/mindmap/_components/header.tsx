@@ -10,7 +10,7 @@ const Header = ({ title, rightSection }: HeaderProps) => {
     return (
         <AppShell.Header>
             <Group h="100%" px="md" justify="space-between">
-                <Link to="/" className="flex gap-3 items-center">
+                <Link to="/mindmap" className="flex gap-3 items-center">
                     <Image src="/fav.png" alt="The Liems" h={40} />
                     <Title order={5}>{title || "GenAI Hackathon 2024"}</Title>
                 </Link>

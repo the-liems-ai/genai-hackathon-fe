@@ -47,7 +47,7 @@ const Summary = () => {
                         disabled={loading}
                         onClick={handleSummary}
                     >
-                        Summary
+                        Generate summary
                     </Button>
                     <Tooltip
                         label={"Copied!"}
