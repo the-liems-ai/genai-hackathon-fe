@@ -10,10 +10,10 @@ import {
     Text,
     Skeleton,
 } from "@mantine/core"
-import { useListState, useToggle } from "@mantine/hooks"
+import { useListState } from "@mantine/hooks"
 import { IconSend } from "@tabler/icons-react"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useCallback, useMemo, useRef, useState } from "react"
+import { useParams } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
 import ChatUi, { Message } from "./chat-ui"
@@ -58,7 +58,7 @@ const Chat = () => {
 
     const [chat, setChat] = useState<string>("")
 
-    const allChatType = useMemo(
+    const chatTypes = useMemo(
         () => [
             {
                 value: "explain",
@@ -72,7 +72,7 @@ const Chat = () => {
         []
     )
 
-    const [chatType, setChatType] = useState(allChatType[0].value)
+    const [chatType, setChatType] = useState(chatTypes[0].value)
 
     const [explainConversation, explainConversationHandlers] =
         useListState<Message>([
@@ -91,7 +91,7 @@ const Chat = () => {
         },
     ])
 
-    const { mindmap, setMindmap } = useCurrentMindmap()
+    const { mindmap } = useCurrentMindmap()
     const { selectedNodes } = useSelectedNodes()
     const { mutate: handleExplainNodes } = useExplainNodes()
     const { mutate: handleEditNodes } = useEditNodes()
@@ -228,7 +228,7 @@ const Chat = () => {
                     <SegmentedControl
                         size="xs"
                         fullWidth
-                        data={allChatType}
+                        data={chatTypes}
                         value={chatType}
                         onChange={setChatType}
                         disabled={isPending || isLoading}

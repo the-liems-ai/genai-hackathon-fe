@@ -11,7 +11,7 @@ import { instance } from "@/utils/axios"
 enum EditDiagramEndpoint {
     CREATE = "/create/diagram",
     GET_BY_ID = "/diagram",
-    EXPLAIN_NODES = "/node",
+    EXPLAIN_NODES = "/take-note",
     EDIT_NODES = "/update-prompt",
 }
 

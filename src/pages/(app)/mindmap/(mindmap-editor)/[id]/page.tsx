@@ -22,7 +22,7 @@ import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 const MindmapEditorPage = () => {
     const { id } = useParams()
-    const { data, error, isError, isPending } = useMindmap(+id)
+    const { data, isPending } = useMindmap(+id)
 
     useRemoveLogo()
     const { fitView } = useReactFlow()
