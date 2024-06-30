@@ -1,6 +1,6 @@
-import { edgeTypes, initialEdges } from "@/edges"
+import { edgeTypes } from "@/edges"
 import { useLayoutedElements, useRemoveLogo, useToggleAppShell } from "@/hooks"
-import { initialNodes, nodeTypes } from "@/nodes"
+import { nodeTypes } from "@/nodes"
 import { useSelectedNodes } from "@/stores/selected-node-store"
 import { ActionIcon } from "@mantine/core"
 import { IconMaximize, IconMinimize } from "@tabler/icons-react"
@@ -18,6 +18,7 @@ import ReactFlow, {
 } from "reactflow"
 import { useMindmap } from "../_api/hooks"
 import { convertEdge, convertNode } from "@/utils"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 const MindmapEditorPage = () => {
     const { id } = useParams()
@@ -41,6 +42,7 @@ const MindmapEditorPage = () => {
     )
 
     const { appShellShowed, handleToggleAppShell } = useToggleAppShell()
+    const { setMindmap } = useCurrentMindmap()
 
     const { getLayoutedElements } = useLayoutedElements()
     useEffect(() => {
@@ -60,6 +62,7 @@ const MindmapEditorPage = () => {
 
             setTimeout(() => {
                 getLayoutedElements()
+                setMindmap(data?.data.data)
             }, 100)
 
             setTimeout(() => {

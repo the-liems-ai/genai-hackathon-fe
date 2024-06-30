@@ -6,6 +6,7 @@ import { cn } from "@/utils/cn"
 import {
     ActionIcon,
     Group,
+    Loader,
     Menu,
     Stack,
     Text,
@@ -31,6 +32,9 @@ import {
     useNodeId,
     useReactFlow,
 } from "reactflow"
+import { useAskNode } from "./api/hooks"
+import toast from "react-hot-toast"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 export interface BaseNodeData {
     label?: string
@@ -75,7 +79,7 @@ const BaseNode = ({
         drawer.openDrawer({
             title: "Node info",
             size: "lg",
-            children: <NodeInfo name={label!} />,
+            children: <NodeInfo id={nodeId} name={label!} />,
         })
     }
 
@@ -219,12 +223,41 @@ const BaseNode = ({
     )
 }
 
-const NodeInfo = ({ name }: { name: string }) => {
-    const { editor, content, setContent } = useTextEditor()
+const NodeInfo = ({ id, name }: { id: string; name: string }) => {
+    const { mindmap } = useCurrentMindmap()
+    const { editor, setContent } = useTextEditor()
     const [prompt, setPrompt] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPrompt(e.currentTarget.value)
+    }
+
+    const { mutate: askNode } = useAskNode()
+    const handleExplainNode = () => {
+        const toastLoading = toast.loading("Generating node detail...")
+        setLoading(true)
+
+        askNode(
+            {
+                input: prompt,
+                old_diagram: mindmap.mermaid,
+                chosen_nodes: [{ node_id: id, title: name }],
+            },
+            {
+                onSuccess: (data) => {
+                    setContent(data?.data.data)
+                    toast.success("Node detail generated")
+                },
+                onError: (error) => {
+                    toast.error(error.message)
+                },
+                onSettled: () => {
+                    setLoading(false)
+                    toast.dismiss(toastLoading)
+                },
+            }
+        )
     }
 
     return (
@@ -260,12 +293,14 @@ const NodeInfo = ({ name }: { name: string }) => {
                             className="grow"
                             onChange={handlePromptChange}
                             placeholder="Generate detail with AI"
+                            disabled={loading}
                         />
                         <ActionIcon
                             size={"lg"}
-                            onClick={() => setContent("test")}
+                            onClick={handleExplainNode}
+                            disabled={loading}
                         >
-                            <IconWand size={18} />
+                            {loading ? <Loader /> : <IconWand size={18} />}
                         </ActionIcon>
                     </Group>
                 </Menu.Dropdown>

@@ -95,9 +95,7 @@ const Chat = () => {
                 },
             },
             {
-                onSuccess: (data) => {
-                    console.log(data)
-                },
+                onSuccess: (data) => {},
                 onError: (error) => {
                     toast.error(error.message)
                 },

@@ -89,3 +89,16 @@ export interface UpdateDigramResponse {
         image: string
     }
 }
+
+export interface AskNodeRequest {
+    input: string
+    old_diagram: string
+    chosen_nodes: {
+        node_id: string
+        title: string
+    }[]
+}
+
+export interface AskNodeResponse {
+    data: string
+}

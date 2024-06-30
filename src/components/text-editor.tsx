@@ -3,7 +3,7 @@ import { Editor } from "@tiptap/react"
 
 function TextEditor({ editor }: { editor: Editor }) {
     return (
-        <RichTextEditor editor={editor} content="Test">
+        <RichTextEditor editor={editor}>
             <RichTextEditor.Toolbar sticky stickyOffset={60}>
                 <RichTextEditor.ControlsGroup>
                     <RichTextEditor.Bold />

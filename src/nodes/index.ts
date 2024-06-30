@@ -1,10 +1,5 @@
 import type { Node, NodeTypes } from "reactflow"
-import { StadiumShapedNode } from "./StadiumShapedNode"
-import { CircleNode } from "./CircleNode"
-import { RhombusNode } from "./RhombusNode"
 import { CommonNode } from "./CommonNode"
-import SubGraphNode from "./SubGraphNode"
-import { GroupShape } from "./GroupShape"
 
 export const initialNodes = [
     {
@@ -23,9 +18,4 @@ export const initialNodes = [
 
 export const nodeTypes = {
     common: CommonNode,
-    "stadium-shaped": StadiumShapedNode,
-    circle: CircleNode,
-    rhombus: RhombusNode,
-    subgraph: SubGraphNode,
-    "custom-group": GroupShape,
 } satisfies NodeTypes
