@@ -5,6 +5,7 @@ import { useCheckNodeSelected } from "@/stores/selected-node-store"
 import { cn } from "@/utils/cn"
 import {
     ActionIcon,
+    Button,
     Group,
     Loader,
     Menu,
@@ -273,6 +274,9 @@ const NodeInfo = ({ id, name }: { id: string; name: string }) => {
         <Stack>
             <Title order={3}>{name}</Title>
             <TextEditor editor={editor} />
+            <Button color="green" fullWidth>
+                Save
+            </Button>
             <Menu
                 transitionProps={{
                     transition: "pop-bottom-right",

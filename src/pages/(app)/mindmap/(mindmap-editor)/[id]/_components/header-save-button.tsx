@@ -1,12 +1,11 @@
-import { getParams } from "@/utils"
 import { Button } from "@mantine/core"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { useMindmap } from "../../_api/hooks"
+import { useNavigate } from "react-router-dom"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
+import { useMemo } from "react"
 
 const HeaderSaveButton = () => {
     const navigate = useNavigate()
-    const params = useParams()
-    const { data, isLoading } = useMindmap(+params.id)
+    const { mindmap } = useCurrentMindmap()
 
     const handleSave = async () => {
         navigate("/mindmap")

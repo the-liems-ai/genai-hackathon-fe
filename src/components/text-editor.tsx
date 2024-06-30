@@ -1,3 +1,4 @@
+import { ScrollArea } from "@mantine/core"
 import { RichTextEditor, Link } from "@mantine/tiptap"
 import { Editor } from "@tiptap/react"
 
@@ -49,7 +50,9 @@ function TextEditor({ editor }: { editor: Editor }) {
                 </RichTextEditor.ControlsGroup>
             </RichTextEditor.Toolbar>
 
-            <RichTextEditor.Content className="min-h-[500px]" />
+            <ScrollArea h={600}>
+                <RichTextEditor.Content />
+            </ScrollArea>
         </RichTextEditor>
     )
 }

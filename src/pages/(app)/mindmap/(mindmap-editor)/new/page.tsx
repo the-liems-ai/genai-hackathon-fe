@@ -79,7 +79,10 @@ function NewMindmapPage() {
                             }}
                         />
                     </Container>
-
+                    <Text size="sm" c="gray">
+                        Any information generated from AI may not be absolutely
+                        accurate, please verify before use
+                    </Text>
                     <Group>
                         <Button
                             size="lg"
