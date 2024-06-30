@@ -7,10 +7,10 @@ import {
     Title,
     Tooltip,
 } from "@mantine/core"
-import { IconEdit, IconMessageCircle } from "@tabler/icons-react"
+import { IconEdit, IconMessageCircle, IconPageBreak } from "@tabler/icons-react"
 import { useEffect, useMemo } from "react"
 import { useSetState } from "@mantine/hooks"
-import { Chat, ManualEdit } from "./sidebar-items"
+import { Chat, ManualEdit, Summary } from "./sidebar-items"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
 import { useLocation, useParams } from "react-router-dom"
 import { getParams } from "@/utils"
@@ -30,6 +30,12 @@ const Sidebar = () => {
                 icon: <IconMessageCircle size={24} />,
                 label: "Chat with AI",
                 chilren: <Chat />,
+            },
+            {
+                id: "summary",
+                icon: <IconPageBreak size={24} />,
+                label: "Summary",
+                chilren: <Summary />,
             },
             {
                 id: "manual-edit",

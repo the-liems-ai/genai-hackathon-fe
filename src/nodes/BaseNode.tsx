@@ -35,6 +35,8 @@ import {
 import { useAskNode } from "./api/hooks"
 import toast from "react-hot-toast"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
+import DOMPurify from "dompurify"
+import { marked } from "marked"
 
 export interface BaseNodeData {
     label?: string
@@ -77,7 +79,7 @@ const BaseNode = ({
     const drawer = useDrawer()
     const handleInfo = () => {
         drawer.openDrawer({
-            title: "Node info",
+            title: "Take note",
             size: "lg",
             children: <NodeInfo id={nodeId} name={label!} />,
         })
@@ -225,7 +227,7 @@ const BaseNode = ({
 
 const NodeInfo = ({ id, name }: { id: string; name: string }) => {
     const { mindmap } = useCurrentMindmap()
-    const { editor, setContent } = useTextEditor()
+    const { editor, content, setContent } = useTextEditor()
     const [prompt, setPrompt] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -240,13 +242,20 @@ const NodeInfo = ({ id, name }: { id: string; name: string }) => {
 
         askNode(
             {
-                input: prompt,
-                old_diagram: mindmap.mermaid,
-                chosen_nodes: [{ node_id: id, title: name }],
+                id: +mindmap.ID,
+                request: {
+                    input: prompt,
+                    old_diagram: mindmap.mermaid,
+                    chosen_nodes: [{ node_id: id, title: name }],
+                },
             },
             {
-                onSuccess: (data) => {
-                    setContent(data?.data.data)
+                onSuccess: async (data) => {
+                    const res: string = data?.data.data!
+                    const htmlContent = DOMPurify.sanitize(
+                        await marked.parse(res)
+                    )
+                    setContent(`${content}<br/>${htmlContent}`)
                     toast.success("Node detail generated")
                 },
                 onError: (error) => {

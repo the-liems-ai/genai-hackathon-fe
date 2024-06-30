@@ -22,7 +22,7 @@ const useTextEditor = (defaultValue?: string) => {
         content: defaultValue || "",
     })
 
-    const content = editor?.getJSON() || null
+    const content = editor?.getHTML() || null
 
     const setContent = (content: string) => {
         if (editor) {
