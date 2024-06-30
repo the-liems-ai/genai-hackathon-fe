@@ -69,7 +69,7 @@ const MindmapEditorPage = () => {
                 fitView()
             }, 300)
         }
-    }, [isPending])
+    }, [isPending, data])
 
     return (
         <ReactFlow

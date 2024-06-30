@@ -1,14 +1,18 @@
 import {
     CreateDigramResponse,
     DiagramResponse,
-    UpdateDigramRequest,
+    EditNodesRequest,
+    EditNodesResponse,
+    ExplainNodeRequest,
+    ExplainNodeResponse,
 } from "@/types"
 import { instance } from "@/utils/axios"
 
 enum EditDiagramEndpoint {
     CREATE = "/create/diagram",
     GET_BY_ID = "/diagram",
-    UPDATE = "/update/diagram",
+    EXPLAIN_NODES = "/node",
+    EDIT_NODES = "/update-prompt",
 }
 
 export const createMindmap = (prompt: string) => {
@@ -24,15 +28,31 @@ export const getMindmapById = (id: number) => {
     )
 }
 
-export const updateMindmap = ({
+export const explainNodes = ({
     id,
     request,
 }: {
     id: number
-    request: UpdateDigramRequest
+    request: ExplainNodeRequest
 }) => {
-    return instance.put<CreateDigramResponse>(
-        `${EditDiagramEndpoint.UPDATE}/${id}`,
+    return instance.post<ExplainNodeResponse>(
+        `${EditDiagramEndpoint.EXPLAIN_NODES}/${id}`,
+        {
+            ...request,
+            input: "",
+        }
+    )
+}
+
+export const editNodes = ({
+    id,
+    request,
+}: {
+    id: number
+    request: EditNodesRequest
+}) => {
+    return instance.put<EditNodesResponse>(
+        `${EditDiagramEndpoint.EDIT_NODES}/${id}`,
         request
     )
 }

@@ -300,7 +300,11 @@ const NodeInfo = ({ id, name }: { id: string; name: string }) => {
                             onClick={handleExplainNode}
                             disabled={loading}
                         >
-                            {loading ? <Loader /> : <IconWand size={18} />}
+                            {loading ? (
+                                <Loader size={"sm"} />
+                            ) : (
+                                <IconWand size={18} />
+                            )}
                         </ActionIcon>
                     </Group>
                 </Menu.Dropdown>
