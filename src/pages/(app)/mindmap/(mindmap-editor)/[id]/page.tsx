@@ -67,7 +67,7 @@ const MindmapEditorPage = () => {
 
             setTimeout(() => {
                 fitView()
-            }, 300)
+            }, 500)
         }
     }, [isPending, data])
 
