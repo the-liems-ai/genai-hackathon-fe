@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { createMindmap, getMindmapById } from "./api"
+import { createMindmap, getMindmapById, updateMindmap } from "./api"
 
 export const useCreateMindmap = () => {
     return useMutation({
@@ -7,9 +7,15 @@ export const useCreateMindmap = () => {
     })
 }
 
-export const useMindmap = (id: string) => {
+export const useMindmap = (id: number) => {
     return useQuery({
         queryKey: ["mindmap", id],
         queryFn: () => getMindmapById(id),
+    })
+}
+
+export const useUpdateMindmap = () => {
+    return useMutation({
+        mutationFn: updateMindmap,
     })
 }

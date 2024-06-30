@@ -1,10 +1,11 @@
 import { Node } from "reactflow"
 import { create } from "zustand"
 import { ExtractState } from "./extract-state"
+import { CommonNodeData } from "@/nodes/CommonNode"
 
 interface SelectedNodeStore {
-    nodes: Node[]
-    setSelectedNodes: (nodes: Node[]) => void
+    nodes: Node<CommonNodeData>[]
+    setSelectedNodes: (nodes: Node<CommonNodeData>[]) => void
 }
 
 const useSelectedNodeStore = create<SelectedNodeStore>((set) => ({

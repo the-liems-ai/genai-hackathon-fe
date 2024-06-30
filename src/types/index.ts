@@ -33,22 +33,24 @@ export interface Link {
     type: string
 }
 
+export interface JSONDiagram {
+    old: {
+        vertices: Record<string, Vertice>
+        links: Record<string, Link>
+    }
+    new: {
+        vertices: Record<string, Vertice>
+        links: Record<string, Link>
+    }
+}
+
 export interface CreateDigramResponse {
     data: {
         id: number
         name: string
         prompt: string
         mermaid: string
-        json_diagram: {
-            old: {
-                vertices: Record<string, Vertice>
-                links: Record<string, Link>
-            }
-            new: {
-                vertices: Record<string, Vertice>
-                links: Record<string, Link>
-            }
-        }
+        json_diagram: JSONDiagram
         explain_node: string
         image: string
         summary: string
@@ -61,17 +63,29 @@ export interface DiagramResponse {
         name: string
         prompt: string
         mermaid: string
-        json_diagram: {
-            old: {
-                vertices: Record<string, Vertice>
-                links: Record<string, Link>
-            }
-            new: {
-                vertices: Record<string, Vertice>
-                links: Record<string, Link>
-            }
-        }
+        json_diagram: JSONDiagram
         image: string
         summary: string
+    }
+}
+
+export interface UpdateDigramRequest {
+    input: string
+    old_diagram: string
+    chosen_nodes: {
+        node_id: string
+        title: string
+    }[]
+}
+
+export interface UpdateDigramResponse {
+    data: {
+        id: number
+        name: string
+        prompt: string
+        mermaid: string
+        json_diagram: JSONDiagram
+        explain_node: string
+        image: string
     }
 }

@@ -21,7 +21,7 @@ import { convertEdge, convertNode } from "@/utils"
 
 const MindmapEditorPage = () => {
     const { id } = useParams()
-    const { data, error, isError, isPending } = useMindmap(id)
+    const { data, error, isError, isPending } = useMindmap(+id)
 
     useRemoveLogo()
     const { fitView } = useReactFlow()

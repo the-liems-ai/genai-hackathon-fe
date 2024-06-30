@@ -1,8 +1,28 @@
+import TextEditor from "@/components/text-editor"
+import useTextEditor from "@/hooks/use-text-editor"
+import { useDrawer } from "@/stores/drawer-store"
 import { useCheckNodeSelected } from "@/stores/selected-node-store"
 import { cn } from "@/utils/cn"
-import { ActionIcon, Stack, Tooltip } from "@mantine/core"
+import {
+    ActionIcon,
+    Group,
+    Menu,
+    Stack,
+    Text,
+    TextInput,
+    Title,
+    Tooltip,
+} from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { IconCheck, IconEdit, IconTrash, IconX } from "@tabler/icons-react"
+import {
+    IconCheck,
+    IconEdit,
+    IconInfoCircle,
+    IconRobot,
+    IconTrash,
+    IconWand,
+    IconX,
+} from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import {
     Handle,
@@ -48,6 +68,15 @@ const BaseNode = ({
     const handleEditCancel = () => {
         setLabelEdit(label)
         closeEditMode()
+    }
+
+    const drawer = useDrawer()
+    const handleInfo = () => {
+        drawer.openDrawer({
+            title: "Node info",
+            size: "lg",
+            children: <NodeInfo name={label!} />,
+        })
     }
 
     useEffect(() => {
@@ -106,6 +135,15 @@ const BaseNode = ({
                     </Stack>
                 ) : (
                     <Stack gap={4} bg="white">
+                        <Tooltip label="Info">
+                            <ActionIcon
+                                variant="light"
+                                color="green"
+                                onClick={handleInfo}
+                            >
+                                <IconInfoCircle />
+                            </ActionIcon>
+                        </Tooltip>
                         <Tooltip label="Edit">
                             <ActionIcon
                                 variant="light"
@@ -178,6 +216,61 @@ const BaseNode = ({
                 <Handle type="target" position={Position.Top} />
             </div>
         </>
+    )
+}
+
+const NodeInfo = ({ name }: { name: string }) => {
+    const { editor, content, setContent } = useTextEditor()
+    const [prompt, setPrompt] = useState("")
+
+    const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPrompt(e.currentTarget.value)
+    }
+
+    return (
+        <Stack>
+            <Title order={3}>{name}</Title>
+            <TextEditor editor={editor} />
+            <Menu
+                transitionProps={{
+                    transition: "pop-bottom-right",
+                }}
+                shadow="md"
+                width={200}
+                position={"top-end"}
+                withArrow
+                arrowOffset={20}
+            >
+                <Menu.Target>
+                    <ActionIcon
+                        size={"xl"}
+                        pos={"absolute"}
+                        bottom={16}
+                        right={16}
+                        radius={"xl"}
+                    >
+                        <IconRobot />
+                    </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown p={16} w={"500px"}>
+                    <Group align="center">
+                        <TextInput
+                            value={prompt}
+                            className="grow"
+                            onChange={handlePromptChange}
+                            placeholder="Generate detail with AI"
+                        />
+                        <ActionIcon
+                            size={"lg"}
+                            onClick={() => setContent("test")}
+                        >
+                            <IconWand size={18} />
+                        </ActionIcon>
+                    </Group>
+                </Menu.Dropdown>
+            </Menu>
+        </Stack>
     )
 }
 

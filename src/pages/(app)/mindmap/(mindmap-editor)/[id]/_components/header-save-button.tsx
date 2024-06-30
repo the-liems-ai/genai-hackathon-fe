@@ -6,7 +6,7 @@ import { useMindmap } from "../../_api/hooks"
 const HeaderSaveButton = () => {
     const navigate = useNavigate()
     const params = useParams()
-    const { data, isLoading } = useMindmap(params.id)
+    const { data, isLoading } = useMindmap(+params.id)
 
     const handleSave = async () => {
         navigate("/mindmap")

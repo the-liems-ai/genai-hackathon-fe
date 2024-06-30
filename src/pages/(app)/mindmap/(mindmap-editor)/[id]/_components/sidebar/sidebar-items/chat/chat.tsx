@@ -14,11 +14,13 @@ import { useNavigate, useParams } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
 import ChatUi, { Message } from "./chat-ui"
-import { useMindmap } from "../../../../../_api/hooks"
+import { useMindmap, useUpdateMindmap } from "../../../../../_api/hooks"
+import { useSelectedNodes } from "@/stores/selected-node-store"
+import { title } from "process"
 
 const Chat = () => {
     const { id } = useParams()
-    const { data, error, isError, isPending } = useMindmap(id)
+    const { data, error, isError, isPending } = useMindmap(+id)
 
     const chatSectionViewport = useRef<HTMLDivElement>(null)
     const [isLoading, loadingHandlers] = useMindMapLoading()
@@ -53,6 +55,8 @@ const Chat = () => {
 
     const [chat, setChat] = useState<string>("")
 
+    const { selectedNodes } = useSelectedNodes()
+    const { data: updatedData, mutate: updateMindmap } = useUpdateMindmap()
     const handleChat = () => {
         if (chat.trim() === "") {
             toast.error("Please enter a message")
@@ -76,7 +80,34 @@ const Chat = () => {
 
         loadingHandlers.start()
 
-        console.log("this is update")
+        const toastLoading = toast.loading("Generating response...")
+
+        updateMindmap(
+            {
+                id: +id,
+                request: {
+                    input: chat,
+                    old_diagram: data?.data.data.mermaid,
+                    chosen_nodes: selectedNodes.map((node) => ({
+                        node_id: node.id,
+                        title: node.data.label,
+                    })),
+                },
+            },
+            {
+                onSuccess: (data) => {
+                    console.log(data)
+                },
+                onError: (error) => {
+                    toast.error(error.message)
+                },
+                onSettled: () => {
+                    loadingHandlers.stop()
+                    toast.dismiss(toastLoading)
+                    removeChatLoading()
+                },
+            }
+        )
     }
 
     return (

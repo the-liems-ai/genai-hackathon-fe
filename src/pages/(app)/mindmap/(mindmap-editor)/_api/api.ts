@@ -1,4 +1,8 @@
-import { CreateDigramResponse, DiagramResponse } from "@/types"
+import {
+    CreateDigramResponse,
+    DiagramResponse,
+    UpdateDigramRequest,
+} from "@/types"
 import { instance } from "@/utils/axios"
 
 enum EditDiagramEndpoint {
@@ -14,10 +18,21 @@ export const createMindmap = (prompt: string) => {
     )
 }
 
-export const getMindmapById = (id: string) => {
+export const getMindmapById = (id: number) => {
     return instance.get<DiagramResponse>(
         `${EditDiagramEndpoint.GET_BY_ID}/${id}`
     )
 }
 
-// export const updateMindmap = (id: string, ) => {
+export const updateMindmap = ({
+    id,
+    request,
+}: {
+    id: number
+    request: UpdateDigramRequest
+}) => {
+    return instance.put<CreateDigramResponse>(
+        `${EditDiagramEndpoint.UPDATE}/${id}`,
+        request
+    )
+}
