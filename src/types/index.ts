@@ -1,10 +1,12 @@
 export interface Diagram {
-    id: string
+    id: number
     name: string
     prompt: string
     mermaid: string
     json_diagram: string
     explain_node: string
+    image: string
+    summary: string
 }
 
 export interface DiagramsResponse {
@@ -31,12 +33,13 @@ export interface Link {
     type: string
 }
 
-export interface DiagramResponse {
+export interface CreateDigramResponse {
     data: {
-        id: string
+        id: number
         name: string
         prompt: string
-        data: {
+        mermaid: string
+        json_diagram: {
             old: {
                 vertices: Record<string, Vertice>
                 links: Record<string, Link>
@@ -46,6 +49,29 @@ export interface DiagramResponse {
                 links: Record<string, Link>
             }
         }
-        image
+        explain_node: string
+        image: string
+        summary: string
+    }
+}
+
+export interface DiagramResponse {
+    data: {
+        ID: number
+        name: string
+        prompt: string
+        mermaid: string
+        json_diagram: {
+            old: {
+                vertices: Record<string, Vertice>
+                links: Record<string, Link>
+            }
+            new: {
+                vertices: Record<string, Vertice>
+                links: Record<string, Link>
+            }
+        }
+        image: string
+        summary: string
     }
 }

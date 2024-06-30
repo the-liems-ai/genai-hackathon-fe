@@ -3,7 +3,11 @@ import { Card, Image, Text, Button, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Link } from "react-router-dom"
 
-function MindmapCard({ diagram: { id, name, prompt } }: { diagram: Diagram }) {
+function MindmapCard({
+    diagram: { id, name, prompt, image },
+}: {
+    diagram: Diagram
+}) {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>

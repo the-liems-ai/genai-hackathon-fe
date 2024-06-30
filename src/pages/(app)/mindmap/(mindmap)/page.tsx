@@ -25,8 +25,8 @@ const MindmapPage = () => {
                 </Button>
             </Group>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {data?.data.map((diagram, index) => (
-                    <MindmapCard key={index} diagram={diagram} />
+                {data?.data.map((diagram) => (
+                    <MindmapCard key={diagram.id} diagram={diagram} />
                 ))}
             </div>
         </Container>

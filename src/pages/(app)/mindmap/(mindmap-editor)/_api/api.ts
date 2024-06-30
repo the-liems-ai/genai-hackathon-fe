@@ -1,4 +1,4 @@
-import { DiagramResponse } from "@/types"
+import { CreateDigramResponse, DiagramResponse } from "@/types"
 import { instance } from "@/utils/axios"
 
 enum EditDiagramEndpoint {
@@ -8,7 +8,10 @@ enum EditDiagramEndpoint {
 }
 
 export const createMindmap = (prompt: string) => {
-    return instance.post<DiagramResponse>(EditDiagramEndpoint.CREATE, prompt)
+    return instance.post<CreateDigramResponse>(
+        EditDiagramEndpoint.CREATE,
+        prompt
+    )
 }
 
 export const getMindmapById = (id: string) => {

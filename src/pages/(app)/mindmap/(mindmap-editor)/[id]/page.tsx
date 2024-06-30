@@ -46,15 +46,15 @@ const MindmapEditorPage = () => {
     useEffect(() => {
         if (!isPending) {
             setNodes(
-                Object.values(data?.data.data.data.new.vertices).map(
+                Object.values(data?.data.data.json_diagram.new.vertices).map(
                     (value) => {
                         return convertNode(value)
                     }
                 )
             )
             setEdges(
-                Object.values(data?.data.data.data.new.links).map((value) =>
-                    convertEdge(value)
+                Object.values(data?.data.data.json_diagram.new.links).map(
+                    (value) => convertEdge(value)
                 )
             )
 
@@ -64,7 +64,7 @@ const MindmapEditorPage = () => {
 
             setTimeout(() => {
                 fitView()
-            }, 200)
+            }, 300)
         }
     }, [isPending])
 
