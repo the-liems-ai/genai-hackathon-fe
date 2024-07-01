@@ -25,7 +25,7 @@ const ChatUi = ({ role, message }: Message) => {
                             dangerouslySetInnerHTML={{
                                 __html: parseMarkdownToHTML(message),
                             }}
-                            className="text-white text-justify w-full"
+                            className="text-white w-full"
                         />
                     )}
                 </div>
