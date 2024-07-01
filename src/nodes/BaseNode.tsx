@@ -47,28 +47,11 @@ const BaseNode = ({
     const nodeId = useNodeId()
     const isNodeSelected = useCheckNodeSelected(nodeId!)
 
-    const [labelEdit, setLabelEdit] = useState(label)
+    const [labelEdit, setLabelEdit] = useState("")
     const [isSaved, setIsSaved] = useState(false)
 
-    const { mindmap, setMindmap } = useCurrentMindmap()
     const handleEditSave = () => {
         setIsSaved(true)
-        setMindmap({
-            ...mindmap,
-            json_diagram: {
-                ...mindmap.json_diagram,
-                new: {
-                    ...mindmap.json_diagram.new,
-                    vertices: {
-                        ...mindmap.json_diagram.new.vertices,
-                        [nodeId!]: {
-                            ...mindmap.json_diagram.new.vertices[nodeId!],
-                            text: labelEdit,
-                        },
-                    },
-                },
-            },
-        })
         closeEditMode()
     }
 
@@ -161,7 +144,10 @@ const BaseNode = ({
                             <ActionIcon
                                 variant="light"
                                 color="blue"
-                                onClick={openEditMode}
+                                onClick={() => {
+                                    openEditMode()
+                                    setLabelEdit(label!)
+                                }}
                             >
                                 <IconEdit />
                             </ActionIcon>

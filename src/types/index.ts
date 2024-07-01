@@ -2,10 +2,12 @@ export interface JSONDiagram {
     old: {
         vertices: Record<string, OldVertice>
         links: Record<string, Link>
+        sub_graphs: {}
     }
     new: {
         vertices: Record<string, NewVertice>
         links: Record<string, Link>
+        sub_graphs: {}
     }
 }
 export interface Diagram {

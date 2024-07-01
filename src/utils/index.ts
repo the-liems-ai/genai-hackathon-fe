@@ -49,3 +49,46 @@ export const parseMarkdownToHTML = (note: string): string => {
     const result = marked.parse(note)
     return DOMPurify.sanitize(result as string)
 }
+
+export const convertNodeToVertice = (
+    node: Node<{ label: string; verticeData: NewVertice }>
+): NewVertice => {
+    return {
+        position: {
+            x: Math.round(node.position.x),
+            y: Math.round(node.position.y),
+        },
+        icon: "",
+        sub_graph: "",
+        id: node.id,
+        text: node.data.label,
+        shape: "square",
+        note: node.data.verticeData.note,
+    }
+}
+
+export const convertEdgeToLink = (edge: Edge): Link => {
+    return {
+        id: edge.id,
+        from_id: edge.source!,
+        to_id: edge.target!,
+        text: "",
+        type: "-->",
+    }
+}
+
+export const convertNodesToVertices = (
+    nodes: Node<{ label: string; verticeData: NewVertice }>[]
+): Record<string, NewVertice> => {
+    return nodes.reduce((acc, node) => {
+        acc[node.id] = convertNodeToVertice(node)
+        return acc
+    }, {} as Record<string, NewVertice>)
+}
+
+export const convertEdgesToLinks = (edges: Edge[]): Record<string, Link> => {
+    return edges.reduce((acc, edge) => {
+        acc[edge.id!] = convertEdgeToLink(edge)
+        return acc
+    }, {} as Record<string, Link>)
+}

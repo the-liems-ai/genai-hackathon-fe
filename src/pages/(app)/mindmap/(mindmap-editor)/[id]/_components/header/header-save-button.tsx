@@ -5,13 +5,16 @@ import { useSaveMindmap } from "../../../_api/hooks"
 import toast from "react-hot-toast"
 import { useTakeNote } from "@/stores/use-take-note"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
-import { ExplainNode } from "@/types"
+import { ExplainNode, JSONDiagram } from "@/types"
+import { useReactFlow } from "reactflow"
+import { convertEdgesToLinks, convertNodesToVertices } from "@/utils"
 
 const HeaderSaveButton = () => {
     const navigate = useNavigate()
     const { mindmap } = useCurrentMindmap()
     const [notes] = useTakeNote()
     const [loading, loadingHandlers] = useMindMapLoading()
+    const { getNodes, getEdges } = useReactFlow()
 
     const { mutate: saveMindmap } = useSaveMindmap()
     const handleSave = async () => {
@@ -35,13 +38,23 @@ const HeaderSaveButton = () => {
             ...notes,
         ]
 
+        const newJSONDiagram: JSONDiagram = {
+            old: mindmap.json_diagram.old,
+            new: {
+                vertices: convertNodesToVertices(getNodes()),
+                links: convertEdgesToLinks(getEdges()),
+                sub_graphs: {},
+            },
+            // new: mindmap.json_diagram.new,
+        }
+
         saveMindmap(
             {
                 id: mindmap.ID,
                 request: {
                     name: mindmap.name,
                     mermaid: mindmap.mermaid,
-                    json_diagram: JSON.stringify(mindmap.json_diagram),
+                    json_diagram: JSON.stringify(newJSONDiagram),
                     explain_node: JSON.stringify(allNotes),
                     image: mindmap.image,
                     summary: mindmap.summary,

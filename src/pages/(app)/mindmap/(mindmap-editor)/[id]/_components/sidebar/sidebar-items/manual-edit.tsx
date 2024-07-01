@@ -1,14 +1,12 @@
 import { useMemo } from "react"
 import { useReactFlow } from "reactflow"
 import { Button, Group } from "@mantine/core"
-import { IconMenu, IconPlus, IconTrash } from "@tabler/icons-react"
-import { useDrawer } from "@/stores/drawer-store"
+import { IconPlus, IconTrash } from "@tabler/icons-react"
 
 let id = 0
 
 const ManualEdit = () => {
     const reactflow = useReactFlow()
-    const drawer = useDrawer()
     const editTools = useMemo(
         () => [
             {
@@ -22,7 +20,21 @@ const ManualEdit = () => {
                             x: 0,
                             y: -200,
                         },
-                        data: { label: `Node ${id}` },
+                        data: {
+                            label: `Node ${id}`,
+                            verticeData: {
+                                position: {
+                                    x: 0,
+                                    y: -200,
+                                },
+                                icon: "",
+                                sub_graph: "",
+                                id: `node_${id}`,
+                                text: `Node ${id}`,
+                                shape: "square",
+                                note: "",
+                            },
+                        },
                     })
                     reactflow.fitView()
                 },

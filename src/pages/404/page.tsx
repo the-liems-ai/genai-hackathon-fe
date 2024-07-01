@@ -2,9 +2,10 @@ import { Container, Title, Text, Button, Group } from "@mantine/core"
 import Illustration from "./illustration"
 import classes from "./NothingFoundBackground.module.css"
 import { cn } from "@/utils/cn"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 export default function NotFoundPage() {
+    const { pathname } = useLocation()
     return (
         <Container className={cn(classes.root, "h-screen")}>
             <div
@@ -28,6 +29,14 @@ export default function NotFoundPage() {
                         support.
                     </Text>
                     <Group justify="center">
+                        <Button
+                            size="md"
+                            component="a"
+                            href={pathname}
+                            variant="default"
+                        >
+                            Refresh page
+                        </Button>
                         <Button size="md" component={Link} to="/">
                             Take me back to home page
                         </Button>

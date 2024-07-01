@@ -19,7 +19,6 @@ import ReactFlow, {
 import { useMindmap } from "../_api/hooks"
 import { convertEdge, convertNewNode } from "@/utils"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
-import { useTakeNote } from "@/stores/use-take-note"
 
 const MindmapEditorPage = () => {
     const { id } = useParams()
@@ -69,7 +68,16 @@ const MindmapEditorPage = () => {
             )
 
             setTimeout(() => {
-                getLayoutedElements()
+                // check if all node has x and y position is 0 then get layouted elements
+                const isNotLayouted = Object.values(
+                    mindmap?.json_diagram.new?.vertices
+                ).every(
+                    (value) => value.position.x === 0 && value.position.y === 0
+                )
+
+                if (isNotLayouted) {
+                    getLayoutedElements()
+                }
             }, 100)
 
             setTimeout(() => {

@@ -16,9 +16,10 @@ import { IconCheck, IconEdit, IconX } from "@tabler/icons-react"
 const Header = () => {
     const { mindmap, setMindmap } = useCurrentMindmap()
     const [editMode, setEditMode] = useState(false)
-    const [name, setName] = useState(mindmap?.name)
+    const [name, setName] = useState("")
 
     const handleEdit = () => {
+        setName(mindmap?.name)
         setEditMode(true)
     }
 
