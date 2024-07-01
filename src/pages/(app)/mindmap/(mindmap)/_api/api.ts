@@ -3,7 +3,7 @@ import { instance } from "@/utils/axios"
 
 enum DiagramEndpoint {
     GET = "/diagrams",
-    DELETE = "/diagrams",
+    DELETE = "/delete/diagram",
 }
 
 export const getDiagrams = async () => {
