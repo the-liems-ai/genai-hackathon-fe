@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { useReactFlow } from "reactflow"
-import { Button, Group } from "@mantine/core"
+import { AppShell, Button, Group } from "@mantine/core"
 import { IconPlus, IconSitemap, IconTrash } from "@tabler/icons-react"
 import { useLayoutedElements } from "@/hooks"
 
@@ -61,23 +61,25 @@ const ManualEdit = () => {
     )
 
     return (
-        <div className="flex flex-col gap-4">
-            <Group gap={8} justify="space-between" grow>
-                {editTools.map((tool, index) => (
-                    <Button
-                        variant="light"
-                        key={index}
-                        onClick={tool.action}
-                        h={100}
-                    >
-                        <span className="flex flex-col items-center justify-center gap-2">
-                            {tool.icon}
-                            {tool.label}
-                        </span>
-                    </Button>
-                ))}
-            </Group>
-        </div>
+        <AppShell.Section mt={12}>
+            <div className="flex flex-col gap-4">
+                <Group gap={8} justify="space-between" grow>
+                    {editTools.map((tool, index) => (
+                        <Button
+                            variant="light"
+                            key={index}
+                            onClick={tool.action}
+                            h={100}
+                        >
+                            <span className="flex flex-col items-center justify-center gap-2">
+                                {tool.icon}
+                                {tool.label}
+                            </span>
+                        </Button>
+                    ))}
+                </Group>
+            </div>
+        </AppShell.Section>
     )
 }
 
