@@ -17,10 +17,10 @@ const HeaderRightSection = () => {
                 navigate("/mindmap")
             },
             labels: {
-                cancel: "No",
-                confirm: "Yes",
+                cancel: "Continue editing",
+                confirm: "Cancel and discard",
             },
-            confirmProps: { color: "green" },
+            confirmProps: { color: "red" },
         })
     }
     return (
