@@ -61,7 +61,7 @@ function MindmapCard({
                 <Text fw={500}>{name || "Mindmap"}</Text>
             </Group>
 
-            <Text size="sm" c="dimmed">
+            <Text size="sm" c="dimmed" className="grow" lineClamp={2}>
                 {prompt || "Mindmap description"}
             </Text>
 

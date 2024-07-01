@@ -26,36 +26,34 @@ interface SidebarItem {
     chilren: React.ReactNode
 }
 
-const Sidebar = () => {
-    const sidebarItems = useMemo<SidebarItem[]>(() => {
-        return [
-            {
-                id: "chat",
-                icon: <IconMessageCircle size={24} />,
-                label: "Chat with AI",
-                chilren: <Chat />,
-            },
-            {
-                id: "summary",
-                icon: <IconPageBreak size={24} />,
-                label: "Summary",
-                chilren: <Summary />,
-            },
-            {
-                id: "gen-quiz",
-                icon: <IconPuzzle size={24} />,
-                label: "Generate quiz",
-                chilren: <GenQuiz />,
-            },
-            {
-                id: "manual-edit",
-                icon: <IconEdit size={24} />,
-                label: "Manual edit",
-                chilren: <ManualEdit />,
-            },
-        ]
-    }, [])
+const sidebarItems: SidebarItem[] = [
+    {
+        id: "chat",
+        icon: <IconMessageCircle size={24} />,
+        label: "Chat with AI",
+        chilren: <Chat />,
+    },
+    {
+        id: "summary",
+        icon: <IconPageBreak size={24} />,
+        label: "Summary",
+        chilren: <Summary />,
+    },
+    {
+        id: "gen-quiz",
+        icon: <IconPuzzle size={24} />,
+        label: "Generate quiz",
+        chilren: <GenQuiz />,
+    },
+    {
+        id: "manual-edit",
+        icon: <IconEdit size={24} />,
+        label: "Manual edit",
+        chilren: <ManualEdit />,
+    },
+]
 
+const Sidebar = () => {
     const [_, { open: openNav, close: closeNav }] = useNav()
 
     const [appShellShowed] = useAppShell()
@@ -84,6 +82,9 @@ const Sidebar = () => {
     useEffect(() => {
         if (!activeItem) {
             closeNav()
+            setActiveItem(null)
+        } else {
+            openNav()
         }
     }, [])
 
@@ -108,6 +109,7 @@ const Sidebar = () => {
                                     aria-label={item.label}
                                     onClick={() => handleActiveItem(item)}
                                     variant={
+                                        activeItem &&
                                         activeItem?.id === item?.id
                                             ? "filled"
                                             : "transparent"

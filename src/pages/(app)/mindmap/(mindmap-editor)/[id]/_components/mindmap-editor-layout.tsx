@@ -10,15 +10,16 @@ interface DiagramLayoutProps {
     children?: React.ReactNode
 }
 
-export function Layout({
-    title = "GenAI Hackathon 2024",
-    children,
-}: DiagramLayoutProps) {
+export function Layout({ title = "", children }: DiagramLayoutProps) {
     const [showed] = useAppShell()
 
     const [navOpened] = useNav()
 
-    useDocumentTitle(title)
+    useDocumentTitle(
+        title.trim() === ""
+            ? "GenAI Hackathon 2024"
+            : `${title} | GenAI Hackathon 2024`
+    )
 
     return (
         <>
