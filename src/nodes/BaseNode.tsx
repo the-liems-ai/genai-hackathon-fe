@@ -24,7 +24,7 @@ import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 export interface BaseNodeData {
     label?: string
-    verticeData?: NewVertice
+    note?: string
 }
 
 interface BaseNodeProps extends BaseNodeData {
@@ -38,7 +38,7 @@ const BaseNode = ({
     selected,
     className = "",
     labelClassName = "",
-    verticeData,
+    note,
 }: BaseNodeProps) => {
     const [editMode, { open: openEditMode, close: closeEditMode }] =
         useDisclosure(false)
@@ -65,13 +65,7 @@ const BaseNode = ({
         drawer.openDrawer({
             title: "Take note",
             size: "lg",
-            children: (
-                <NodeInfo
-                    id={nodeId}
-                    name={label!}
-                    defaultNote={verticeData.note}
-                />
-            ),
+            children: <NodeInfo id={nodeId} name={label!} defaultNote={note} />,
         })
     }
 

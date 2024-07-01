@@ -10,7 +10,6 @@ import {
     Stack,
     Text,
     Textarea,
-    TextInput,
     Title,
 } from "@mantine/core"
 import { useState } from "react"
@@ -20,6 +19,7 @@ import { IconRobot, IconWand } from "@tabler/icons-react"
 import { useTakeNote } from "@/stores/use-take-note"
 import { useDrawer } from "@/stores/drawer-store"
 import { parseMarkdownToHTML } from "@/utils"
+import { useReactFlow } from "reactflow"
 
 const NodeInfo = ({
     id,
@@ -75,24 +75,16 @@ const NodeInfo = ({
         )
     }
 
+    const { getNodes, setNodes } = useReactFlow()
     const handleSave = () => {
         takeNoteHandlers.add({ node_id: id, note: content })
-        setMindmap({
-            ...mindmap,
-            json_diagram: {
-                ...mindmap.json_diagram,
-                new: {
-                    ...mindmap.json_diagram.new,
-                    vertices: {
-                        ...mindmap.json_diagram.new.vertices,
-                        [id]: {
-                            ...mindmap.json_diagram.new.vertices[id],
-                            note: content,
-                        },
-                    },
-                },
-            },
-        })
+        setNodes(
+            getNodes().map((n) => {
+                return n.id === id
+                    ? { ...n, data: { ...n.data, note: content } }
+                    : n
+            })
+        )
         closeDrawer()
     }
 

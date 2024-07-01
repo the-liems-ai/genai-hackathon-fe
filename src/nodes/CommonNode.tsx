@@ -8,7 +8,7 @@ export const CommonNode = ({ data, selected }: NodeProps<CommonNodeData>) => {
         <BaseNode
             label={data.label}
             selected={selected}
-            verticeData={data.verticeData}
+            note={data.note}
             className="w-[100px] h-[80px] rounded-md"
         />
     )

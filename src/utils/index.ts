@@ -1,3 +1,4 @@
+import { BaseNodeData } from "@/nodes/BaseNode"
 import { Link, OldVertice, NewVertice } from "@/types"
 import DOMPurify from "dompurify"
 import { marked } from "marked"
@@ -21,16 +22,11 @@ export const convertOldNode = (
     }
 }
 
-export const convertNewNode = (
-    node: NewVertice
-): Node<{
-    label: string
-    verticeData: NewVertice
-}> => {
+export const convertNewNode = (node: NewVertice): Node<BaseNodeData> => {
     return {
         id: node.id,
         type: "common",
-        data: { label: node.text, verticeData: node },
+        data: { label: node.text, note: node.note },
         position: { x: node.position.x, y: node.position.y },
     }
 }
@@ -50,9 +46,7 @@ export const parseMarkdownToHTML = (note: string): string => {
     return DOMPurify.sanitize(result as string)
 }
 
-export const convertNodeToVertice = (
-    node: Node<{ label: string; verticeData: NewVertice }>
-): NewVertice => {
+export const convertNodeToVertice = (node: Node<BaseNodeData>): NewVertice => {
     return {
         position: {
             x: Math.round(node.position.x),
@@ -63,7 +57,7 @@ export const convertNodeToVertice = (
         id: node.id,
         text: node.data.label,
         shape: "square",
-        note: node.data.verticeData.note,
+        note: node.data.note,
     }
 }
 
@@ -78,7 +72,7 @@ export const convertEdgeToLink = (edge: Edge): Link => {
 }
 
 export const convertNodesToVertices = (
-    nodes: Node<{ label: string; verticeData: NewVertice }>[]
+    nodes: Node<BaseNodeData>[]
 ): Record<string, NewVertice> => {
     return nodes.reduce((acc, node) => {
         acc[node.id] = convertNodeToVertice(node)

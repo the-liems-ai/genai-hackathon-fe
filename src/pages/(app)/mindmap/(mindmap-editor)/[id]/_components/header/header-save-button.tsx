@@ -45,7 +45,6 @@ const HeaderSaveButton = () => {
                 links: convertEdgesToLinks(getEdges()),
                 sub_graphs: {},
             },
-            // new: mindmap.json_diagram.new,
         }
 
         saveMindmap(
