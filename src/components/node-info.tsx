@@ -9,6 +9,7 @@ import {
     Menu,
     Stack,
     Text,
+    Textarea,
     TextInput,
     Title,
 } from "@mantine/core"
@@ -38,7 +39,7 @@ const NodeInfo = ({
     const [prompt, setPrompt] = useState("")
     const [loading, setLoading] = useState(false)
 
-    const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePromptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setPrompt(e.currentTarget.value)
     }
 
@@ -60,6 +61,7 @@ const NodeInfo = ({
                 onSuccess: async (data) => {
                     const htmlContent = parseMarkdownToHTML(data?.data.data!)
                     setContent(`${content}<br/>${htmlContent}`)
+                    setPrompt("")
                     toast.success("Node detail generated")
                 },
                 onError: (error) => {
@@ -125,13 +127,22 @@ const NodeInfo = ({
 
                 <Menu.Dropdown p={16} w={"500px"}>
                     <Stack align="center" gap={6}>
-                        <Group align="center" w={"100%"}>
-                            <TextInput
+                        <Group align="end" w={"100%"}>
+                            <Textarea
                                 value={prompt}
                                 className="grow"
                                 onChange={handlePromptChange}
                                 placeholder="Ask AI for more details..."
                                 disabled={loading}
+                                minRows={1}
+                                maxRows={8}
+                                autosize
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault()
+                                        handleExplainNode()
+                                    }
+                                }}
                             />
                             <ActionIcon
                                 size={"lg"}

@@ -7,6 +7,7 @@ const HeaderRightSection = () => {
     const navigate = useNavigate()
     const handleCancel = () => {
         modals.openConfirmModal({
+            centered: true,
             title: "Are you sure?",
             children:
                 "All unsaved changes will be lost. Are you sure you want to cancel?",
@@ -17,6 +18,7 @@ const HeaderRightSection = () => {
                 cancel: "No",
                 confirm: "Yes",
             },
+            confirmProps: { color: "green" },
         })
     }
     return (
