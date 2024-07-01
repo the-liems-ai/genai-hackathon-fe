@@ -1,12 +1,14 @@
 import { useMemo } from "react"
 import { useReactFlow } from "reactflow"
 import { Button, Group } from "@mantine/core"
-import { IconPlus, IconTrash } from "@tabler/icons-react"
+import { IconPlus, IconSitemap, IconTrash } from "@tabler/icons-react"
+import { useLayoutedElements } from "@/hooks"
 
 let id = 0
 
 const ManualEdit = () => {
     const reactflow = useReactFlow()
+    const { getLayoutedElements } = useLayoutedElements()
     const editTools = useMemo(
         () => [
             {
@@ -47,17 +49,13 @@ const ManualEdit = () => {
                     reactflow.setNodes([])
                 },
             },
-            // {
-            //     icon: <IconMenu size={28} />,
-            //     label: "Open drawer",
-            //     action: () => {
-            //         drawer.openDrawer({
-            //             title: "Drawer",
-            //             size: "lg",
-            //             children: <div>Drawer content</div>,
-            //         })
-            //     },
-            // },
+            {
+                icon: <IconSitemap size={28} />,
+                label: "Auto layout",
+                action: () => {
+                    getLayoutedElements()
+                },
+            },
         ],
         []
     )
