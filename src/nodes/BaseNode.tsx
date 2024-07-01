@@ -6,7 +6,7 @@ import { useDisclosure } from "@mantine/hooks"
 import {
     IconCheck,
     IconEdit,
-    IconInfoCircle,
+    IconNote,
     IconTrash,
     IconX,
 } from "@tabler/icons-react"
@@ -20,10 +20,10 @@ import {
 } from "reactflow"
 import NodeInfo from "@/components/node-info"
 import { NewVertice } from "@/types"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 export interface BaseNodeData {
     label?: string
-    icon?: string
     verticeData?: NewVertice
 }
 
@@ -36,7 +36,6 @@ interface BaseNodeProps extends BaseNodeData {
 const BaseNode = ({
     label,
     selected,
-    icon,
     className = "",
     labelClassName = "",
     verticeData,
@@ -45,14 +44,31 @@ const BaseNode = ({
         useDisclosure(false)
 
     const { getNode, setNodes, getNodes } = useReactFlow()
-    const [iconExist, setIconExist] = useState(false)
     const nodeId = useNodeId()
     const isNodeSelected = useCheckNodeSelected(nodeId!)
 
     const [labelEdit, setLabelEdit] = useState(label)
     const [isSaved, setIsSaved] = useState(false)
+
+    const { mindmap, setMindmap } = useCurrentMindmap()
     const handleEditSave = () => {
         setIsSaved(true)
+        setMindmap({
+            ...mindmap,
+            json_diagram: {
+                ...mindmap.json_diagram,
+                new: {
+                    ...mindmap.json_diagram.new,
+                    vertices: {
+                        ...mindmap.json_diagram.new.vertices,
+                        [nodeId!]: {
+                            ...mindmap.json_diagram.new.vertices[nodeId!],
+                            text: labelEdit,
+                        },
+                    },
+                },
+            },
+        })
         closeEditMode()
     }
 
@@ -62,7 +78,7 @@ const BaseNode = ({
     }
 
     const drawer = useDrawer()
-    const handleInfo = () => {
+    const handleTakeNote = () => {
         drawer.openDrawer({
             title: "Take note",
             size: "lg",
@@ -132,13 +148,13 @@ const BaseNode = ({
                     </Stack>
                 ) : (
                     <Stack gap={4} bg="white">
-                        <Tooltip label="Info">
+                        <Tooltip label="Take note">
                             <ActionIcon
                                 variant="light"
                                 color="green"
-                                onClick={handleInfo}
+                                onClick={handleTakeNote}
                             >
-                                <IconInfoCircle />
+                                <IconNote />
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Edit">
@@ -182,15 +198,6 @@ const BaseNode = ({
                 )}
             >
                 <div className="flex items-center w-full h-full gap-1">
-                    {iconExist && (
-                        <div className="flex-shrink-0">
-                            <img
-                                src={`https://app.eraser.io/static/canvas-icons/${icon}.svg`}
-                                alt={icon}
-                                className=" w-auto h-10 rounded-sm"
-                            />
-                        </div>
-                    )}
                     <div className="flex-grow text-center text-xs">
                         {label && (
                             <div className={cn(labelClassName)}>
