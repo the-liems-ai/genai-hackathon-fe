@@ -1,7 +1,7 @@
-import { AppShell } from "@mantine/core"
+import { AppShell, Group, Image, Title } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useAppShell } from "@/stores/app-shell-store"
-import Header from "../../_components/header"
+import { Link } from "react-router-dom"
 
 interface MindmapLayoutProps {
     title?: string
@@ -19,7 +19,14 @@ export function Layout({
     return (
         <>
             <AppShell header={{ height: 60 }} padding="md" disabled={!showed}>
-                <Header title={title} />
+                <AppShell.Header>
+                    <Group h="100%" px="md" justify="space-between">
+                        <Link to="/mindmap" className="flex gap-3 items-center">
+                            <Image src="/fav.png" alt="The Liems" h={40} />
+                            <Title order={5}>GenAI Hackathon 2024</Title>
+                        </Link>
+                    </Group>
+                </AppShell.Header>
                 <AppShell.Main>{children}</AppShell.Main>
             </AppShell>
         </>

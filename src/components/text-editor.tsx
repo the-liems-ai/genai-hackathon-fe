@@ -1,5 +1,5 @@
 import { ScrollArea } from "@mantine/core"
-import { RichTextEditor, Link } from "@mantine/tiptap"
+import { RichTextEditor } from "@mantine/tiptap"
 import { Editor } from "@tiptap/react"
 
 function TextEditor({ editor }: { editor: Editor }) {

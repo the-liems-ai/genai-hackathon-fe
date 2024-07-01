@@ -3,11 +3,9 @@ import { Layout } from "./_components"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 const MindmapEditorLayout = () => {
-    const {
-        mindmap: { name },
-    } = useCurrentMindmap()
+    const { mindmap } = useCurrentMindmap()
     return (
-        <Layout title={name}>
+        <Layout title={mindmap?.name}>
             <Outlet />
         </Layout>
     )

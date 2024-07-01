@@ -1,24 +1,38 @@
-import { CommonNodeData } from "@/nodes/CommonNode"
-import { Link, Vertice } from "@/types"
-import { Edge, Node, NodeProps } from "reactflow"
+import { Link, OldVertice, NewVertice } from "@/types"
+import DOMPurify from "dompurify"
+import { marked } from "marked"
+import { Edge, Node } from "reactflow"
 
 export const getParams = (pathname: string) => {
     return pathname.split("/").at(-1)
 }
 
-export const convertNode = (
-    node: Vertice
+export const convertOldNode = (
+    node: OldVertice
 ): Node<{
     label: string
+    verticeData: OldVertice
 }> => {
-    // if (node.id !== "") {
     return {
         id: node.id,
         type: "common",
-        data: { label: node.text },
+        data: { label: node.text, verticeData: node },
         position: { x: node.position.x, y: node.position.y },
     }
-    // }
+}
+
+export const convertNewNode = (
+    node: NewVertice
+): Node<{
+    label: string
+    verticeData: NewVertice
+}> => {
+    return {
+        id: node.id,
+        type: "common",
+        data: { label: node.text, verticeData: node },
+        position: { x: node.position.x, y: node.position.y },
+    }
 }
 
 export const convertEdge = (edge: Link): Edge => {
@@ -29,4 +43,9 @@ export const convertEdge = (edge: Link): Edge => {
         label: edge.text,
         ariaLabel: edge.text,
     }
+}
+
+export const parseMarkdownToHTML = (note: string): string => {
+    const result = marked.parse(note)
+    return DOMPurify.sanitize(result as string)
 }

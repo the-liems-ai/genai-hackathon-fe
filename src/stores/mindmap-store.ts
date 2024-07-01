@@ -10,15 +10,7 @@ interface MindmapStore {
 }
 
 const useMermaidStore = create<MindmapStore>((set) => ({
-    mindmap: {
-        ID: 0,
-        name: "",
-        prompt: "",
-        mermaid: "",
-        json_diagram: {} as JSONDiagram,
-        image: "",
-        summary: "",
-    },
+    mindmap: null,
 
     setMindmap: (newMindmap) =>
         set((state) => ({
@@ -49,10 +41,4 @@ const mindmapSelector = (state: ExtractState<typeof useMermaidStore>) => {
     }
 }
 
-const setMindmapSelector = (state: ExtractState<typeof useMermaidStore>) => {
-    return state.setMindmap
-}
-
 export const useCurrentMindmap = () => useMermaidStore(mindmapSelector)
-
-export const useSetMindmap = () => useMermaidStore(setMindmapSelector)

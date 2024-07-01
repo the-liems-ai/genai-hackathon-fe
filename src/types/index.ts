@@ -1,9 +1,19 @@
+export interface JSONDiagram {
+    old: {
+        vertices: Record<string, OldVertice>
+        links: Record<string, Link>
+    }
+    new: {
+        vertices: Record<string, NewVertice>
+        links: Record<string, Link>
+    }
+}
 export interface Diagram {
     id: number
     name: string
     prompt: string
     mermaid: string
-    json_diagram: string
+    json_diagram: JSONDiagram
     explain_node: string
     image: string
     summary: string
@@ -13,7 +23,19 @@ export interface DiagramsResponse {
     data: Diagram[]
 }
 
-export interface Vertice {
+export interface OldVertice {
+    position: {
+        x: number
+        y: number
+    }
+    icon: string
+    sub_graph: string
+    id: string
+    text: string
+    shape: string
+}
+
+export interface NewVertice {
     position: {
         x: number
         y: number
@@ -32,17 +54,6 @@ export interface Link {
     to_id: string
     text: string
     type: string
-}
-
-export interface JSONDiagram {
-    old: {
-        vertices: Record<string, Vertice>
-        links: Record<string, Link>
-    }
-    new: {
-        vertices: Record<string, Vertice>
-        links: Record<string, Link>
-    }
 }
 
 export interface CreateDigramResponse {
@@ -120,4 +131,31 @@ export interface ExplainNodeResponse {
 
 export interface SummaryResponse {
     data: string
+}
+
+export interface ExplainNode {
+    node_id: string
+    note: string
+}
+
+export interface SaveDiagramRequest {
+    name: string
+    mermaid: string
+    json_diagram: string
+    explain_node: string
+    image: string
+    summary: string
+}
+
+export interface SaveDiagramResponse {
+    data: {
+        id: number
+        name: string
+        prompt: string
+        mermaid: string
+        json_diagram: JSONDiagram
+        explain_node: ExplainNode[]
+        image: string
+        summary: string
+    }
 }

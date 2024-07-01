@@ -17,8 +17,9 @@ import ReactFlow, {
     useReactFlow,
 } from "reactflow"
 import { useMindmap } from "../_api/hooks"
-import { convertEdge, convertNode } from "@/utils"
-import { useCurrentMindmap, useSetMindmap } from "@/stores/mindmap-store"
+import { convertEdge, convertNewNode } from "@/utils"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
+import { useTakeNote } from "@/stores/use-take-note"
 
 const MindmapEditorPage = () => {
     const { id } = useParams()
@@ -42,34 +43,40 @@ const MindmapEditorPage = () => {
     )
 
     const { appShellShowed, handleToggleAppShell } = useToggleAppShell()
-    const setMindmap = useSetMindmap()
+    const { mindmap, setMindmap } = useCurrentMindmap()
 
     const { getLayoutedElements } = useLayoutedElements()
+
     useEffect(() => {
-        if (!isPending) {
+        if (isPending) return
+        if (!data) return
+        setMindmap(data?.data.data)
+    }, [isPending, data])
+
+    useEffect(() => {
+        if (mindmap) {
             setNodes(
-                Object.values(data?.data.data.json_diagram.new.vertices).map(
+                Object.values(mindmap?.json_diagram.new?.vertices).map(
                     (value) => {
-                        return convertNode(value)
+                        return convertNewNode(value)
                     }
                 )
             )
             setEdges(
-                Object.values(data?.data.data.json_diagram.new.links).map(
-                    (value) => convertEdge(value)
+                Object.values(mindmap?.json_diagram.new?.links).map((value) =>
+                    convertEdge(value)
                 )
             )
 
             setTimeout(() => {
                 getLayoutedElements()
-                setMindmap(data?.data.data)
             }, 100)
 
             setTimeout(() => {
                 fitView()
             }, 500)
         }
-    }, [isPending, data])
+    }, [mindmap])
 
     return (
         <ReactFlow

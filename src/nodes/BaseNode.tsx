@@ -1,28 +1,13 @@
-import TextEditor from "@/components/text-editor"
-import useTextEditor from "@/hooks/use-text-editor"
 import { useDrawer } from "@/stores/drawer-store"
 import { useCheckNodeSelected } from "@/stores/selected-node-store"
 import { cn } from "@/utils/cn"
-import {
-    ActionIcon,
-    Button,
-    Group,
-    Loader,
-    Menu,
-    Stack,
-    Text,
-    TextInput,
-    Title,
-    Tooltip,
-} from "@mantine/core"
+import { ActionIcon, Stack, Tooltip } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import {
     IconCheck,
     IconEdit,
     IconInfoCircle,
-    IconRobot,
     IconTrash,
-    IconWand,
     IconX,
 } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
@@ -33,15 +18,13 @@ import {
     useNodeId,
     useReactFlow,
 } from "reactflow"
-import { useAskNode } from "./api/hooks"
-import toast from "react-hot-toast"
-import { useCurrentMindmap } from "@/stores/mindmap-store"
-import DOMPurify from "dompurify"
-import { marked } from "marked"
+import NodeInfo from "@/components/node-info"
+import { NewVertice } from "@/types"
 
 export interface BaseNodeData {
     label?: string
     icon?: string
+    verticeData?: NewVertice
 }
 
 interface BaseNodeProps extends BaseNodeData {
@@ -56,6 +39,7 @@ const BaseNode = ({
     icon,
     className = "",
     labelClassName = "",
+    verticeData,
 }: BaseNodeProps) => {
     const [editMode, { open: openEditMode, close: closeEditMode }] =
         useDisclosure(false)
@@ -82,7 +66,13 @@ const BaseNode = ({
         drawer.openDrawer({
             title: "Take note",
             size: "lg",
-            children: <NodeInfo id={nodeId} name={label!} />,
+            children: (
+                <NodeInfo
+                    id={nodeId}
+                    name={label!}
+                    defaultNote={verticeData.note}
+                />
+            ),
         })
     }
 
@@ -223,106 +213,6 @@ const BaseNode = ({
                 <Handle type="target" position={Position.Top} />
             </div>
         </>
-    )
-}
-
-const NodeInfo = ({ id, name }: { id: string; name: string }) => {
-    const { mindmap } = useCurrentMindmap()
-    const { editor, content, setContent } = useTextEditor()
-    const [prompt, setPrompt] = useState("")
-    const [loading, setLoading] = useState(false)
-
-    const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPrompt(e.currentTarget.value)
-    }
-
-    const { mutate: askNode } = useAskNode()
-    const handleExplainNode = () => {
-        const toastLoading = toast.loading("Generating node detail...")
-        setLoading(true)
-
-        askNode(
-            {
-                id: +mindmap.ID,
-                request: {
-                    input: prompt,
-                    old_diagram: mindmap.mermaid,
-                    chosen_nodes: [{ node_id: id, title: name }],
-                },
-            },
-            {
-                onSuccess: async (data) => {
-                    const res: string = data?.data.data!
-                    const htmlContent = DOMPurify.sanitize(
-                        await marked.parse(res)
-                    )
-                    setContent(`${content}<br/>${htmlContent}`)
-                    toast.success("Node detail generated")
-                },
-                onError: (error) => {
-                    toast.error(error.message)
-                },
-                onSettled: () => {
-                    setLoading(false)
-                    toast.dismiss(toastLoading)
-                },
-            }
-        )
-    }
-
-    return (
-        <Stack>
-            <Title order={3}>{name}</Title>
-            <TextEditor editor={editor} />
-            <Button color="green" fullWidth>
-                Save
-            </Button>
-            <Menu
-                transitionProps={{
-                    transition: "pop-bottom-right",
-                }}
-                shadow="md"
-                width={200}
-                position={"top-end"}
-                withArrow
-                arrowOffset={20}
-            >
-                <Menu.Target>
-                    <ActionIcon
-                        size={"xl"}
-                        pos={"absolute"}
-                        bottom={16}
-                        right={16}
-                        radius={"xl"}
-                    >
-                        <IconRobot />
-                    </ActionIcon>
-                </Menu.Target>
-
-                <Menu.Dropdown p={16} w={"500px"}>
-                    <Group align="center">
-                        <TextInput
-                            value={prompt}
-                            className="grow"
-                            onChange={handlePromptChange}
-                            placeholder="Generate detail with AI"
-                            disabled={loading}
-                        />
-                        <ActionIcon
-                            size={"lg"}
-                            onClick={handleExplainNode}
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <Loader size={"sm"} />
-                            ) : (
-                                <IconWand size={18} />
-                            )}
-                        </ActionIcon>
-                    </Group>
-                </Menu.Dropdown>
-            </Menu>
-        </Stack>
     )
 }
 

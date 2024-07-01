@@ -4,6 +4,7 @@ import {
     editNodes,
     explainNodes,
     getMindmapById,
+    saveMindmap,
     summary,
 } from "./api"
 
@@ -35,5 +36,11 @@ export const useEditNodes = () => {
 export const useSummary = () => {
     return useMutation({
         mutationFn: summary,
+    })
+}
+
+export const useSaveMindmap = () => {
+    return useMutation({
+        mutationFn: saveMindmap,
     })
 }

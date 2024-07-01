@@ -1,30 +1,13 @@
-import { AppShell, Button, Group } from "@mantine/core"
+import { AppShell } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { Sidebar } from "./sidebar"
 import { useAppShell, useNav } from "@/stores/app-shell-store"
-import { Header } from "../../../_components"
-import HeaderSaveButton from "./header-save-button"
-import { useNavigate, useParams } from "react-router-dom"
+import Header from "./header/header"
 
 interface DiagramLayoutProps {
     title?: string
     sidebar?: boolean
     children?: React.ReactNode
-}
-
-const HeaderRightSection = () => {
-    const navigate = useNavigate()
-    const handleCancel = () => {
-        navigate("/mindmap")
-    }
-    return (
-        <Group>
-            <Button color="gray" variant="outline" onClick={handleCancel}>
-                Cancel
-            </Button>
-            <HeaderSaveButton />
-        </Group>
-    )
 }
 
 export function Layout({
@@ -50,7 +33,7 @@ export function Layout({
                 className="h-full"
                 disabled={!showed}
             >
-                <Header title={title} rightSection={<HeaderRightSection />} />
+                <Header />
                 <Sidebar />
                 <AppShell.Main ml={showed ? 60 : 0} className="h-screen">
                     {children}
