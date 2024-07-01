@@ -1,4 +1,4 @@
-import { AppShell, Group, Image, Title } from "@mantine/core"
+import { Anchor, AppShell, Group, Image, Title } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useAppShell } from "@/stores/app-shell-store"
 import { Link } from "react-router-dom"
@@ -28,6 +28,18 @@ export function Layout({
                     </Group>
                 </AppShell.Header>
                 <AppShell.Main>{children}</AppShell.Main>
+                <AppShell.Footer>
+                    <Group justify="center" align="center" h="100%">
+                        <Anchor
+                            href="https://github.com/the-liems-ai"
+                            target="_blank"
+                        >
+                            <Title order={5} c="gray">
+                                © 2024 The Liems
+                            </Title>
+                        </Anchor>
+                    </Group>
+                </AppShell.Footer>
             </AppShell>
         </>
     )
