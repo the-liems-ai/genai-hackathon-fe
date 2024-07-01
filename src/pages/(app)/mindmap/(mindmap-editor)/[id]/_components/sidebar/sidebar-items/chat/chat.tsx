@@ -93,7 +93,7 @@ const Chat = () => {
     const queryClient = useQueryClient()
     const handleChat = () => {
         if (selectedNodes.length === 0) {
-            toast.error("Please select at least one node to continue")
+            toast.error("Please select at least one node")
             return
         }
         loadingHandlers.start()
@@ -154,6 +154,7 @@ const Chat = () => {
             case "edit":
                 if (chat.trim() === "") {
                     toast.error("Please enter a message")
+                    loadingHandlers.stop()
                     return
                 }
 

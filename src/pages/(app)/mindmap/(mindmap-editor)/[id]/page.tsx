@@ -99,7 +99,7 @@ const MindmapEditorPage = () => {
             fitView
             defaultEdgeOptions={{
                 animated: true,
-                type: "straight",
+                type: "smoothstep",
             }}
         >
             <Background />

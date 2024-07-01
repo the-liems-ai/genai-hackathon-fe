@@ -1,4 +1,5 @@
 import LoadingDots from "@/components/ui/loading-dots"
+import { parseMarkdownToHTML } from "@/utils"
 import ReactMarkdown from "react-markdown"
 
 export interface Message {
@@ -20,9 +21,12 @@ const ChatUi = ({ role, message }: Message) => {
                     {message === "l" ? (
                         <LoadingDots />
                     ) : (
-                        <span className="text-white">
-                            <ReactMarkdown>{message}</ReactMarkdown>
-                        </span>
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: parseMarkdownToHTML(message),
+                            }}
+                            className="text-white text-justify w-full"
+                        />
                     )}
                 </div>
             </div>
