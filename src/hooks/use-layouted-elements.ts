@@ -10,7 +10,7 @@ const useLayoutedElements = () => {
         "elk.algorithm": "layered",
         "elk.layered.spacing.nodeNodeBetweenLayers": "150",
         "elk.spacing.nodeNode": "40",
-        "elk.direction": "DOWN",
+        "elk.direction": "RIGHT",
         "elk.alignment": "CENTER",
     }
 
