@@ -8,8 +8,8 @@ const useLayoutedElements = () => {
     const { getNodes, setNodes, getEdges, fitView } = useReactFlow()
     const defaultOptions: LayoutOptions = {
         "elk.algorithm": "layered",
-        "elk.layered.spacing.nodeNodeBetweenLayers": "100",
-        "elk.spacing.nodeNode": "20",
+        "elk.layered.spacing.nodeNodeBetweenLayers": "150",
+        "elk.spacing.nodeNode": "40",
         "elk.direction": "DOWN",
         "elk.alignment": "CENTER",
     }
