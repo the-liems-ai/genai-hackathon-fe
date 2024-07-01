@@ -6,7 +6,7 @@ const useRemoveLogo = () => {
             ".react-flow__panel.react-flow__attribution.bottom.right"
         )
         if (logo) {
-            logo.style.display = "none"
+            logo.innerHTML = `<a class="react-flow__attribution" href="/" target="_blank">MindGPT</a>`
         }
     }, [])
 }
