@@ -1,5 +1,5 @@
 import { useCurrentMindmap } from "@/stores/mindmap-store"
-import { AppShell, Button, Tooltip } from "@mantine/core"
+import { AppShell, Button, Text, Tooltip } from "@mantine/core"
 import { IconCopy } from "@tabler/icons-react"
 import { useSummary } from "../../../../_api/hooks"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
@@ -64,6 +64,12 @@ const Summary = () => {
                         </Button>
                     </Tooltip>
                 </Button.Group>
+            </AppShell.Section>
+            <AppShell.Section mt={8}>
+                <Text size="xs" c="gray">
+                    Any information generated from AI may not be absolutely
+                    accurate, please verify first
+                </Text>
             </AppShell.Section>
             <AppShell.Section mt={8}>
                 {mindmap.summary.trim() !== "" && (
