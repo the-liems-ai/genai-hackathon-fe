@@ -1,6 +1,6 @@
-import useTextEditor from "@/hooks/use-text-editor"
-import { useAskNode } from "@/nodes/api/hooks"
-import { useCurrentMindmap } from "@/stores/mindmap-store"
+import useTextEditor from "@/hooks/use-text-editor";
+import { useAskNode } from "@/nodes/api/hooks";
+import { useCurrentMindmap } from "@/stores/mindmap-store";
 import {
     ActionIcon,
     Button,
@@ -11,42 +11,42 @@ import {
     Text,
     Textarea,
     Title,
-} from "@mantine/core"
-import { useState } from "react"
-import toast from "react-hot-toast"
-import TextEditor from "./text-editor"
-import { IconRobot, IconWand } from "@tabler/icons-react"
-import { useTakeNote } from "@/stores/use-take-note"
-import { useDrawer } from "@/stores/drawer-store"
-import { parseMarkdownToHTML } from "@/utils"
-import { useReactFlow } from "reactflow"
+} from "@mantine/core";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import TextEditor from "./text-editor";
+import { IconRobot, IconWand } from "@tabler/icons-react";
+import { useTakeNote } from "@/stores/use-take-note";
+import { useDrawer } from "@/stores/drawer-store";
+import { parseMarkdownToHTML } from "@/utils";
+import { useReactFlow } from "reactflow";
 
 const NodeInfo = ({
     id,
     name,
     defaultNote,
 }: {
-    id: string
-    name: string
-    defaultNote: string
+    id: string;
+    name: string;
+    defaultNote: string;
 }) => {
-    const { closeDrawer } = useDrawer()
-    const { mindmap, setMindmap } = useCurrentMindmap()
+    const { closeDrawer } = useDrawer();
+    const { mindmap, setMindmap } = useCurrentMindmap();
     const { editor, content, setContent } = useTextEditor(
         parseMarkdownToHTML(defaultNote)
-    )
-    const [_, takeNoteHandlers] = useTakeNote()
-    const [prompt, setPrompt] = useState("")
-    const [loading, setLoading] = useState(false)
+    );
+    const [_, takeNoteHandlers] = useTakeNote();
+    const [prompt, setPrompt] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handlePromptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPrompt(e.currentTarget.value)
-    }
+        setPrompt(e.currentTarget.value);
+    };
 
-    const { mutate: askNode } = useAskNode()
+    const { mutate: askNode } = useAskNode();
     const handleExplainNode = () => {
-        const toastLoading = toast.loading("Generating node detail...")
-        setLoading(true)
+        const toastLoading = toast.loading("Generating node detail...");
+        setLoading(true);
 
         askNode(
             {
@@ -59,40 +59,45 @@ const NodeInfo = ({
             },
             {
                 onSuccess: async (data) => {
-                    const htmlContent = parseMarkdownToHTML(data?.data.data!)
-                    setContent(`${content}<br/>${htmlContent}`)
-                    setPrompt("")
-                    toast.success("Node detail generated")
+                    const htmlContent = parseMarkdownToHTML(data?.data.data!);
+                    setContent(`${content}<br/>${htmlContent}`);
+                    setPrompt("");
+                    toast.success("Node detail generated");
                 },
                 onError: (error) => {
-                    toast.error(error.message)
+                    toast.error(error.message);
                 },
                 onSettled: () => {
-                    setLoading(false)
-                    toast.dismiss(toastLoading)
+                    setLoading(false);
+                    toast.dismiss(toastLoading);
                 },
             }
-        )
-    }
+        );
+    };
 
-    const { getNodes, setNodes } = useReactFlow()
+    const { getNodes, setNodes } = useReactFlow();
     const handleSave = () => {
-        takeNoteHandlers.add({ node_id: id, note: content })
+        takeNoteHandlers.add({ node_id: id, note: content });
         setNodes(
             getNodes().map((n) => {
                 return n.id === id
                     ? { ...n, data: { ...n.data, note: content } }
-                    : n
+                    : n;
             })
-        )
-        closeDrawer()
-    }
+        );
+        closeDrawer();
+    };
 
     return (
-        <Stack>
+        <Stack h={"100%"}>
             <Title order={3}>{name}</Title>
-            <TextEditor editor={editor} />
-            <Button color="green" fullWidth onClick={handleSave}>
+            <TextEditor editor={editor} h={"60%"} />
+            <Button
+                color="green"
+                fullWidth
+                onClick={handleSave}
+                disabled={loading}
+            >
                 Save
             </Button>
             <Menu
@@ -131,8 +136,8 @@ const NodeInfo = ({
                                 autosize
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" && !e.shiftKey) {
-                                        e.preventDefault()
-                                        handleExplainNode()
+                                        e.preventDefault();
+                                        handleExplainNode();
                                     }
                                 }}
                             />
@@ -156,7 +161,7 @@ const NodeInfo = ({
                 </Menu.Dropdown>
             </Menu>
         </Stack>
-    )
-}
+    );
+};
 
-export default NodeInfo
+export default NodeInfo;

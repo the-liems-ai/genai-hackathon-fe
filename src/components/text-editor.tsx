@@ -1,11 +1,19 @@
-import { ScrollArea } from "@mantine/core"
-import { RichTextEditor } from "@mantine/tiptap"
-import { Editor } from "@tiptap/react"
+import { ScrollArea, StyleProp } from "@mantine/core";
+import { useElementSize } from "@mantine/hooks";
+import { RichTextEditor } from "@mantine/tiptap";
+import { Editor } from "@tiptap/react";
 
-function TextEditor({ editor }: { editor: Editor }) {
+function TextEditor({
+    editor,
+    h,
+}: {
+    editor: Editor;
+    h?: StyleProp<React.CSSProperties["height"]>;
+}) {
+    const { ref, height } = useElementSize();
     return (
-        <RichTextEditor editor={editor}>
-            <RichTextEditor.Toolbar sticky stickyOffset={60}>
+        <RichTextEditor editor={editor} h={h}>
+            <RichTextEditor.Toolbar sticky ref={ref}>
                 <RichTextEditor.ControlsGroup>
                     <RichTextEditor.Bold />
                     <RichTextEditor.Italic />
@@ -50,11 +58,14 @@ function TextEditor({ editor }: { editor: Editor }) {
                 </RichTextEditor.ControlsGroup>
             </RichTextEditor.Toolbar>
 
-            <ScrollArea h={600}>
+            <ScrollArea
+                h={`calc(100% - ${height}px - 22px)`}
+                className="overflow-hidden"
+            >
                 <RichTextEditor.Content />
             </ScrollArea>
         </RichTextEditor>
-    )
+    );
 }
 
-export default TextEditor
+export default TextEditor;
