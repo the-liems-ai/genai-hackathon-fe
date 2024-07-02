@@ -1,17 +1,31 @@
-import { DiagramsResponse } from "@/types"
-import { instance } from "@/utils/axios"
+import { DiagramsResponse } from "@/types";
+import { instance } from "@/utils/axios";
+
+export interface GetDiagramsRequestParams {
+    keyword: string;
+    page: number;
+    limit: number;
+}
 
 enum DiagramEndpoint {
     GET = "/diagrams",
     DELETE = "/delete/diagram",
 }
 
-export const getDiagrams = async () => {
-    const { data } = await instance.get<DiagramsResponse>(DiagramEndpoint.GET)
-
-    return data
-}
+export const getDiagrams = ({
+    keyword,
+    page,
+    limit,
+}: GetDiagramsRequestParams) => {
+    return instance.get<DiagramsResponse>(DiagramEndpoint.GET, {
+        params: {
+            keyword,
+            page,
+            limit,
+        },
+    });
+};
 
 export const deleteDiagram = (id: number) => {
-    return instance.delete(`${DiagramEndpoint.DELETE}/${id}`)
-}
+    return instance.delete(`${DiagramEndpoint.DELETE}/${id}`);
+};

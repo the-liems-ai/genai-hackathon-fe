@@ -1,15 +1,19 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { deleteDiagram, getDiagrams } from "./api"
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { GetDiagramsRequestParams, deleteDiagram, getDiagrams } from "./api";
 
-export const useMindmaps = () => {
+export const useMindmaps = ({
+    keyword,
+    page,
+    limit,
+}: GetDiagramsRequestParams) => {
     return useQuery({
-        queryKey: ["mindmaps"],
-        queryFn: getDiagrams,
-    })
-}
+        queryKey: ["mindmaps", keyword, page, limit],
+        queryFn: () => getDiagrams({ keyword, page, limit }),
+    });
+};
 
 export const useDeleteMindmap = () => {
     return useMutation({
         mutationFn: deleteDiagram,
-    })
-}
+    });
+};
