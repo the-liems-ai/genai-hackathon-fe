@@ -3,7 +3,8 @@ import MindmapCard from "./_components/mindmap-card";
 import { useNavigate } from "react-router-dom";
 import { useMindmaps } from "./_api/hooks";
 import { useQueryParams } from "@/hooks";
-import { SearchBar } from "./_components";
+import { PaginationBar, SearchBar } from "./_components";
+import { useMemo } from "react";
 
 const PAGE_SIZE = 8;
 
@@ -20,9 +21,14 @@ const MindmapPage = () => {
         navigate("/mindmap/new");
     };
 
+    const total = useMemo(
+        () => Math.ceil(data?.data.pagination.total / PAGE_SIZE),
+        [data?.data.pagination.total]
+    );
+
     return (
         <Container size="xl">
-            <Group justify="space-between" align="center" mt="lg" mb="xl">
+            <Group justify="space-between" align="center" mt="lg" mb="lg">
                 <Title order={1}>Mindmaps</Title>
                 <Button color="green" onClick={handleCreateMindmap}>
                     Create new
@@ -34,6 +40,7 @@ const MindmapPage = () => {
                     <MindmapCard key={diagram.id} diagram={diagram} />
                 ))}
             </div>
+            <PaginationBar total={total} />
         </Container>
     );
 };
