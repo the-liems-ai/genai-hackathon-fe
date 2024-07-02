@@ -1,10 +1,10 @@
-import LoadingDots from "@/components/ui/loading-dots"
-import { parseMarkdownToHTML } from "@/utils"
-import ReactMarkdown from "react-markdown"
+import LoadingDots from "@/components/ui/loading-dots";
+import { parseMarkdownToHTML } from "@/utils";
+import { TypographyStylesProvider } from "@mantine/core";
 
 export interface Message {
-    role: string
-    message: string
+    role: string;
+    message: string;
 }
 
 const ChatUi = ({ role, message }: Message) => {
@@ -17,20 +17,22 @@ const ChatUi = ({ role, message }: Message) => {
                     </div>
                 </div>
                 <div className="chat-header">Chatbot</div>
-                <div className="chat-bubble chat-bubble-info flex items-center bg-[#228be6]">
+                <div className="chat-bubble chat-bubble-info flex items-center bg-[#f1f3f5]">
                     {message === "l" ? (
                         <LoadingDots />
                     ) : (
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: parseMarkdownToHTML(message),
-                            }}
-                            className="text-white w-full"
-                        />
+                        <TypographyStylesProvider>
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: parseMarkdownToHTML(message),
+                                }}
+                                className="w-full"
+                            />
+                        </TypographyStylesProvider>
                     )}
                 </div>
             </div>
-        )
+        );
     } else {
         return (
             <div className="chat chat-end pr-4">
@@ -39,8 +41,8 @@ const ChatUi = ({ role, message }: Message) => {
                     {message}
                 </div>
             </div>
-        )
+        );
     }
-}
+};
 
-export default ChatUi
+export default ChatUi;
