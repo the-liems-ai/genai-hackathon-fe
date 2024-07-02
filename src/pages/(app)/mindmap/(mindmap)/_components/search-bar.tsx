@@ -9,7 +9,7 @@ const SearchBar = () => {
 
     const handleSearch = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setQueryParams({ keyword });
+        setQueryParams({ keyword: keyword.trim() });
     };
 
     const handleClear = () => {
