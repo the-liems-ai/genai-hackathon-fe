@@ -18,6 +18,7 @@ import ReactFlow, {
     updateEdge,
     Edge,
     Connection,
+    MarkerType,
 } from "reactflow";
 import { useMindmap } from "../_api/hooks";
 import { convertEdge, convertNewNode } from "@/utils";
@@ -127,6 +128,7 @@ const MindmapEditorPage = () => {
             defaultEdgeOptions={{
                 animated: true,
                 type: "floating",
+                markerEnd: { type: MarkerType.ArrowClosed },
             }}
         >
             <Background />
