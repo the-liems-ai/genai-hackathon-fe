@@ -1,4 +1,4 @@
-import { useCurrentMindmap } from "@/stores/mindmap-store";
+import { useCurrentMindmap } from "@/stores/mindmap-store"
 import {
     AppShell,
     Button,
@@ -6,44 +6,45 @@ import {
     Stack,
     Text,
     Tooltip,
-} from "@mantine/core";
-import { IconCopy } from "@tabler/icons-react";
-import { useSummary } from "../../../../_api/hooks";
-import { useMindMapLoading } from "@/stores/mindmap-loading";
-import toast from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import ReactMarkdown from "react-markdown";
-import { useClipboard } from "@mantine/hooks";
+    TypographyStylesProvider,
+} from "@mantine/core"
+import { IconCopy } from "@tabler/icons-react"
+import { useSummary } from "../../../../_api/hooks"
+import { useMindMapLoading } from "@/stores/mindmap-loading"
+import toast from "react-hot-toast"
+import { useQueryClient } from "@tanstack/react-query"
+import ReactMarkdown from "react-markdown"
+import { useClipboard } from "@mantine/hooks"
 
 const Summary = () => {
-    const { mindmap } = useCurrentMindmap();
+    const { mindmap } = useCurrentMindmap()
 
-    const [loading, loadingHandlers] = useMindMapLoading();
+    const [loading, loadingHandlers] = useMindMapLoading()
 
-    const queryClient = useQueryClient();
-    const { mutate: summaryMutate } = useSummary();
+    const queryClient = useQueryClient()
+    const { mutate: summaryMutate } = useSummary()
     const handleSummary = () => {
-        loadingHandlers.start();
-        const loadingToast = toast.loading("Generating summary...");
+        loadingHandlers.start()
+        const loadingToast = toast.loading("Generating summary...")
 
         summaryMutate(mindmap.ID, {
             onSuccess: () => {
-                toast.success("Summary generated");
+                toast.success("Summary generated")
                 queryClient.invalidateQueries({
                     queryKey: ["mindmap", mindmap.ID],
-                });
+                })
             },
             onError: (error) => {
-                toast.error("Failed to generate summary");
+                toast.error("Failed to generate summary")
             },
             onSettled: () => {
-                loadingHandlers.stop();
-                toast.dismiss(loadingToast);
+                loadingHandlers.stop()
+                toast.dismiss(loadingToast)
             },
-        });
-    };
+        })
+    }
 
-    const clipboard = useClipboard({ timeout: 1000 });
+    const clipboard = useClipboard({ timeout: 1000 })
 
     return (
         <>
@@ -81,12 +82,14 @@ const Summary = () => {
             <AppShell.Section mt={8} grow component={ScrollArea}>
                 {mindmap.summary.trim() !== "" && (
                     <div className="grow text-sm border p-3 rounded-sm">
-                        <ReactMarkdown>{mindmap.summary}</ReactMarkdown>
+                        <TypographyStylesProvider>
+                            <ReactMarkdown>{mindmap.summary}</ReactMarkdown>
+                        </TypographyStylesProvider>
                     </div>
                 )}
             </AppShell.Section>
         </>
-    );
-};
+    )
+}
 
-export default Summary;
+export default Summary
