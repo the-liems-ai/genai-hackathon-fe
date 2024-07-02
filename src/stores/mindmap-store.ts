@@ -21,15 +21,7 @@ const useMermaidStore = create<MindmapStore>((set) => ({
         })),
     clearMindmap: () =>
         set(() => ({
-            mindmap: {
-                ID: 0,
-                name: "",
-                prompt: "",
-                mermaid: "",
-                json_diagram: {} as JSONDiagram,
-                image: "",
-                summary: "",
-            },
+            mindmap: null,
         })),
 }))
 
