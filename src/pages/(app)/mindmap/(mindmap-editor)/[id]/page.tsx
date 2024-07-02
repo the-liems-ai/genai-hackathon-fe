@@ -126,7 +126,7 @@ const MindmapEditorPage = () => {
             fitView
             defaultEdgeOptions={{
                 animated: true,
-                type: "default",
+                type: "floating",
             }}
         >
             <Background />

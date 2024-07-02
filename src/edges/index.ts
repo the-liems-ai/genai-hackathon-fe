@@ -1,4 +1,5 @@
-import type { Edge, EdgeTypes } from "reactflow"
+import type { Edge, EdgeTypes } from "reactflow";
+import FloatingEdge from "./FloatingEdge";
 
 export const initialEdges = [
     {
@@ -6,7 +7,10 @@ export const initialEdges = [
         source: "A",
         target: "B",
         ariaLabel: "",
+        type: "float"
     },
-] satisfies Edge[]
+] satisfies Edge[];
 
-export const edgeTypes = {} satisfies EdgeTypes
+export const edgeTypes = {
+    floating: FloatingEdge,
+} satisfies EdgeTypes;
