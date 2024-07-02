@@ -18,6 +18,7 @@ import DrawerUI from "./components/drawer"
 import NotFoundPage from "./pages/404/page"
 import NewMindmapPage from "./pages/(app)/mindmap/(mindmap-editor)/new/page"
 import MindmapEditorLayout from "./pages/(app)/mindmap/(mindmap-editor)/[id]/layout"
+import LoginPage from "./pages/(auth)/login/page"
 
 const queryClient = new QueryClient()
 
@@ -30,6 +31,10 @@ const routers = createBrowserRouter([
             {
                 path: "",
                 element: <HomePage />,
+            },
+            {
+                path: "login",
+                element: <LoginPage />,
             },
             {
                 path: "mindmap",
