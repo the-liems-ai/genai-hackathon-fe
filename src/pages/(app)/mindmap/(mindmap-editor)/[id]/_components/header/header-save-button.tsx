@@ -1,31 +1,30 @@
-import { Button } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
-import { useCurrentMindmap } from "@/stores/mindmap-store";
-import { useSaveMindmap } from "../../../_api/hooks";
-import toast from "react-hot-toast";
-import { useTakeNote } from "@/stores/use-take-note";
-import { useMindMapLoading } from "@/stores/mindmap-loading";
-import { ExplainNode, JSONDiagram } from "@/types";
-import { useReactFlow } from "reactflow";
-import { convertEdgesToLinks, convertNodesToVertices } from "@/utils";
-import { useMindmapThumbnail } from "@/hooks";
+import { Button } from "@mantine/core"
+import { useNavigate } from "react-router-dom"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
+import { useSaveMindmap } from "../../../_api/hooks"
+import toast from "react-hot-toast"
+import { useTakeNote } from "@/stores/use-take-note"
+import { useMindMapLoading } from "@/stores/mindmap-loading"
+import { ExplainNode, JSONDiagram } from "@/types"
+import { useReactFlow } from "reactflow"
+import { convertEdgesToLinks, convertNodesToVertices } from "@/utils"
+import { useMindmapThumbnail } from "@/hooks"
 
 const HeaderSaveButton = () => {
-    const navigate = useNavigate();
-    const { mindmap } = useCurrentMindmap();
-    const [notes] = useTakeNote();
-    const [loading, loadingHandlers] = useMindMapLoading();
-    const { getNodes, getEdges } = useReactFlow();
-    const getThumbnail = useMindmapThumbnail();
+    const navigate = useNavigate()
+    const { mindmap } = useCurrentMindmap()
+    const [notes] = useTakeNote()
+    const [loading, loadingHandlers] = useMindMapLoading()
+    const { getNodes, getEdges } = useReactFlow()
+    const getThumbnail = useMindmapThumbnail()
 
-    const { mutate: saveMindmap } = useSaveMindmap();
+    const { mutate: saveMindmap } = useSaveMindmap()
     const handleSave = async () => {
-        loadingHandlers.start();
+        loadingHandlers.start()
 
         if (!mindmap) {
-            toast.error("No mindmap found");
-            loadingHandlers.stop();
-            return;
+            toast.error("Failed to save mindmap")
+            return
         }
 
         const allNotes: ExplainNode[] = [
@@ -34,11 +33,11 @@ const HeaderSaveButton = () => {
                     return {
                         node_id: vertex.id,
                         note: vertex.note,
-                    };
+                    }
                 }
             ),
             ...notes,
-        ];
+        ]
 
         const newJSONDiagram: JSONDiagram = {
             old: mindmap.json_diagram.old,
@@ -47,7 +46,7 @@ const HeaderSaveButton = () => {
                 links: convertEdgesToLinks(getEdges()),
                 sub_graphs: {},
             },
-        };
+        }
 
         saveMindmap(
             {
@@ -63,24 +62,24 @@ const HeaderSaveButton = () => {
             },
             {
                 onSuccess: () => {
-                    toast.success("Mindmap saved successfully");
-                    navigate("/mindmap");
+                    toast.success("Mindmap saved successfully")
+                    navigate("/mindmap")
                 },
                 onError: (error) => {
-                    toast.error(error.message);
+                    toast.error(error.message)
                 },
                 onSettled: () => {
-                    loadingHandlers.stop();
+                    loadingHandlers.stop()
                 },
             }
-        );
-    };
+        )
+    }
 
     return (
         <Button color="green" onClick={handleSave} disabled={loading}>
             Save
         </Button>
-    );
-};
+    )
+}
 
-export default HeaderSaveButton;
+export default HeaderSaveButton
