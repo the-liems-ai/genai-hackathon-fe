@@ -1,15 +1,35 @@
-import { useMemo } from "react"
-import { useReactFlow } from "reactflow"
-import { AppShell, Button, Group } from "@mantine/core"
-import { IconPlus, IconSitemap, IconTrash } from "@tabler/icons-react"
-import { useLayoutedElements } from "@/hooks"
+import { useMemo } from "react";
+import { useReactFlow } from "reactflow";
+import { AppShell, Button, Group } from "@mantine/core";
+import {
+    IconDownload,
+    IconPlus,
+    IconSitemap,
+    IconTrash,
+} from "@tabler/icons-react";
+import { useLayoutedElements, useMindmapThumbnail } from "@/hooks";
+import { downloadImage } from "@/utils";
+import { useCurrentMindmap } from "@/stores/mindmap-store";
 
-let id = 0
+interface EditTool {
+    icon: React.ReactNode;
+    label: string;
+    action: () => void | Promise<void>;
+}
+
+let id = 0;
 
 const ManualEdit = () => {
-    const reactflow = useReactFlow()
-    const { getLayoutedElements } = useLayoutedElements()
-    const editTools = useMemo(
+    const reactflow = useReactFlow();
+    const { getLayoutedElements } = useLayoutedElements();
+    const getThumbnail = useMindmapThumbnail({
+        width: 1920,
+        height: 1080,
+    });
+    const {
+        mindmap: { name },
+    } = useCurrentMindmap();
+    const editTools = useMemo<EditTool[]>(
         () => [
             {
                 icon: <IconPlus size={28} />,
@@ -37,33 +57,41 @@ const ManualEdit = () => {
                                 note: "",
                             },
                         },
-                    })
-                    reactflow.fitView()
+                    });
+                    reactflow.fitView();
                 },
             },
             {
                 icon: <IconTrash size={28} />,
                 label: "Clear canvas",
                 action: () => {
-                    reactflow.setEdges([])
-                    reactflow.setNodes([])
+                    reactflow.setEdges([]);
+                    reactflow.setNodes([]);
                 },
             },
             {
                 icon: <IconSitemap size={28} />,
                 label: "Auto layout",
                 action: () => {
-                    getLayoutedElements()
+                    getLayoutedElements();
+                },
+            },
+            {
+                icon: <IconDownload size={28} />,
+                label: "Download image",
+                action: async () => {
+                    const imageURL = await getThumbnail();
+                    downloadImage(imageURL, name);
                 },
             },
         ],
         []
-    )
+    );
 
     return (
         <AppShell.Section mt={12}>
             <div className="flex flex-col gap-4">
-                <Group gap={8} justify="space-between" grow>
+                <div className="grid grid-cols-3 gap-2">
                     {editTools.map((tool, index) => (
                         <Button
                             variant="light"
@@ -77,10 +105,10 @@ const ManualEdit = () => {
                             </span>
                         </Button>
                     ))}
-                </Group>
+                </div>
             </div>
         </AppShell.Section>
-    )
-}
+    );
+};
 
-export default ManualEdit
+export default ManualEdit;
