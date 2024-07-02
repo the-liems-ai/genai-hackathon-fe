@@ -38,8 +38,11 @@ const MindmapPage = () => {
             <SearchBar />
             {keyword && keyword.trim() !== "" && (
                 <Title order={4} mb={"lg"}>
-                    Result for "{keyword}" ({data?.data.pagination.total} result
-                    {data?.data.pagination.total > 1 ? "s" : ""})
+                    Result for "{keyword}"{" "}
+                    {!isLoading &&
+                        `(${data?.data.pagination.total} result${
+                            data?.data.pagination.total > 1 ? "s" : ""
+                        })`}
                 </Title>
             )}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
