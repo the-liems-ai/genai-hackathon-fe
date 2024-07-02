@@ -1,34 +1,34 @@
-import { useMemo } from "react";
-import { useReactFlow } from "reactflow";
-import { AppShell, Button, Group } from "@mantine/core";
+import { useMemo } from "react"
+import { useReactFlow } from "reactflow"
+import { AppShell, Button, Group } from "@mantine/core"
 import {
     IconDownload,
     IconPlus,
     IconSitemap,
     IconTrash,
-} from "@tabler/icons-react";
-import { useLayoutedElements, useMindmapThumbnail } from "@/hooks";
-import { downloadImage } from "@/utils";
-import { useCurrentMindmap } from "@/stores/mindmap-store";
+} from "@tabler/icons-react"
+import { useLayoutedElements, useMindmapThumbnail } from "@/hooks"
+import { downloadImage } from "@/utils"
+import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 interface EditTool {
-    icon: React.ReactNode;
-    label: string;
-    action: () => void | Promise<void>;
+    icon: React.ReactNode
+    label: string
+    action: () => void | Promise<void>
 }
 
-let id = 0;
+let id = 0
 
 const ManualEdit = () => {
-    const reactflow = useReactFlow();
-    const { getLayoutedElements } = useLayoutedElements();
+    const reactflow = useReactFlow()
+    const { getLayoutedElements } = useLayoutedElements()
     const getThumbnail = useMindmapThumbnail({
         width: 1920,
         height: 1080,
-    });
+    })
     const {
         mindmap: { name },
-    } = useCurrentMindmap();
+    } = useCurrentMindmap()
     const editTools = useMemo<EditTool[]>(
         () => [
             {
@@ -57,36 +57,43 @@ const ManualEdit = () => {
                                 note: "",
                             },
                         },
-                    });
-                    reactflow.fitView();
+                    })
+                    reactflow.fitView()
                 },
             },
             {
                 icon: <IconTrash size={28} />,
                 label: "Clear canvas",
                 action: () => {
-                    reactflow.setEdges([]);
-                    reactflow.setNodes([]);
+                    reactflow.setEdges([])
+                    reactflow.setNodes([])
                 },
             },
             {
                 icon: <IconSitemap size={28} />,
                 label: "Auto layout",
                 action: () => {
-                    getLayoutedElements();
+                    getLayoutedElements()
+                },
+            },
+            {
+                icon: <IconSitemap size={28} />,
+                label: "Auto layout layer",
+                action: () => {
+                    getLayoutedElements({ "elk.algorithm": "layered" })
                 },
             },
             {
                 icon: <IconDownload size={28} />,
                 label: "Download image",
                 action: async () => {
-                    const imageURL = await getThumbnail();
-                    downloadImage(imageURL, name);
+                    const imageURL = await getThumbnail()
+                    downloadImage(imageURL, name)
                 },
             },
         ],
         []
-    );
+    )
 
     return (
         <AppShell.Section mt={12}>
@@ -108,7 +115,7 @@ const ManualEdit = () => {
                 </div>
             </div>
         </AppShell.Section>
-    );
-};
+    )
+}
 
-export default ManualEdit;
+export default ManualEdit
