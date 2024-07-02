@@ -44,15 +44,16 @@ function MindmapCard({
     };
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder h={340}>
-            <Card.Section>
+            <Card.Section h={160} className="overflow-hidden">
                 <Link to={`/mindmap/${id}`}>
                     <Image
-                        src={""}
+                        src={image}
                         height={160}
                         alt={name || "Mindmap"}
                         fallbackSrc={` https://placehold.co/300x160?text=${
-                            name || "Mindmap"
+                            prompt || "Mindmap"
                         }`}
+                        className="h-full"
                     />
                 </Link>
             </Card.Section>

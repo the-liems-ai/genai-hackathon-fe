@@ -48,7 +48,7 @@ const MindmapPage = () => {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {isLoading ? (
                     Array.from({ length: 8 }).map((_, i) => (
-                        <MindmapCardSkeleton />
+                        <MindmapCardSkeleton key={i}/>
                     ))
                 ) : data?.data.pagination.total === 0 ? (
                     <Stack

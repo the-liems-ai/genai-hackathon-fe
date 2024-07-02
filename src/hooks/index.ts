@@ -2,3 +2,4 @@ export { default as useRemoveLogo } from "./use-remove-logo";
 export { default as useToggleAppShell } from "./use-toggle-app-shell";
 export { default as useLayoutedElements } from "./use-layouted-elements";
 export { default as useQueryParams } from "./use-query-params";
+export { default as useMindmapThumbnail } from "./use-mindmap-thumbnail";
