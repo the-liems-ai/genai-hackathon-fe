@@ -3,7 +3,7 @@ import MindmapCard from "./_components/mindmap-card";
 import { useNavigate } from "react-router-dom";
 import { useMindmaps } from "./_api/hooks";
 import { useQueryParams } from "@/hooks";
-import { PaginationBar, SearchBar } from "./_components";
+import { MindmapCardSkeleton, PaginationBar, SearchBar } from "./_components";
 import { useMemo } from "react";
 
 const PAGE_SIZE = 8;
@@ -36,9 +36,13 @@ const MindmapPage = () => {
             </Group>
             <SearchBar />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {data?.data.data.map((diagram) => (
-                    <MindmapCard key={diagram.id} diagram={diagram} />
-                ))}
+                {isLoading
+                    ? Array.from({ length: 8 }).map((_, i) => (
+                          <MindmapCardSkeleton />
+                      ))
+                    : data?.data.data.map((diagram) => (
+                          <MindmapCard key={diagram.id} diagram={diagram} />
+                      ))}
             </div>
             <PaginationBar total={total} />
         </Container>
