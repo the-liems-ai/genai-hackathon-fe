@@ -109,6 +109,10 @@ const PlayQuiz = ({
                     </div>
                 ))}
             </Stack>
+            <Text ta="center" size="xs" c="gray" mb={12}>
+                Any information generated from AI may not be absolutely
+                accurate, please verify first
+            </Text>
             {!isShowAnswer ? (
                 <Button
                     color="green"
