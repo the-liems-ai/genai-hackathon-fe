@@ -82,7 +82,6 @@ const NodeInfo = ({
             },
             {
                 onSuccess: async (data) => {
-                    conversationHandlers.pop();
                     conversationHandlers.append({
                         role: "bot",
                         message: data?.data.data,
@@ -95,6 +94,7 @@ const NodeInfo = ({
                 onSettled: () => {
                     setLoading(false);
                     toast.dismiss(toastLoading);
+                    conversationHandlers.pop();
                 },
             }
         );
