@@ -17,12 +17,10 @@ const DrawerUI = () => {
             <Drawer.Content>
                 <Stack h={"100%"} gap={0}>
                     <Drawer.Header>
-                        <Drawer.Title>
-                            <Title order={3}>{title}</Title>
-                        </Drawer.Title>
+                        <Title order={3}>{title}</Title>
                         <Drawer.CloseButton />
                     </Drawer.Header>
-                    <Drawer.Body className="grow overflow-hidden">
+                    <Drawer.Body className="grow overflow-y-hidden">
                         {children}
                     </Drawer.Body>
                 </Stack>

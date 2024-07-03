@@ -3,10 +3,13 @@ import { useAskNode } from "@/nodes/api/hooks";
 import { useCurrentMindmap } from "@/stores/mindmap-store";
 import {
     ActionIcon,
+    Affix,
     Button,
     Group,
     Loader,
     Menu,
+    Paper,
+    ScrollArea,
     Stack,
     Text,
     Textarea,
@@ -15,11 +18,15 @@ import {
 import { useState } from "react";
 import toast from "react-hot-toast";
 import TextEditor from "./text-editor";
-import { IconRobot, IconWand } from "@tabler/icons-react";
+import { IconWand } from "@tabler/icons-react";
 import { useTakeNote } from "@/stores/use-take-note";
 import { useDrawer } from "@/stores/drawer-store";
 import { parseMarkdownToHTML } from "@/utils";
 import { useReactFlow } from "reactflow";
+import { useListState } from "@mantine/hooks";
+import ChatUi, {
+    Message,
+} from "@/pages/(app)/mindmap/(mindmap-editor)/[id]/_components/sidebar/sidebar-items/chat/chat-ui";
 
 const NodeInfo = ({
     id,
@@ -43,10 +50,26 @@ const NodeInfo = ({
         setPrompt(e.currentTarget.value);
     };
 
+    const [conversation, conversationHandlers] = useListState<Message>([]);
     const { mutate: askNode } = useAskNode();
-    const handleExplainNode = () => {
-        const toastLoading = toast.loading("Generating node detail...");
+
+    const handleAsk = () => {
+        conversationHandlers.setState([]);
+        const toastLoading = toast.loading("Generating...");
         setLoading(true);
+        if (prompt.trim() !== "") {
+            conversationHandlers.append({
+                role: "user",
+                message: prompt,
+            });
+        }
+
+        setPrompt("");
+
+        conversationHandlers.append({
+            role: "bot",
+            message: "l",
+        });
 
         askNode(
             {
@@ -59,10 +82,12 @@ const NodeInfo = ({
             },
             {
                 onSuccess: async (data) => {
-                    const htmlContent = parseMarkdownToHTML(data?.data.data!);
-                    setContent(`${content}<br/>${htmlContent}`);
-                    setPrompt("");
-                    toast.success("Node detail generated");
+                    conversationHandlers.pop();
+                    conversationHandlers.append({
+                        role: "bot",
+                        message: data?.data.data,
+                    });
+                    toast.success("Generated!");
                 },
                 onError: (error) => {
                     toast.error(error.message);
@@ -89,40 +114,37 @@ const NodeInfo = ({
     };
 
     return (
-        <Stack h={"100%"}>
-            <Title order={3}>{name}</Title>
-            <TextEditor editor={editor} h={"60%"} />
-            <Button
-                color="green"
-                fullWidth
-                onClick={handleSave}
-                disabled={loading}
-            >
-                Save
-            </Button>
+        <>
             <Menu
                 transitionProps={{
-                    transition: "pop-bottom-right",
+                    transition: "pop-top-right",
                 }}
                 shadow="md"
                 width={200}
-                position={"top-end"}
+                position={"left-start"}
                 withArrow
-                arrowOffset={20}
+                // arrowOffset={20}
+                offset={{ mainAxis: 24, crossAxis: 132 }}
+                trigger="hover"
+                openDelay={100}
+                closeDelay={400}
             >
                 <Menu.Target>
-                    <ActionIcon
-                        size={"xl"}
-                        pos={"absolute"}
-                        bottom={16}
-                        right={16}
-                        radius={"xl"}
-                    >
-                        <IconRobot />
-                    </ActionIcon>
+                    <Stack h={"100%"}>
+                        <Title order={3}>{name}</Title>
+                        <TextEditor editor={editor} h={"60%"} />
+                        <Button
+                            color="green"
+                            fullWidth
+                            onClick={handleSave}
+                            disabled={loading}
+                        >
+                            Save
+                        </Button>
+                    </Stack>
                 </Menu.Target>
 
-                <Menu.Dropdown p={16} w={"500px"}>
+                <Menu.Dropdown p={16} w={"600px"}>
                     <Stack align="center" gap={6}>
                         <Group align="end" w={"100%"}>
                             <Textarea
@@ -137,13 +159,13 @@ const NodeInfo = ({
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" && !e.shiftKey) {
                                         e.preventDefault();
-                                        handleExplainNode();
+                                        handleAsk();
                                     }
                                 }}
                             />
                             <ActionIcon
                                 size={"lg"}
-                                onClick={handleExplainNode}
+                                onClick={handleAsk}
                                 disabled={loading}
                             >
                                 {loading ? (
@@ -157,10 +179,22 @@ const NodeInfo = ({
                             Any information generated from AI may not be
                             absolutely accurate, please verify first
                         </Text>
+                        <ScrollArea
+                            w={"100%"}
+                            h={conversation.length === 0 ? "default" : 600}
+                        >
+                            {conversation.map((c) => (
+                                <ChatUi
+                                    key={c.message}
+                                    role={c.role}
+                                    message={c.message}
+                                />
+                            ))}
+                        </ScrollArea>
                     </Stack>
                 </Menu.Dropdown>
             </Menu>
-        </Stack>
+        </>
     );
 };
 
