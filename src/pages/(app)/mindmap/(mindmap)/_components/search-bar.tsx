@@ -25,6 +25,7 @@ const SearchBar = () => {
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         setKeyword(e.target.value)
                     }
+                    placeholder="Search mindmap"
                 />
 
                 <Button type="submit">
