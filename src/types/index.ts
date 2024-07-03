@@ -1,3 +1,32 @@
+export interface OldVertice {
+    position: {
+        x: number;
+        y: number;
+    };
+    icon: string;
+    sub_graph: string;
+    id: string;
+    text: string;
+    shape: string;
+    // color: string
+    // width: number;
+    // height: number
+    // layer: number
+}
+
+export interface NewVertice {
+    position: {
+        x: number;
+        y: number;
+    };
+    icon: string;
+    sub_graph: string;
+    id: string;
+    text: string;
+    shape: string;
+    note: string;
+}
+
 export interface JSONDiagram {
     old: {
         vertices: Record<string, OldVertice>;
@@ -29,31 +58,6 @@ export interface DiagramsResponse {
         offset: number;
         total: number;
     };
-}
-
-export interface OldVertice {
-    position: {
-        x: number;
-        y: number;
-    };
-    icon: string;
-    sub_graph: string;
-    id: string;
-    text: string;
-    shape: string;
-}
-
-export interface NewVertice {
-    position: {
-        x: number;
-        y: number;
-    };
-    icon: string;
-    sub_graph: string;
-    id: string;
-    text: string;
-    shape: string;
-    note: string;
 }
 
 export interface Link {
@@ -165,5 +169,25 @@ export interface SaveDiagramResponse {
         explain_node: ExplainNode[];
         image: string;
         summary: string;
+    };
+}
+
+export interface GenQuizRequest {
+    input: string;
+    old_diagram: string;
+    chosen_nodes: {
+        node_id: string;
+        title: string;
+    }[];
+}
+
+export interface Quiz {
+    question: string;
+    answers: Record<string, string>;
+    correct_answer: string;
+}
+export interface GenQuizResponse {
+    data: {
+        questions: Quiz[];
     };
 }
