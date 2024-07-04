@@ -1,33 +1,12 @@
-import { Title } from "@mantine/core";
-
-const LoginPage = () => {
-  return (
-    <div className="bg-[url('/back.png')] bg-cover h-screen">
-      <div className="bg-gray-900 bg-opacity-30 h-screen flex justify-center items-center">
-        <div className="flex md:flex-row flex-col justify-center items-center gap-24 px-8">
-          <div className="text-white text-opacity-90 hover:text-opacity-80">
-            <Title size={60} ta="center" mt="md" mb={30}>
-              Welcome to MindGPT!
-            </Title>
-          </div>
-          <button className="bg-white rounded-lg p-6 hover:bg-opacity-30 bg-opacity-80">
-            <GoogleIcon> </GoogleIcon>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default LoginPage;
+import { Button, ButtonProps } from "@mantine/core";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid"
-      viewBox="0 0 262 262"
-      style={{ width: "7rem", height: "2.5rem" }}
+      viewBox="0 0 500 262"
+      style={{ width: "5rem", height: "2rem" }}
       {...props}
     >
       <path
@@ -48,4 +27,10 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
       />
     </svg>
   );
+}
+
+export function GoogleButton(
+  props: ButtonProps & React.ComponentPropsWithoutRef<"button">
+) {
+  return <Button rightSection={<GoogleIcon />} variant="default" {...props} />;
 }
