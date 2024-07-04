@@ -1,6 +1,6 @@
 import { Button, Container, Group, Stack, Title } from "@mantine/core"
 import MindmapCard from "./_components/mindmap-card"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useMindmaps } from "./_api/hooks"
 import { useQueryParams } from "@/hooks"
 import { MindmapCardSkeleton, PaginationBar, SearchBar } from "./_components"

@@ -40,7 +40,9 @@ const UserAvatarMenu = () => {
             </Menu.Target>
             <Menu.Dropdown p={"md"}>
                 <div className="p-2">
-                    <Title order={5}>{user.name}</Title>
+                    <Title order={5} c="blue">
+                        {user.name}
+                    </Title>
                     <Text>{user.email}</Text>
                 </div>
                 {/* <Menu.Label>Account</Menu.Label> */}

@@ -1,8 +1,9 @@
-import { Anchor, AppShell, Group, Image, Title } from "@mantine/core"
+import { Anchor, AppShell, Divider, Group, Image, Title } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useAppShell } from "@/stores/app-shell-store"
 import { Link } from "react-router-dom"
 import UserAvatarMenu from "@/components/user-avatar-menu"
+import OrgSwitcher from "./org-switcher"
 
 interface MindmapLayoutProps {
     title?: string
@@ -22,10 +23,17 @@ export function Layout({
             <AppShell header={{ height: 60 }} padding="md" disabled={!showed}>
                 <AppShell.Header>
                     <Group h="100%" px="xl" justify="space-between">
-                        <Link to="/mindmap" className="flex gap-3 items-center">
-                            <Image src="/fav.png" alt="The Liems" h={40} />
-                            <Title order={5}>GenAI Hackathon 2024</Title>
-                        </Link>
+                        <Group>
+                            <Link
+                                to="/mindmap"
+                                className="flex gap-3 items-center"
+                            >
+                                <Image src="/fav.png" alt="The Liems" h={40} />
+                                <Title order={5}>GenAI Hackathon 2024</Title>
+                            </Link>
+                            <Divider orientation="vertical" />
+                            <OrgSwitcher />
+                        </Group>
                         <UserAvatarMenu />
                     </Group>
                 </AppShell.Header>
