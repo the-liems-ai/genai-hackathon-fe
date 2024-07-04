@@ -30,3 +30,5 @@ const authSelector = (state: ExtractState<typeof useAuthStore>) => {
 }
 
 export const useAuth = () => useAuthStore(authSelector)
+
+export const getAuth = () => authSelector(useAuthStore.getState());
