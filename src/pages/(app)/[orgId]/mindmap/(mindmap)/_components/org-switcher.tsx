@@ -48,7 +48,13 @@ const OrgSwitcher = () => {
                     </Badge>
                 }
             </Group>
-            <Menu position="bottom-start" withArrow offset={5} shadow="md">
+            <Menu
+                position="bottom-start"
+                withArrow
+                offset={5}
+                shadow="md"
+                arrowOffset={13}
+            >
                 <Menu.Target>
                     <Button variant="subtle" px={4}>
                         <IconCaretUpDown />
