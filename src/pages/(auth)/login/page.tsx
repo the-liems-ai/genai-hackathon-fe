@@ -1,51 +1,94 @@
-import { Title } from "@mantine/core";
+import { useUser } from "@/api/hooks"
+import GoogleIcon from "@/components/google-icon"
+import { authInstance } from "@/utils/axios"
+import { Loader } from "@mantine/core"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
-  return (
-    <div className="bg-[url('/back.png')] bg-cover h-screen">
-      <div className="bg-gray-900 bg-opacity-30 h-screen flex justify-center items-center">
-        <div className="flex md:flex-row flex-col justify-center items-center gap-24 px-8">
-          <div className="text-white text-opacity-90 hover:text-opacity-80">
-            <Title size={60} ta="center" mt="md" mb={30}>
-              Welcome to MindGPT!
-            </Title>
-          </div>
-          <button className="bg-white rounded-lg p-6 hover:bg-opacity-30 bg-opacity-80">
-            <GoogleIcon> </GoogleIcon>
-          </button>
+    const navigate = useNavigate()
+
+    const { user, isLoading } = useUser()
+    useEffect(() => {
+        if (user) {
+            if (user.organizations.length === 0) {
+                navigate("/create-org")
+            } else {
+                navigate(`/${user.organizations[0].id}/mindmap`)
+            }
+        }
+    }, [user, isLoading])
+
+    const handleLogin = async () => {
+        try {
+            await authInstance.post("login", {
+                provider: "google",
+                redirectAfterLogin: `${window.location.origin}/login/callback`,
+            })
+        } catch (error) {
+            window.location.href = error.response.data.url
+        }
+    }
+    return (
+        <div className="h-screen flex items-center justify-center bg-[url('/bg.png')] bg-center bg-no-repeat bg-cover">
+            <div className="h-screen w-full flex items-center justify-center backdrop-blur-sm">
+                <div className="bg-white rounded-xl border-black/10 shadow px-10 py-8">
+                    <div className="flex flex-col items-center justify-center gap-8">
+                        <div className="flex flex-col items-center justify-center gap-4">
+                            <img
+                                src="/fav.png"
+                                alt="JS Logo"
+                                className="aspect-square h-16"
+                            />
+                            <div className="flex flex-col items-center justify-center gap-1">
+                                <h1 className="font-bold text-lg">
+                                    Sign in to MindGPT
+                                </h1>
+                                <p className="text-black/60 text-sm">
+                                    Welcome back! Please sign in to continue
+                                </p>
+                            </div>
+                        </div>
+                        <GoogleLoginButton
+                            onClick={handleLogin}
+                            loading={isLoading}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
-};
+    )
+}
 
-export default LoginPage;
+export default LoginPage
 
-function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid"
-      viewBox="0 0 262 262"
-      style={{ width: "7rem", height: "2.5rem" }}
-      {...props}
-    >
-      <path
-        fill="#4285F4"
-        d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-      />
-      <path
-        fill="#34A853"
-        d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-      />
-      <path
-        fill="#FBBC05"
-        d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-      />
-      <path
-        fill="#EB4335"
-        d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-      />
-    </svg>
-  );
+const GoogleLoginButton = ({
+    onClick,
+    loading = false,
+}: {
+    onClick: () => void
+    loading?: boolean
+}) => {
+    if (loading) {
+        return (
+            <button
+                className="flex items-center justify-center gap-4 w-full py-2 px-4 rounded-md bg-white border border-black/10 shadow-sm cursor-not-allowed"
+                disabled
+            >
+                <Loader size={"sm"} />
+                <span className="font-medium text-black/40">
+                    Continue with Google
+                </span>
+            </button>
+        )
+    }
+    return (
+        <button
+            className="flex items-center justify-center gap-4 w-full py-2 px-4 rounded-md bg-white border border-black/10 shadow-sm"
+            onClick={onClick}
+        >
+            <GoogleIcon className="h-4 w-4" />
+            <span className="font-medium">Continue with Google</span>
+        </button>
+    )
 }

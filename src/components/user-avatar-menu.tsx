@@ -1,0 +1,60 @@
+import { useUser } from "@/api/hooks"
+import { useAuth } from "@/stores/auth-store"
+import {
+    Avatar,
+    Divider,
+    Loader,
+    Menu,
+    Paper,
+    rem,
+    Skeleton,
+    Text,
+    Title,
+} from "@mantine/core"
+import { IconLogout } from "@tabler/icons-react"
+import { useNavigate } from "react-router-dom"
+
+const UserAvatarMenu = () => {
+    const { user, isLoading } = useUser()
+    const navigate = useNavigate()
+    const { setToken } = useAuth()
+    if (isLoading) return <Skeleton circle h={38} />
+
+    if (!user) return <></>
+
+    const handleLogout = () => {
+        setToken(null)
+        navigate("/login")
+    }
+
+    return (
+        <Menu shadow="md" withArrow offset={5}>
+            <Menu.Target>
+                <Avatar
+                    src={user.picture}
+                    alt={user.name}
+                    className="cursor-pointer"
+                >
+                    {user.given_name.charAt(0) + user.family_name.charAt(0)}
+                </Avatar>
+            </Menu.Target>
+            <Menu.Dropdown p={"md"}>
+                <div className="p-2">
+                    <Title order={5}>{user.name}</Title>
+                    <Text>{user.email}</Text>
+                </div>
+                {/* <Menu.Label>Account</Menu.Label> */}
+                <Divider />
+                <Menu.Item
+                    mt={8}
+                    leftSection={<IconLogout size={14} />}
+                    onClick={handleLogout}
+                >
+                    Logout
+                </Menu.Item>
+            </Menu.Dropdown>
+        </Menu>
+    )
+}
+
+export default UserAvatarMenu

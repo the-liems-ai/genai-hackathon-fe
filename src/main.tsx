@@ -11,14 +11,17 @@ import "reactflow/dist/style.css"
 import "@mantine/core/styles.css"
 import "@mantine/tiptap/styles.css"
 import HomePage from "./pages/(marketing)/page"
-import MindmapEditorPage from "./pages/(app)/mindmap/(mindmap-editor)/[id]/page"
-import MindmapLayout from "./pages/(app)/mindmap/(mindmap)/layout"
-import MindmapPage from "./pages/(app)/mindmap/(mindmap)/page"
+import MindmapEditorPage from "./pages/(app)/[orgId]/mindmap/(mindmap-editor)/[id]/page"
+import MindmapLayout from "./pages/(app)/[orgId]/mindmap/(mindmap)/layout"
+import MindmapPage from "./pages/(app)/[orgId]/mindmap/(mindmap)/page"
 import DrawerUI from "./components/drawer"
 import NotFoundPage from "./pages/404/page"
-import NewMindmapPage from "./pages/(app)/mindmap/(mindmap-editor)/new/page"
-import MindmapEditorLayout from "./pages/(app)/mindmap/(mindmap-editor)/[id]/layout"
+import NewMindmapPage from "./pages/(app)/[orgId]/mindmap/(mindmap-editor)/new/page"
+import MindmapEditorLayout from "./pages/(app)/[orgId]/mindmap/(mindmap-editor)/[id]/layout"
 import LoginPage from "./pages/(auth)/login/page"
+import OrgMindmapLayout from "./pages/(app)/[orgId]/layout"
+import CallBackPage from "./pages/(auth)/login/callback/page"
+import CreateOrgPage from "./pages/(create-org)/page"
 
 const queryClient = new QueryClient()
 
@@ -34,35 +37,55 @@ const routers = createBrowserRouter([
             },
             {
                 path: "login",
-                element: <LoginPage />,
-            },
-            {
-                path: "mindmap",
                 element: <Outlet />,
                 children: [
                     {
-                        path: "",
-                        element: <MindmapLayout />,
-                        children: [
-                            {
-                                index: true,
-                                element: <MindmapPage />,
-                            },
-                        ],
+                        index: true,
+                        element: <LoginPage />,
                     },
                     {
-                        path: ":id",
-                        element: <MindmapEditorLayout />,
+                        path: "callback",
+                        element: <CallBackPage />,
+                    },
+                ],
+            },
+            {
+                path: "create-org",
+                element: <CreateOrgPage />,
+            },
+            {
+                path: ":orgId",
+                element: <OrgMindmapLayout />,
+                children: [
+                    {
+                        path: "mindmap",
+                        element: <Outlet />,
                         children: [
                             {
-                                index: true,
-                                element: <MindmapEditorPage />,
+                                path: "",
+                                element: <MindmapLayout />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <MindmapPage />,
+                                    },
+                                ],
+                            },
+                            {
+                                path: ":id",
+                                element: <MindmapEditorLayout />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <MindmapEditorPage />,
+                                    },
+                                ],
+                            },
+                            {
+                                path: "new",
+                                element: <NewMindmapPage />,
                             },
                         ],
-                    },
-                    {
-                        path: "new",
-                        element: <NewMindmapPage />,
                     },
                 ],
             },

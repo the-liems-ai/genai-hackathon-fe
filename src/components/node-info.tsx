@@ -1,5 +1,5 @@
 import useTextEditor from "@/hooks/use-text-editor"
-import { useAskNode } from "@/nodes/api/hooks"
+import { useAskNode } from "@/api/hooks"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
 import {
     ActionIcon,
@@ -24,7 +24,7 @@ import { useReactFlow } from "reactflow"
 import { useListState } from "@mantine/hooks"
 import ChatUi, {
     Message,
-} from "@/pages/(app)/mindmap/(mindmap-editor)/[id]/_components/sidebar/sidebar-items/chat/chat-ui"
+} from "@/pages/(app)/[orgId]/mindmap/(mindmap-editor)/[id]/_components/sidebar/sidebar-items/chat/chat-ui"
 
 const NodeInfo = ({
     id,

@@ -19,8 +19,6 @@ import {
     useReactFlow,
 } from "reactflow"
 import NodeInfo from "@/components/node-info"
-import { NewVertice } from "@/types"
-import { useCurrentMindmap } from "@/stores/mindmap-store"
 
 export interface BaseNodeData {
     label?: string
