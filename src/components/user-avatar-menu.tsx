@@ -28,7 +28,7 @@ const UserAvatarMenu = () => {
     }
 
     return (
-        <Menu shadow="md" withArrow offset={5}>
+        <Menu shadow="md" withArrow offset={5} arrowOffset={10}>
             <Menu.Target>
                 <Avatar
                     src={user.picture}
@@ -40,10 +40,10 @@ const UserAvatarMenu = () => {
             </Menu.Target>
             <Menu.Dropdown p={"md"}>
                 <div className="p-2">
-                    <Title order={5} c="blue">
+                    <Title order={5} c={"blue"}>
                         {user.name}
                     </Title>
-                    <Text>{user.email}</Text>
+                    <Text c={"gray"}>{user.email}</Text>
                 </div>
                 {/* <Menu.Label>Account</Menu.Label> */}
                 <Divider />
@@ -51,6 +51,7 @@ const UserAvatarMenu = () => {
                     mt={8}
                     leftSection={<IconLogout size={14} />}
                     onClick={handleLogout}
+                    c={"dimmed"}
                 >
                     Logout
                 </Menu.Item>

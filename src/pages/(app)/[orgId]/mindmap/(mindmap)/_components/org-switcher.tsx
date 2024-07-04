@@ -14,6 +14,7 @@ import {
     IconCaretUpDown,
     IconCheck,
     IconCirclePlus,
+    IconSettings,
     IconSwitchVertical,
 } from "@tabler/icons-react"
 import { useMemo } from "react"
@@ -75,12 +76,36 @@ const OrgSwitcher = () => {
                     ))}
                     <Divider my={8} />
                     <Menu.Item
-                        leftSection={<IconCirclePlus size={26} />}
+                        leftSection={
+                            <IconSettings
+                                size={20}
+                                color="gray"
+                                className="mx-0.5"
+                            />
+                        }
+                        // component={Link}
+                        // to="/create-org"
+                        py={8}
+                    >
+                        <Text c={"gray"} size="sm">
+                            Organization settings
+                        </Text>
+                    </Menu.Item>
+                    <Menu.Item
+                        leftSection={
+                            <IconCirclePlus
+                                size={20}
+                                color="gray"
+                                className="mx-0.5"
+                            />
+                        }
                         component={Link}
                         to="/create-org"
                         py={8}
                     >
-                        Create new organization
+                        <Text c={"gray"} size="sm">
+                            Create new organization
+                        </Text>
                     </Menu.Item>
                 </Menu.Dropdown>
             </Menu>
