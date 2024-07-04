@@ -8,9 +8,10 @@ const AuthPage = ({ children }: { children?: React.ReactNode }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!user) {
+        if (!user && !isLoading) {
             navigate("/login")
-        } else {
+        }
+        if (user) {
             if (user.organizations.length === 0) {
                 navigate("/create-org")
             }

@@ -7,7 +7,7 @@ import {
     TextInput,
     Title,
 } from "@mantine/core"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import HeaderRightSection from "./header-right-section"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
 import { useState } from "react"
@@ -17,6 +17,7 @@ const Header = () => {
     const { mindmap, setMindmap } = useCurrentMindmap()
     const [editMode, setEditMode] = useState(false)
     const [name, setName] = useState("")
+    const { orgId } = useParams()
 
     const handleEdit = () => {
         setName(mindmap?.name)
@@ -36,7 +37,7 @@ const Header = () => {
         <AppShell.Header>
             <Group h="100%" px="md" justify="space-between">
                 <Group align="center">
-                    <Link to="/mindmap">
+                    <Link to={`${orgId}/mindmap`}>
                         <Image src="/fav.png" alt="The Liems" h={40} />
                     </Link>
                     <Group>

@@ -10,7 +10,7 @@ import {
 } from "@mantine/core"
 import { Dots } from "./_components/dots"
 import classes from "./_components/HeroText.module.css"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { IconWand } from "@tabler/icons-react"
 import toast from "react-hot-toast"
@@ -23,6 +23,7 @@ function NewMindmapPage() {
 
     const navigate = useNavigate()
     const { mutate: createMindmap } = useCreateMindmap()
+    const { orgId } = useParams()
     const handlePrompt = async () => {
         if (prompt.trim() === "") {
             toast.error("Please enter a message")
@@ -36,7 +37,7 @@ function NewMindmapPage() {
         createMindmap(prompt, {
             onSuccess: (data) => {
                 toast.success("Mindmap generated successfully")
-                navigate(`/mindmap/${data?.data.data.id}`)
+                navigate(`/$${orgId}/mindmap/${data?.data.data.id}`)
             },
             onError: (error) => {
                 toast.error(error.message)
@@ -91,7 +92,8 @@ function NewMindmapPage() {
                             variant="default"
                             color="gray"
                             component={Link}
-                            to={"/mindmap"}
+                            to={`/${orgId}/mindmap`}
+                            disabled={loading}
                         >
                             Cancel
                         </Button>

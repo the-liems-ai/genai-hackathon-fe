@@ -1,37 +1,38 @@
-import { Button, Container, Group, Stack, Title } from "@mantine/core";
-import MindmapCard from "./_components/mindmap-card";
-import { useNavigate } from "react-router-dom";
-import { useMindmaps } from "./_api/hooks";
-import { useQueryParams } from "@/hooks";
-import { MindmapCardSkeleton, PaginationBar, SearchBar } from "./_components";
-import { useMemo } from "react";
-import { IconMoodSad } from "@tabler/icons-react";
+import { Button, Container, Group, Stack, Title } from "@mantine/core"
+import MindmapCard from "./_components/mindmap-card"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { useMindmaps } from "./_api/hooks"
+import { useQueryParams } from "@/hooks"
+import { MindmapCardSkeleton, PaginationBar, SearchBar } from "./_components"
+import { useMemo } from "react"
+import { IconMoodSad } from "@tabler/icons-react"
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 8
 
 const MindmapPage = () => {
-    const { keyword, page } = useQueryParams();
-    const { data, error, isLoading, isError } = useMindmaps({
+    const { keyword, page } = useQueryParams()
+    const { data, isLoading } = useMindmaps({
         keyword,
         page: +page || 1,
         limit: PAGE_SIZE,
-    });
-
-    const navigate = useNavigate();
-    const handleCreateMindmap = () => {
-        navigate("/mindmap/new");
-    };
+    })
 
     const total = useMemo(
         () => Math.ceil(data?.data.pagination.total / PAGE_SIZE),
         [data?.data.pagination.total]
-    );
+    )
+
+    const { orgId } = useParams()
 
     return (
         <Container size="xl">
             <Group justify="space-between" align="center" mt="lg" mb="md">
                 <Title order={1}>Mindmaps</Title>
-                <Button color="green" onClick={handleCreateMindmap}>
+                <Button
+                    component={Link}
+                    to={`/${orgId}/mindmap/new`}
+                    color="green"
+                >
                     Create new
                 </Button>
             </Group>
@@ -48,7 +49,7 @@ const MindmapPage = () => {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {isLoading ? (
                     Array.from({ length: 8 }).map((_, i) => (
-                        <MindmapCardSkeleton key={i}/>
+                        <MindmapCardSkeleton key={i} />
                     ))
                 ) : data?.data.pagination.total === 0 ? (
                     <Stack
@@ -70,7 +71,7 @@ const MindmapPage = () => {
             </div>
             <PaginationBar total={total} />
         </Container>
-    );
-};
+    )
+}
 
-export default MindmapPage;
+export default MindmapPage

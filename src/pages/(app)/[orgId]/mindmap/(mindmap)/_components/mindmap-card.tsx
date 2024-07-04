@@ -1,19 +1,20 @@
-import { Diagram } from "@/types";
-import { Card, Image, Text, Button, Group } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import { useDeleteMindmap } from "../_api/hooks";
-import { modals } from "@mantine/modals";
-import toast from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { Diagram } from "@/types"
+import { Card, Image, Text, Button, Group } from "@mantine/core"
+import { IconEdit, IconTrash } from "@tabler/icons-react"
+import { Link, useParams } from "react-router-dom"
+import { useDeleteMindmap } from "../_api/hooks"
+import { modals } from "@mantine/modals"
+import toast from "react-hot-toast"
+import { useQueryClient } from "@tanstack/react-query"
 
 function MindmapCard({
     diagram: { id, name, prompt, image },
 }: {
-    diagram: Diagram;
+    diagram: Diagram
 }) {
-    const { mutate: deleteMindmap } = useDeleteMindmap();
-    const queryClient = useQueryClient();
+    const { mutate: deleteMindmap } = useDeleteMindmap()
+    const { orgId } = useParams()
+    const queryClient = useQueryClient()
     const handleDelete = () => {
         modals.openConfirmModal({
             centered: true,
@@ -28,24 +29,24 @@ function MindmapCard({
             onConfirm: () =>
                 deleteMindmap(id, {
                     onSuccess: () => {
-                        toast.success("Mindmap deleted");
+                        toast.success("Mindmap deleted")
                         queryClient.invalidateQueries({
                             queryKey: ["mindmaps"],
-                        });
+                        })
                     },
                     onError: () => {
-                        toast.error("Failed to delete mindmap");
+                        toast.error("Failed to delete mindmap")
                     },
                     onSettled: () => {
-                        modals.closeAll();
+                        modals.closeAll()
                     },
                 }),
-        });
-    };
+        })
+    }
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder h={340}>
             <Card.Section h={160} className="overflow-hidden">
-                <Link to={`/mindmap/${id}`}>
+                <Link to={`/${orgId}/mindmap/${id}`}>
                     <Image
                         src={image}
                         height={160}
@@ -71,7 +72,7 @@ function MindmapCard({
                     color="blue"
                     radius="md"
                     component={Link}
-                    to={`/mindmap/${id}`}
+                    to={`/${orgId}/mindmap/${id}`}
                     leftSection={<IconEdit size={16} />}
                     className="grow"
                 >
@@ -88,7 +89,7 @@ function MindmapCard({
                 </Button>
             </Group>
         </Card>
-    );
+    )
 }
 
-export default MindmapCard;
+export default MindmapCard

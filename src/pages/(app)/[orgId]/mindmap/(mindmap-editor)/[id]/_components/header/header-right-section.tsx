@@ -1,5 +1,5 @@
 import { Button, Group } from "@mantine/core"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import HeaderSaveButton from "./header-save-button"
 import { modals } from "@mantine/modals"
 import { useMindMapLoading } from "@/stores/mindmap-loading"
@@ -7,6 +7,7 @@ import { useMindMapLoading } from "@/stores/mindmap-loading"
 const HeaderRightSection = () => {
     const navigate = useNavigate()
     const [loading] = useMindMapLoading()
+    const { orgId } = useParams()
     const handleCancel = () => {
         modals.openConfirmModal({
             centered: true,
@@ -14,7 +15,7 @@ const HeaderRightSection = () => {
             children:
                 "All unsaved changes will be lost. Are you sure you want to cancel?",
             onConfirm: () => {
-                navigate("/mindmap")
+                navigate(`/${orgId}/mindmap`)
             },
             labels: {
                 cancel: "Continue editing",

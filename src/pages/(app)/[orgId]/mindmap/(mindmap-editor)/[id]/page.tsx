@@ -4,20 +4,13 @@ import { nodeTypes } from "@/nodes"
 import { useSelectedNodes } from "@/stores/selected-node-store"
 import { ActionIcon, Loader } from "@mantine/core"
 import { IconMaximize, IconMinimize } from "@tabler/icons-react"
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import ReactFlow, {
-    addEdge,
     Background,
     Controls,
-    OnConnect,
     Panel,
-    useEdgesState,
-    useNodesState,
     useReactFlow,
-    updateEdge,
-    Edge,
-    Connection,
     MarkerType,
 } from "reactflow"
 import { useMindmap } from "../_api/hooks"
