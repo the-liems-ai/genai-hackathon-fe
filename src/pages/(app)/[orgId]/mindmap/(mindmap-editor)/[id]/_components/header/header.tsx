@@ -37,7 +37,7 @@ const Header = () => {
         <AppShell.Header>
             <Group h="100%" px="md" justify="space-between">
                 <Group align="center">
-                    <Link to={`${orgId}/mindmap`}>
+                    <Link to={`/${orgId}/mindmap`}>
                         <Image src="/fav.png" alt="The Liems" h={40} />
                     </Link>
                     <Group>

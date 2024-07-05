@@ -37,7 +37,7 @@ function NewMindmapPage() {
         createMindmap(prompt, {
             onSuccess: (data) => {
                 toast.success("Mindmap generated successfully")
-                navigate(`/$${orgId}/mindmap/${data?.data.data.id}`)
+                navigate(`/${orgId}/mindmap/${data?.data.data.id}`)
             },
             onError: (error) => {
                 toast.error(error.message)
