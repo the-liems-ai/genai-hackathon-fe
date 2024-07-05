@@ -20,7 +20,7 @@ import { useCurrentMindmap } from "@/stores/mindmap-store"
 import useRoomStore from "@/stores/room-store"
 import { useUser } from "@/api/hooks"
 import Cursor from "@/components/cursor"
-import { useElementSize, useViewportSize } from "@mantine/hooks"
+import { useElementSize, useMouse, useViewportSize } from "@mantine/hooks"
 import { UserResponse } from "@/types"
 import { BaseUserMeta, JsonObject, User } from "@liveblocks/client"
 
@@ -157,19 +157,14 @@ const MindmapEditorPage = () => {
         return () => leaveRoom()
     }, [enterRoom, leaveRoom, id])
 
-    const { height: vpHeight, width: vpWidth } = useViewportSize()
-    const { ref, width: boardWidth, height: boardHeight } = useElementSize()
+    const { ref, x, y } = useMouse()
 
     const handleRealtimeChange = (e: React.PointerEvent<HTMLDivElement>) => {
-        const widthSubtract = vpWidth - boardWidth
-        const heightSubtract = vpHeight - boardHeight
-
         setUser({
             id: user.id,
             cursor: {
-                x: e.clientX - widthSubtract - getViewport().x + 180,
-
-                y: e.clientY - heightSubtract - getViewport().y + 28,
+                x: x,
+                y: y,
             },
             name: user.name,
             picture: user.picture,

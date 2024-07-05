@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
 import { useSaveMindmap } from "../../../_api/hooks"
 import toast from "react-hot-toast"
@@ -17,6 +17,7 @@ const HeaderSaveButton = () => {
     const [loading, loadingHandlers] = useMindMapLoading()
     const { getNodes, getEdges } = useReactFlow()
     const getThumbnail = useMindmapThumbnail()
+    const { orgId } = useParams()
 
     const { mutate: saveMindmap } = useSaveMindmap()
     const handleSave = async () => {
@@ -63,7 +64,7 @@ const HeaderSaveButton = () => {
             {
                 onSuccess: () => {
                     toast.success("Mindmap saved successfully")
-                    navigate("/mindmap")
+                    navigate(`/${orgId}/mindmap`)
                 },
                 onError: (error) => {
                     toast.error(error.message)
