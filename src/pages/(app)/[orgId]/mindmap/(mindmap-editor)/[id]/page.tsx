@@ -26,6 +26,18 @@ import { BaseUserMeta, JsonObject, User } from "@liveblocks/client"
 
 const panOnDrag = [1, 2]
 
+const cusorColors = [
+    "#991b1b",
+    "#92400e",
+    "#3f6212",
+    "#065f46",
+    "#155e75",
+    "#1e40af",
+    "#5b21b6",
+    "#86198f",
+    "#9f1239",
+]
+
 const MAX_USERS_DISPLAY = 5
 
 const OnlineUsers = ({
@@ -53,6 +65,8 @@ const OnlineUsers = ({
                             label={user.presence.user["name"]}
                             withArrow
                             key={index}
+                            color={cusorColors[index]}
+                            c={"white"}
                         >
                             <Avatar
                                 key={user.id}
@@ -197,7 +211,7 @@ const MindmapEditorPage = () => {
                 {others.map((user, index) => (
                     <Cursor
                         key={index}
-                        color={"#262626"}
+                        color={cusorColors[index]}
                         x={user.presence.user["cursor"]["x"]}
                         y={user.presence.user["cursor"]["y"]}
                         name={user.presence.user["name"]}
