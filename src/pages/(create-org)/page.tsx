@@ -1,25 +1,32 @@
 import { useUser } from "@/api/hooks"
-import { Button, Loader, TextInput } from "@mantine/core"
+import { Button, Divider, Loader, TextInput } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { useCreateOrg } from "./_api/hook"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-import { useQueryClient } from "@tanstack/react-query"
-import { useAuth } from "@/stores/auth-store"
+import { getAuth, useAuth } from "@/stores/auth-store"
 
 const CreateOrgPage = () => {
-    const { user, isLoading } = useUser()
+    const { data: user, isLoading, setUser } = useUser()
     const [orgName, setOrgName] = useState("")
     const [creating, setCreating] = useState(false)
+    const { token, setToken } = useAuth()
+
+    const { mutate: createOrg } = useCreateOrg()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!token) {
+            navigate("/login")
+        }
+    }, [token])
+
     useEffect(() => {
         if (user && orgName.trim() === "") {
             setOrgName(`${user.name}'s Org`)
         }
     }, [user, isLoading])
-    const navigate = useNavigate()
-    const { mutate: createOrg } = useCreateOrg()
-    const { token } = useAuth()
-    const queryClient = useQueryClient()
+
     if (isLoading) {
         return (
             <div className="h-screen flex items-center justify-center bg-[url('/bg.png')] bg-center bg-no-repeat bg-cover">
@@ -34,19 +41,34 @@ const CreateOrgPage = () => {
         setCreating(true)
         createOrg(orgName, {
             onSuccess: (org) => {
-                toast.success("Organization created successfully")
-                queryClient.invalidateQueries({
-                    queryKey: ["user", token],
+                setUser({
+                    ...user,
+                    organizations: [
+                        ...user.organizations,
+                        {
+                            id: org.id,
+                            name: org.name,
+                            is_owner: true,
+                            created_at: new Date().toISOString(),
+                            image: null,
+                            metadata: null,
+                        },
+                    ],
                 })
+                toast.success("Organization created successfully")
                 navigate(`/${org.id}/mindmap`)
             },
             onError: (error) => {
                 toast.error(error.message)
             },
-            onSettled: () => {
+            onSettled: async () => {
                 setCreating(false)
             },
         })
+    }
+    const handleChangeAccount = () => {
+        setToken(null)
+        navigate("/login")
     }
 
     return (
@@ -84,6 +106,14 @@ const CreateOrgPage = () => {
                                 loading={creating}
                             >
                                 Continue
+                            </Button>
+                            <Divider label="or" w={"100%"} />
+                            <Button
+                                variant="transparent"
+                                py={0}
+                                onClick={handleChangeAccount}
+                            >
+                                Change Account
                             </Button>
                         </div>
                     </div>

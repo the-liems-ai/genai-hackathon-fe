@@ -1,5 +1,5 @@
 import { useQueryParams } from "@/hooks"
-import { useAuth } from "@/stores/auth-store"
+import { getAuth, useAuth } from "@/stores/auth-store"
 import { Loader } from "@mantine/core"
 import { useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"

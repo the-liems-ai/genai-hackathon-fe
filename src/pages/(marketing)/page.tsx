@@ -3,7 +3,7 @@ import { Pin } from "../../components/ui/3d-pin"
 import { useEffect, useState } from "react"
 
 const HomePage = () => {
-    const { user, isLoading } = useUser()
+    const { data: user, isLoading } = useUser()
     const [url, setUrl] = useState("/login")
     useEffect(() => {
         if (user) {

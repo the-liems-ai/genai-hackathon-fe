@@ -15,14 +15,13 @@ import {
     IconCheck,
     IconCirclePlus,
     IconSettings,
-    IconSwitchVertical,
 } from "@tabler/icons-react"
 import { useMemo } from "react"
 import { Link, useParams } from "react-router-dom"
 
 const OrgSwitcher = () => {
     const { orgId } = useParams()
-    const { user, isLoading } = useUser()
+    const { data: user, isLoading } = useUser()
 
     const org = useMemo(() => {
         if (isLoading) return null
