@@ -14,17 +14,11 @@ const CallBackPage = () => {
     useEffect(() => {
         if (params.token) {
             setToken(params.token)
-            // queryClient.invalidateQueries({
-            //     queryKey: ["user", params.token],
-            // })
+            queryClient.invalidateQueries({
+                queryKey: ["user", params.token],
+            })
         }
-        const timeOut = setTimeout(() => {
-            navigate("/login")
-        }, 1000)
-
-        return () => {
-            clearTimeout(timeOut)
-        }
+        navigate("/login")
     }, [params])
     return (
         <div className="h-screen flex items-center justify-center bg-[url('/bg.png')] bg-center bg-no-repeat bg-cover">

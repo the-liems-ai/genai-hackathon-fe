@@ -10,7 +10,16 @@ const CreateOrgPage = () => {
     const { data: user, isLoading, setUser } = useUser()
     const [orgName, setOrgName] = useState("")
     const [creating, setCreating] = useState(false)
-    const { setToken } = useAuth()
+    const { token, setToken } = useAuth()
+
+    const { mutate: createOrg } = useCreateOrg()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!token) {
+            navigate("/login")
+        }
+    }, [token])
 
     useEffect(() => {
         if (user && orgName.trim() === "") {
@@ -18,8 +27,6 @@ const CreateOrgPage = () => {
         }
     }, [user, isLoading])
 
-    const navigate = useNavigate()
-    const { mutate: createOrg } = useCreateOrg()
     if (isLoading) {
         return (
             <div className="h-screen flex items-center justify-center bg-[url('/bg.png')] bg-center bg-no-repeat bg-cover">
@@ -31,8 +38,6 @@ const CreateOrgPage = () => {
     }
 
     const handleCreateOrg = () => {
-        console.log(getAuth().token)
-
         setCreating(true)
         createOrg(orgName, {
             onSuccess: (org) => {
