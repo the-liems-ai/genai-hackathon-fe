@@ -1,4 +1,16 @@
-export default function Cursor({ color, x, y }) {
+import { cn } from "@/utils/cn"
+
+export default function Cursor({
+    color,
+    x,
+    y,
+    name,
+}: {
+    color: string
+    x: number
+    y: number
+    name: string
+}) {
     return (
         <div
             style={{
@@ -11,6 +23,16 @@ export default function Cursor({ color, x, y }) {
             }}
         >
             <CursorSvg color={color} />
+            {name && name.trim() !== "" && (
+                <div
+                    className="-translate-y-5 translate-x-2 text-white rounded-full px-2 py-1 text-xs"
+                    style={{
+                        backgroundColor: color,
+                    }}
+                >
+                    {name}
+                </div>
+            )}
         </div>
     )
 }

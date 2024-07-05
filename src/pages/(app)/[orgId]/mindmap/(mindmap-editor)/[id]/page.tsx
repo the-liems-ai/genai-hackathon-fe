@@ -2,9 +2,9 @@ import { edgeTypes } from "@/edges"
 import { useLayoutedElements, useRemoveLogo, useToggleAppShell } from "@/hooks"
 import { nodeTypes } from "@/nodes"
 import { useSelectedNodes } from "@/stores/selected-node-store"
-import { ActionIcon, Loader } from "@mantine/core"
+import { ActionIcon, Avatar, Loader, Tooltip } from "@mantine/core"
 import { IconMaximize, IconMinimize } from "@tabler/icons-react"
-import { useCallback, useEffect } from "react"
+import { Fragment, useCallback, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import ReactFlow, {
     Background,
@@ -21,8 +21,50 @@ import useRoomStore from "@/stores/room-store"
 import { useUser } from "@/api/hooks"
 import Cursor from "@/components/cursor"
 import { useElementSize, useViewportSize } from "@mantine/hooks"
+import { UserResponse } from "@/types"
+import { BaseUserMeta, JsonObject, User } from "@liveblocks/client"
 
 const panOnDrag = [1, 2]
+
+const MAX_USERS_DISPLAY = 5
+
+const OnlineUsers = ({
+    others,
+    currentUser,
+}: {
+    others: readonly User<JsonObject, BaseUserMeta>[]
+    currentUser: UserResponse
+}) => {
+    return (
+        <div className="bg-white shadow-md px-2 py-1 rounded">
+            <Avatar.Group>
+                <Tooltip label="You" withArrow>
+                    <Avatar src={currentUser.picture} />
+                </Tooltip>
+                {others.map((user, index) => {
+                    if (index + 1 === MAX_USERS_DISPLAY) {
+                        return <Avatar key={index}>+{index + 1}</Avatar>
+                    }
+                    if (index + 1 > MAX_USERS_DISPLAY) {
+                        return <Fragment key={index}></Fragment>
+                    }
+                    return (
+                        <Tooltip
+                            label={user.presence.user["name"]}
+                            withArrow
+                            key={index}
+                        >
+                            <Avatar
+                                key={user.id}
+                                src={user.presence.user["picture"]}
+                            />
+                        </Tooltip>
+                    )
+                })}
+            </Avatar.Group>
+        </div>
+    )
+}
 
 const MindmapEditorPage = () => {
     useRemoveLogo()
@@ -102,10 +144,11 @@ const MindmapEditorPage = () => {
     }, [enterRoom, leaveRoom, id])
 
     const { height: vpHeight, width: vpWidth } = useViewportSize()
-    const { ref, width, height } = useElementSize()
+    const { ref, width: boardWidth, height: boardHeight } = useElementSize()
+
     const handleRealtimeChange = (e: React.PointerEvent<HTMLDivElement>) => {
-        const widthSubtract = vpWidth - width
-        const heightSubtract = vpHeight - height
+        const widthSubtract = vpWidth - boardWidth
+        const heightSubtract = vpHeight - boardHeight
 
         setUser({
             id: user.id,
@@ -151,16 +194,20 @@ const MindmapEditorPage = () => {
                 onPointerMove={handleRealtimeChange}
                 ref={ref}
             >
-                {others.map((user) => (
+                {others.map((user, index) => (
                     <Cursor
-                        key={user.id}
-                        color={"#000"}
+                        key={index}
+                        color={"#262626"}
                         x={user.presence.user["cursor"]["x"]}
                         y={user.presence.user["cursor"]["y"]}
+                        name={user.presence.user["name"]}
                     />
                 ))}
                 <Background />
                 <Controls />
+                <Panel position="top-right">
+                    <OnlineUsers others={others} currentUser={user} />
+                </Panel>
 
                 <Panel position="bottom-right">
                     <ActionIcon radius={"xl"} onClick={handleToggleAppShell}>
