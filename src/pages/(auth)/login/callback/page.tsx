@@ -1,5 +1,5 @@
 import { useQueryParams } from "@/hooks"
-import { useAuth } from "@/stores/auth-store"
+import { getAuth, useAuth } from "@/stores/auth-store"
 import { Loader } from "@mantine/core"
 import { useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
@@ -14,11 +14,17 @@ const CallBackPage = () => {
     useEffect(() => {
         if (params.token) {
             setToken(params.token)
-            queryClient.invalidateQueries({
-                queryKey: ["user", params.token],
-            })
+            // queryClient.invalidateQueries({
+            //     queryKey: ["user", params.token],
+            // })
         }
-        navigate("/login")
+        const timeOut = setTimeout(() => {
+            navigate("/login")
+        }, 1000)
+
+        return () => {
+            clearTimeout(timeOut)
+        }
     }, [params])
     return (
         <div className="h-screen flex items-center justify-center bg-[url('/bg.png')] bg-center bg-no-repeat bg-cover">

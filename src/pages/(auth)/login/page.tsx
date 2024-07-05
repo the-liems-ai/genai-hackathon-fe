@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 const LoginPage = () => {
     const navigate = useNavigate()
 
-    const { user, isLoading } = useUser()
+    const { data: user, isLoading } = useUser()
     useEffect(() => {
         if (user) {
             if (user.organizations.length === 0) {

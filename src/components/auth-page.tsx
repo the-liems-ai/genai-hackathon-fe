@@ -4,16 +4,17 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 const AuthPage = ({ children }: { children?: React.ReactNode }) => {
-    const { user, isLoading } = useUser()
+    const { data: user, isLoading } = useUser()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!user && !isLoading) {
-            navigate("/login")
-        }
-        if (user) {
-            if (user.organizations.length === 0) {
-                navigate("/create-org")
+        if (!isLoading) {
+            if (!user) {
+                navigate("/login")
+            } else {
+                if (user.organizations.length === 0) {
+                    navigate("/create-org")
+                }
             }
         }
     }, [user, isLoading])

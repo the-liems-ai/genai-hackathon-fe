@@ -1,6 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getAskNode, getUser } from "./api"
 import { useAuth } from "@/stores/auth-store"
+import { UserResponse } from "@/types"
 
 export const useAskNode = () => {
     return useMutation({
@@ -10,13 +11,15 @@ export const useAskNode = () => {
 
 export const useUser = () => {
     const { token } = useAuth()
-
+    const queryClient = useQueryClient()
     if (!token) return { user: null, isLoading: false }
 
-    const { data: user, isLoading } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["user", token],
         queryFn: () => getUser(token),
     })
-
-    return { user, isLoading }
+    const setUser = (user: UserResponse) => {
+        queryClient.setQueryData(["user", token], user)
+    }
+    return { data, isLoading, setUser }
 }

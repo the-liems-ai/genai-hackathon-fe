@@ -15,7 +15,7 @@ import { IconLogout } from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom"
 
 const UserAvatarMenu = () => {
-    const { user, isLoading } = useUser()
+    const { data: user, isLoading } = useUser()
     const navigate = useNavigate()
     const { setToken } = useAuth()
     if (isLoading) return <Skeleton circle h={38} />
