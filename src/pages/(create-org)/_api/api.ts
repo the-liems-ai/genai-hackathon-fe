@@ -1,5 +1,5 @@
 import { getAuth } from "@/stores/auth-store"
-import { CreateOrgResponse } from "@/types"
+import { OrgResponse } from "@/types"
 import { authInstance } from "@/utils/axios"
 
 enum OrganizationAPI {
@@ -7,7 +7,7 @@ enum OrganizationAPI {
 }
 
 export const createOrg = async (name: string) => {
-    const { data } = await authInstance.post<CreateOrgResponse>(
+    const { data } = await authInstance.post<OrgResponse>(
         OrganizationAPI.CREATE,
         { name },
         {

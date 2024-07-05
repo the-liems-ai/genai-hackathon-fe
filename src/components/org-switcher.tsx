@@ -5,11 +5,11 @@ import {
     Button,
     Divider,
     Group,
-    Loader,
     Menu,
     Text,
     Title,
 } from "@mantine/core"
+import { modals } from "@mantine/modals"
 import {
     IconCaretUpDown,
     IconCheck,
@@ -18,6 +18,7 @@ import {
 } from "@tabler/icons-react"
 import { useMemo } from "react"
 import { Link, useParams } from "react-router-dom"
+import OrgSettings from "./org-settings"
 
 const OrgSwitcher = () => {
     const { orgId } = useParams()
@@ -88,8 +89,13 @@ const OrgSwitcher = () => {
                                 className="mx-0.5"
                             />
                         }
-                        // component={Link}
-                        // to="/create-org"
+                        onClick={() => {
+                            modals.open({
+                                title: "Organization settings",
+                                size: "xl",
+                                children: <OrgSettings />,
+                            })
+                        }}
                         py={8}
                     >
                         <Text c={"gray"} size="sm">

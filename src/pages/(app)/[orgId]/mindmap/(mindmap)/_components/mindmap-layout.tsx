@@ -3,7 +3,7 @@ import { useDocumentTitle } from "@mantine/hooks"
 import { useAppShell } from "@/stores/app-shell-store"
 import { Link } from "react-router-dom"
 import UserAvatarMenu from "@/components/user-avatar-menu"
-import OrgSwitcher from "./org-switcher"
+import OrgSwitcher from "@/components/org-switcher"
 
 interface MindmapLayoutProps {
     title?: string

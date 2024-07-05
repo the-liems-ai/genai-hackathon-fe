@@ -221,6 +221,10 @@ export interface CreateOrgRequest {
     name: string
 }
 
+export interface UpdateOrgRequest {
+    name: string
+}
+
 export interface AddUserToOrgRequest {
     usersEmail: string[]
 }
@@ -246,32 +250,7 @@ export interface UserOrganizationResponse {
     is_owner: boolean
 }
 
-// CreateOrgResponse
-// [
-//   {
-//     "id": "20dc0713-6feb-4be5-9717-3439ee7aad8a",
-//     "created_at": "2024-07-04T17:25:39.555366+00:00",
-//     "name": "new org",
-//     "image": null,
-//     "metadata": null,
-//     "users": [
-//       {
-//         "id": 2,
-//         "name": "Quý Đào Xuân",
-//         "email": "wolflavamc@gmail.com",
-//         "locale": null,
-//         "picture": "https://lh3.googleusercontent.com/a/ACg8ocLlAS3THnmcjaI6CC0X5V9z7EiiA51XPow2FM2V1D17fBDqLZEf=s96-c",
-//         "metadata": null,
-//         "created_at": "2024-07-02T12:59:44.728142+00:00",
-//         "given_name": "Quý",
-//         "family_name": "Đào Xuân",
-//         "is_owner": true
-//       }
-//     ]
-//   }
-// ]
-
-export interface CreateOrgResponse {
+export interface OrgResponse {
     id: string
     created_at: string
     name: string
