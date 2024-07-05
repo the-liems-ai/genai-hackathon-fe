@@ -12,19 +12,26 @@ import ReactFlow, {
     Panel,
     useReactFlow,
     MarkerType,
+    SelectionMode,
 } from "reactflow"
 import { useMindmap } from "../_api/hooks"
 import { convertEdge, convertNewNode } from "@/utils"
 import { useCurrentMindmap } from "@/stores/mindmap-store"
 import useRoomStore from "@/stores/room-store"
+import { useUser } from "@/api/hooks"
+import Cursor from "@/components/cursor"
+import { useElementSize, useViewportSize } from "@mantine/hooks"
+
+const panOnDrag = [1, 2]
 
 const MindmapEditorPage = () => {
     useRemoveLogo()
+    const { data: user } = useUser()
     const { id } = useParams()
     const { data, isPending } = useMindmap(+id)
-    const { fitView } = useReactFlow()
+    const { fitView, getViewport } = useReactFlow()
     const {
-        liveblocks: { enterRoom, leaveRoom, isStorageLoading },
+        liveblocks: { enterRoom, leaveRoom, isStorageLoading, others },
         nodes,
         edges,
         setNodes,
@@ -34,6 +41,8 @@ const MindmapEditorPage = () => {
         onConnect,
     } = useRoomStore()
 
+    const setUser = useRoomStore((state) => state.setUser)
+
     const { mindmap, setMindmap } = useCurrentMindmap()
     useEffect(() => {
         if (isPending) return
@@ -41,8 +50,10 @@ const MindmapEditorPage = () => {
         setMindmap(data?.data.data)
     }, [isPending, data, isStorageLoading])
 
+    const { getLayoutedElements } = useLayoutedElements()
+
     useEffect(() => {
-        if (mindmap) {
+        if (mindmap && others.length === 0) {
             setNodes(
                 Object.values(mindmap?.json_diagram.new?.vertices).map(
                     (value) => {
@@ -74,12 +85,6 @@ const MindmapEditorPage = () => {
             }, 500)
         }
     }, [mindmap])
-    // const [, setNodes] = useNodesState([])
-    // const [, setEdges] = useEdgesState([])
-    // const onConnect: OnConnect = useCallback(
-    //     (connection) => setEdges((eds) => addEdge(connection, eds)),
-    //     [setEdges]
-    // );
 
     const { setSelectedNodes } = useSelectedNodes()
     const onSelectionChange = useCallback(
@@ -91,12 +96,28 @@ const MindmapEditorPage = () => {
 
     const { appShellShowed, handleToggleAppShell } = useToggleAppShell()
 
-    const { getLayoutedElements } = useLayoutedElements()
-
     useEffect(() => {
         enterRoom(id)
         return () => leaveRoom()
     }, [enterRoom, leaveRoom, id])
+
+    const { height: vpHeight, width: vpWidth } = useViewportSize()
+    const { ref, width, height } = useElementSize()
+    const handleRealtimeChange = (e: React.PointerEvent<HTMLDivElement>) => {
+        const widthSubtract = vpWidth - width
+        const heightSubtract = vpHeight - height
+
+        setUser({
+            id: user.id,
+            cursor: {
+                x: e.clientX - widthSubtract - getViewport().x + 180,
+
+                y: e.clientY - heightSubtract - getViewport().y + 28,
+            },
+            name: user.name,
+            picture: user.picture,
+        })
+    }
 
     if (isStorageLoading) {
         return (
@@ -107,35 +128,51 @@ const MindmapEditorPage = () => {
     }
 
     return (
-        <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onSelectionChange={onSelectionChange}
-            fitView
-            defaultEdgeOptions={{
-                animated: true,
-                type: "floating",
-                markerEnd: { type: MarkerType.ArrowClosed },
-            }}
-        >
-            <Background />
-            <Controls />
+        <>
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onSelectionChange={onSelectionChange}
+                panOnScroll
+                selectionOnDrag
+                panOnDrag={panOnDrag}
+                selectionMode={SelectionMode.Partial}
+                fitView
+                defaultEdgeOptions={{
+                    animated: true,
+                    type: "floating",
+                    markerEnd: { type: MarkerType.ArrowClosed },
+                }}
+                onPointerMove={handleRealtimeChange}
+                ref={ref}
+            >
+                {others.map((user) => (
+                    <Cursor
+                        key={user.id}
+                        color={"#000"}
+                        x={user.presence.user["cursor"]["x"]}
+                        y={user.presence.user["cursor"]["y"]}
+                    />
+                ))}
+                <Background />
+                <Controls />
 
-            <Panel position="bottom-right">
-                <ActionIcon radius={"xl"} onClick={handleToggleAppShell}>
-                    {appShellShowed ? (
-                        <IconMaximize size={16} />
-                    ) : (
-                        <IconMinimize size={16} />
-                    )}
-                </ActionIcon>
-            </Panel>
-        </ReactFlow>
+                <Panel position="bottom-right">
+                    <ActionIcon radius={"xl"} onClick={handleToggleAppShell}>
+                        {appShellShowed ? (
+                            <IconMaximize size={16} />
+                        ) : (
+                            <IconMinimize size={16} />
+                        )}
+                    </ActionIcon>
+                </Panel>
+            </ReactFlow>
+        </>
     )
 }
 

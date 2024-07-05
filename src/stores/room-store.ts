@@ -13,7 +13,11 @@ import {
     NodeChange,
     OnConnect,
     OnEdgesChange,
+    OnMove,
+    OnMoveEnd,
+    OnMoveStart,
     OnNodesChange,
+    Viewport,
 } from "reactflow"
 import { create } from "zustand"
 
@@ -23,14 +27,28 @@ declare global {
     }
 }
 
+type Cursor = { x: number; y: number }
+
+export type SharedUser = {
+    id: number
+    cursor: Cursor
+    name: string
+    picture: string
+}
+
 type FlowState = {
     nodes: Node[]
     edges: Edge[]
+
     setNodes: Dispatch<React.SetStateAction<Node<any, string>[]>>
     setEdges: Dispatch<React.SetStateAction<Edge<any>[]>>
     onNodesChange: OnNodesChange
     onEdgesChange: OnEdgesChange
     onConnect: OnConnect
+    // onMove: OnMove
+
+    user: SharedUser
+    setUser: (user: SharedUser) => void
 }
 
 type Storage = EnsureJson<{
@@ -71,15 +89,41 @@ const useRoomStore = create<WithLiveblocks<FlowState>>()(
                     edges: addEdge(connection, get().edges),
                 })
             },
+
+            user: {
+                id: 0,
+                cursor: { x: 0, y: 0 },
+                name: "",
+                picture: "",
+            },
+
+            // onMove: (e: MouseEvent | TouchEvent, viewport: Viewport) => {
+            //     set({
+            //         user: {
+            //             ...get().user,
+            //             cursor: {
+            //                 x: get().user.cursor.x + viewport.x,
+            //                 y: get().user.cursor.y + viewport.y,
+            //             },
+            //         },
+            //     })
+            // },
+
+            // Set the user
+            setUser: (user: SharedUser) => set({ user }),
         }),
         {
             // Add Liveblocks client
             client,
 
-            // Define the store properties that should be shared in real-time
             storageMapping: {
                 nodes: true,
                 edges: true,
+            },
+
+            // Define the store properties that should be shared in real-time
+            presenceMapping: {
+                user: true,
             },
         }
     )

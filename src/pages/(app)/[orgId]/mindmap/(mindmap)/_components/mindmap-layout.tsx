@@ -1,7 +1,7 @@
 import { Anchor, AppShell, Divider, Group, Image, Title } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
 import { useAppShell } from "@/stores/app-shell-store"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import UserAvatarMenu from "@/components/user-avatar-menu"
 import OrgSwitcher from "@/components/org-switcher"
 
@@ -18,6 +18,7 @@ export function Layout({
 
     useDocumentTitle(title)
 
+    const { orgId } = useParams()
     return (
         <>
             <AppShell header={{ height: 60 }} padding="md" disabled={!showed}>
@@ -25,7 +26,7 @@ export function Layout({
                     <Group h="100%" px="xl" justify="space-between">
                         <Group>
                             <Link
-                                to="/mindmap"
+                                to={`/${orgId}/mindmap`}
                                 className="flex gap-3 items-center"
                             >
                                 <Image src="/fav.png" alt="The Liems" h={40} />
