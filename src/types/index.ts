@@ -8,10 +8,10 @@ export interface OldVertice {
     id: string
     text: string
     shape: string
-    // color: string
-    // width: number;
-    // height: number
-    // layer: number
+    color: string
+    width: number
+    height: number
+    layer: number
 }
 
 export interface NewVertice {

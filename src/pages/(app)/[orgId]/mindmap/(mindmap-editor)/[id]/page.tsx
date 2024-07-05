@@ -157,14 +157,19 @@ const MindmapEditorPage = () => {
         return () => leaveRoom()
     }, [enterRoom, leaveRoom, id])
 
-    const { ref, x, y } = useMouse()
+    const { height: vpHeight, width: vpWidth } = useViewportSize()
+    const { ref, width: boardWidth, height: boardHeight } = useElementSize()
 
     const handleRealtimeChange = (e: React.PointerEvent<HTMLDivElement>) => {
+        const widthSubtract = vpWidth - boardWidth
+        const heightSubtract = vpHeight - boardHeight
+
         setUser({
             id: user.id,
             cursor: {
-                x: x,
-                y: y,
+                x: e.clientX - widthSubtract - getViewport().x + 180,
+
+                y: e.clientY - heightSubtract - getViewport().y + 28,
             },
             name: user.name,
             picture: user.picture,
