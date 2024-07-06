@@ -3,6 +3,7 @@ import axios from "axios"
 
 const BASE_URL = "https://be.mind-gpt.online"
 const AUTH_SERVICE = "https://auth.mind-gpt.online"
+const AI_SERVICE = "https://ai.mind-gpt.online"
 
 const commonHeaders = {
     "Content-Type": "application/json",
@@ -17,4 +18,8 @@ export const instance = axios.create({
 export const authInstance = axios.create({
     baseURL: AUTH_SERVICE,
     headers: commonHeaders,
+})
+
+export const aiInstance = axios.create({
+    baseURL: AI_SERVICE,
 })

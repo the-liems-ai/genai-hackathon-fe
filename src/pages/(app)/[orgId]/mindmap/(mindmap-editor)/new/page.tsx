@@ -18,7 +18,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { IconFile, IconLink, IconWand } from "@tabler/icons-react"
 import toast from "react-hot-toast"
-import { useCreateMindmap } from "../_api/hooks"
+import { useCreateMindmap, useUploadFile, useUploadURL } from "../_api/hooks"
 
 function NewMindmapPage() {
     const [prompt, setPrompt] = useState("")
@@ -31,13 +31,17 @@ function NewMindmapPage() {
     const [link, setLink] = useState("")
 
     const navigate = useNavigate()
-    const { mutate: createMindmap } = useCreateMindmap()
     const { orgId } = useParams()
+    const { mutate: createMindmap } = useCreateMindmap()
+    const { mutate: uploadFile } = useUploadFile()
+    const { mutate: uploadURL } = useUploadURL()
     const handlePrompt = async () => {
         if (prompt.trim() === "") {
             toast.error("Please enter a message")
             return
         }
+
+        handleUploadDocument()
 
         setLoading(true)
 
@@ -58,7 +62,34 @@ function NewMindmapPage() {
         })
     }
 
-    console.log(isUseAdditionalDocument)
+    const handleUploadDocument = () => {
+        if (isUseAdditionalDocument === "true") {
+            switch (documentType) {
+                case "file":
+                    if (!file) {
+                        toast.error("Please upload a file")
+                        return
+                    }
+                    uploadFile(file, {
+                        onError: (error) => {
+                            toast.error(error.message)
+                        },
+                    })
+                    break
+                case "link":
+                    if (link.trim() === "") {
+                        toast.error("Please paste a link")
+                        return
+                    }
+                    uploadURL(link, {
+                        onError: (error) => {
+                            toast.error(error.message)
+                        },
+                    })
+                    break
+            }
+        }
+    }
 
     return (
         <div className="flex items-center justify-center h-screen w-full">
@@ -135,6 +166,8 @@ function NewMindmapPage() {
                                             leftSection={<IconFile size={18} />}
                                             value={file}
                                             onChange={setFile}
+                                            // accept docx, pdf, txt, doc
+                                            accept=".docx,.pdf,.txt,.doc"
                                         />
                                     ) : (
                                         <TextInput
