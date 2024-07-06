@@ -71,6 +71,10 @@ const OnlineUsers = ({
                             <Avatar
                                 key={user.id}
                                 src={user.presence.user["picture"]}
+                                style={{
+                                    outline: "2px solid white",
+                                    border: `3px solid ${cusorColors[index]}`,
+                                }}
                             />
                         </Tooltip>
                     )
