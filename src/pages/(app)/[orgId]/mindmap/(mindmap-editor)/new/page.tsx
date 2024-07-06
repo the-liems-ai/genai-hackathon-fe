@@ -7,19 +7,28 @@ import {
     Stack,
     Textarea,
     Loader,
+    SegmentedControl,
+    FileInput,
+    TextInput,
+    Accordion,
 } from "@mantine/core"
 import { Dots } from "./_components/dots"
 import classes from "./_components/HeroText.module.css"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
-import { IconWand } from "@tabler/icons-react"
+import { IconFile, IconLink, IconWand } from "@tabler/icons-react"
 import toast from "react-hot-toast"
 import { useCreateMindmap } from "../_api/hooks"
-import LoadingDots from "@/components/ui/loading-dots"
 
 function NewMindmapPage() {
     const [prompt, setPrompt] = useState("")
     const [loading, setLoading] = useState(false)
+    const [isUseAdditionalDocument, setIsUseAdditionalDocument] = useState<
+        string | null
+    >(null)
+    const [documentType, setDocumentType] = useState("file")
+    const [file, setFile] = useState<File | null>(null)
+    const [link, setLink] = useState("")
 
     const navigate = useNavigate()
     const { mutate: createMindmap } = useCreateMindmap()
@@ -48,6 +57,9 @@ function NewMindmapPage() {
             },
         })
     }
+
+    console.log(isUseAdditionalDocument)
+
     return (
         <div className="flex items-center justify-center h-screen w-full">
             <Container className={classes.wrapper} size={1400} w={"100%"}>
@@ -69,7 +81,7 @@ function NewMindmapPage() {
                             className="grow"
                             placeholder="Write your thoughts here to generate a mindmap"
                             autosize
-                            minRows={10}
+                            minRows={5}
                             maxRows={10}
                             onChange={(e) => setPrompt(e.currentTarget.value)}
                             value={prompt}
@@ -81,6 +93,62 @@ function NewMindmapPage() {
                                 }
                             }}
                         />
+                    </Container>
+
+                    <Stack align="center" gap={4}>
+                        {/* <Text c={"gray"}>
+                            Upload file or paste a link to generate a mindmap
+                        </Text> */}
+                    </Stack>
+                    <Container p={0} size={600} w={"100%"}>
+                        <Accordion
+                            value={isUseAdditionalDocument}
+                            onChange={setIsUseAdditionalDocument}
+                            variant="separated"
+                        >
+                            <Accordion.Item value="true">
+                                <Accordion.Control>
+                                    <Title order={3}>
+                                        Additional documents
+                                    </Title>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <SegmentedControl
+                                        data={[
+                                            {
+                                                value: "file",
+                                                label: "Upload file",
+                                            },
+                                            {
+                                                value: "link",
+                                                label: "Paste link",
+                                            },
+                                        ]}
+                                        value={documentType}
+                                        onChange={setDocumentType}
+                                        fullWidth
+                                        mb={8}
+                                    />
+                                    {documentType === "file" ? (
+                                        <FileInput
+                                            placeholder="Upload file"
+                                            leftSection={<IconFile size={18} />}
+                                            value={file}
+                                            onChange={setFile}
+                                        />
+                                    ) : (
+                                        <TextInput
+                                            placeholder="Paste url here"
+                                            value={link}
+                                            onChange={(e) =>
+                                                setLink(e.currentTarget.value)
+                                            }
+                                            leftSection={<IconLink size={18} />}
+                                        />
+                                    )}
+                                </Accordion.Panel>
+                            </Accordion.Item>
+                        </Accordion>
                     </Container>
                     <Text size="sm" c="gray">
                         Any information generated from AI may not be absolutely
