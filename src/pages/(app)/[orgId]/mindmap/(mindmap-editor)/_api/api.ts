@@ -1,3 +1,4 @@
+import { getAuth } from "@/stores/auth-store"
 import {
     CreateDigramResponse,
     DiagramResponse,
@@ -30,13 +31,23 @@ enum AIEndpoint {
 export const createMindmap = (prompt: string) => {
     return instance.post<CreateDigramResponse>(
         EditDiagramEndpoint.CREATE,
-        prompt
+        prompt,
+        {
+            headers: {
+                Authorization: `Bearer ${getAuth().token}`,
+            },
+        }
     )
 }
 
 export const getMindmapById = (id: number) => {
     return instance.get<DiagramResponse>(
-        `${EditDiagramEndpoint.GET_BY_ID}/${id}`
+        `${EditDiagramEndpoint.GET_BY_ID}/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${getAuth().token}`,
+            },
+        }
     )
 }
 
@@ -52,6 +63,11 @@ export const explainNodes = ({
         {
             ...request,
             input: "",
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${getAuth().token}`,
+            },
         }
     )
 }
@@ -70,7 +86,14 @@ export const editNodes = ({
 }
 
 export const summary = (id: number) => {
-    return instance.put<SummaryResponse>(`${EditDiagramEndpoint.SUMMARY}/${id}`)
+    return instance.put<SummaryResponse>(
+        `${EditDiagramEndpoint.SUMMARY}/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${getAuth().token}`,
+            },
+        }
+    )
 }
 
 export const saveMindmap = ({
@@ -84,7 +107,15 @@ export const saveMindmap = ({
 }
 
 export const genQuiz = ({ request }: { request: GenQuizRequest }) => {
-    return instance.post<GenQuizResponse>(EditDiagramEndpoint.GEN_QUIZ, request)
+    return instance.post<GenQuizResponse>(
+        EditDiagramEndpoint.GEN_QUIZ,
+        request,
+        {
+            headers: {
+                Authorization: `Bearer ${getAuth().token}`,
+            },
+        }
+    )
 }
 
 export const uploadFile = (file: File) => {

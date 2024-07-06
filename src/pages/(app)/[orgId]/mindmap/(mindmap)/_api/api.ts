@@ -1,10 +1,11 @@
-import { DiagramsResponse } from "@/types";
-import { instance } from "@/utils/axios";
+import { getAuth } from "@/stores/auth-store"
+import { DiagramsResponse } from "@/types"
+import { instance } from "@/utils/axios"
 
 export interface GetDiagramsRequestParams {
-    keyword: string;
-    page: number;
-    limit: number;
+    keyword: string
+    page: number
+    limit: number
 }
 
 enum DiagramEndpoint {
@@ -23,9 +24,16 @@ export const getDiagrams = ({
             page,
             limit,
         },
-    });
-};
+        headers: {
+            Authorization: `Bearer ${getAuth().token}`,
+        },
+    })
+}
 
 export const deleteDiagram = (id: number) => {
-    return instance.delete(`${DiagramEndpoint.DELETE}/${id}`);
-};
+    return instance.delete(`${DiagramEndpoint.DELETE}/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getAuth().token}`,
+        },
+    })
+}
