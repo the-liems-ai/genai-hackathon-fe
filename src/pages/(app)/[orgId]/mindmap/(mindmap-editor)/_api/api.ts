@@ -1,4 +1,5 @@
 import { getAuth } from "@/stores/auth-store"
+import { getCurrentOrg } from "@/stores/org-store"
 import {
     CreateDigramResponse,
     DiagramResponse,
@@ -31,7 +32,10 @@ enum AIEndpoint {
 export const createMindmap = (prompt: string) => {
     return instance.post<CreateDigramResponse>(
         EditDiagramEndpoint.CREATE,
-        prompt,
+        {
+            prompt,
+            organization_id: getCurrentOrg().currentOrg,
+        },
         {
             headers: {
                 Authorization: `Bearer ${getAuth().token}`,

@@ -11,18 +11,18 @@ const PAGE_SIZE = 8
 
 const MindmapPage = () => {
     const { keyword, page } = useQueryParams()
+    const { orgId } = useParams()
     const { data, isLoading } = useMindmaps({
         keyword,
         page: +page || 1,
         limit: PAGE_SIZE,
+        orgId,
     })
 
     const total = useMemo(
         () => Math.ceil(data?.data.pagination.total / PAGE_SIZE),
         [data?.data.pagination.total]
     )
-
-    const { orgId } = useParams()
 
     return (
         <Container size="xl">
