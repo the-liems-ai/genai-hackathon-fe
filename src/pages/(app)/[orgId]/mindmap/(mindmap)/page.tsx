@@ -28,8 +28,10 @@ const MindmapPage = () => {
 
     const navigate = useNavigate()
     const { mutate: clearVtDb } = useClearVtDb()
-    const handleCreateMindmap = async () => {
-        await aiInstance.post("/rag/text-upload/requirement", "")
+    const handleCreateMindmap = () => {
+        aiInstance.post("/rag/text-upload/requirement", {
+            text: "",
+        })
         navigate(`/${orgId}/mindmap/new`)
     }
 
