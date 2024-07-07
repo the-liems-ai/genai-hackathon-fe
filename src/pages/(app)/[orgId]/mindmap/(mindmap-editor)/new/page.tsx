@@ -24,6 +24,9 @@ import {
     useUploadFile,
     useUploadURL,
 } from "../_api/hooks"
+import { aiInstance } from "@/utils/axios"
+
+const AI_API = "https://ai.mind-gpt.online/rag/upload/requirement"
 
 function NewMindmapPage() {
     const [prompt, setPrompt] = useState("")
@@ -40,13 +43,16 @@ function NewMindmapPage() {
     const { mutate: createMindmap } = useCreateMindmap()
     const { mutate: uploadFile } = useUploadFile()
     const { mutate: uploadURL } = useUploadURL()
+
     const handlePrompt = async () => {
         if (prompt.trim() === "") {
             toast.error("Please enter a message")
             return
         }
 
-        handleUploadDocument()
+        if (isUseAdditionalDocument === "true") {
+            await handleUploadDocument()
+        }
 
         setLoading(true)
 
@@ -67,32 +73,31 @@ function NewMindmapPage() {
         })
     }
 
-    const handleUploadDocument = () => {
-        if (isUseAdditionalDocument === "true") {
-            switch (documentType) {
-                case "file":
-                    if (!file) {
-                        toast.error("Please upload a file")
-                        return
-                    }
-                    uploadFile(file, {
-                        onError: (error) => {
-                            toast.error(error.message)
-                        },
-                    })
-                    break
-                case "link":
-                    if (link.trim() === "") {
-                        toast.error("Please paste a link")
-                        return
-                    }
-                    uploadURL(link, {
-                        onError: (error) => {
-                            toast.error(error.message)
-                        },
-                    })
-                    break
-            }
+    const handleUploadDocument = async () => {
+        switch (documentType) {
+            case "file":
+                if (!file) {
+                    toast.error("Please upload a file")
+                    return
+                }
+                var formData = new FormData()
+                formData.append("file", file)
+                await fetch(AI_API, {
+                    method: "POST",
+                    body: formData,
+                })
+                break
+            case "link":
+                if (link.trim() === "") {
+                    toast.error("Please paste a link")
+                    return
+                }
+                await uploadURL(link, {
+                    onError: (error) => {
+                        toast.error(error.message)
+                    },
+                })
+                break
         }
     }
 
@@ -164,6 +169,7 @@ function NewMindmapPage() {
                                         onChange={setDocumentType}
                                         fullWidth
                                         mb={8}
+                                        disabled={loading}
                                     />
                                     {documentType === "file" ? (
                                         <FileInput
@@ -173,6 +179,7 @@ function NewMindmapPage() {
                                             onChange={setFile}
                                             // accept docx, pdf, txt, doc
                                             accept=".docx,.pdf,.txt,.doc"
+                                            disabled={loading}
                                         />
                                     ) : (
                                         <TextInput
@@ -182,6 +189,7 @@ function NewMindmapPage() {
                                                 setLink(e.currentTarget.value)
                                             }
                                             leftSection={<IconLink size={18} />}
+                                            disabled={loading}
                                         />
                                     )}
                                 </Accordion.Panel>
