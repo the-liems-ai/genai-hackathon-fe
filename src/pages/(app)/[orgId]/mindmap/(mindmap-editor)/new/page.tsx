@@ -40,14 +40,11 @@ function NewMindmapPage() {
     const { mutate: createMindmap } = useCreateMindmap()
     const { mutate: uploadFile } = useUploadFile()
     const { mutate: uploadURL } = useUploadURL()
-    const { mutate: clearVtDb } = useClearVtDb()
     const handlePrompt = async () => {
         if (prompt.trim() === "") {
             toast.error("Please enter a message")
             return
         }
-
-        clearVtDb()
 
         handleUploadDocument()
 

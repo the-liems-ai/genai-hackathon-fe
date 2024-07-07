@@ -1,11 +1,12 @@
 import { Button, Container, Group, Stack, Title } from "@mantine/core"
 import MindmapCard from "./_components/mindmap-card"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useMindmaps } from "./_api/hooks"
 import { useQueryParams } from "@/hooks"
 import { MindmapCardSkeleton, PaginationBar, SearchBar } from "./_components"
 import { useMemo } from "react"
 import { IconMoodSad } from "@tabler/icons-react"
+import { useClearVtDb } from "../(mindmap-editor)/_api/hooks"
 
 const PAGE_SIZE = 8
 
@@ -23,6 +24,13 @@ const MindmapPage = () => {
         () => Math.ceil(data?.data.pagination.total / PAGE_SIZE),
         [data?.data.pagination.total]
     )
+
+    const navigate = useNavigate()
+    const { mutate: clearVtDb } = useClearVtDb()
+    const handleCreateMindmap = () => {
+        clearVtDb()
+        navigate(`/${orgId}/mindmap/new`)
+    }
 
     return (
         <Container size="xl">
