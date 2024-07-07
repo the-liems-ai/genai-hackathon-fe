@@ -36,11 +36,7 @@ const MindmapPage = () => {
         <Container size="xl">
             <Group justify="space-between" align="center" mt="lg" mb="md">
                 <Title order={1}>Mindmaps</Title>
-                <Button
-                    component={Link}
-                    to={`/${orgId}/mindmap/new`}
-                    color="green"
-                >
+                <Button onClick={handleCreateMindmap} color="green">
                     Create new
                 </Button>
             </Group>
