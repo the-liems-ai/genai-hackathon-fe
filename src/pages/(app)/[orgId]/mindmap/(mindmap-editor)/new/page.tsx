@@ -18,7 +18,12 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { IconFile, IconLink, IconWand } from "@tabler/icons-react"
 import toast from "react-hot-toast"
-import { useCreateMindmap, useUploadFile, useUploadURL } from "../_api/hooks"
+import {
+    useClearVtDb,
+    useCreateMindmap,
+    useUploadFile,
+    useUploadURL,
+} from "../_api/hooks"
 
 function NewMindmapPage() {
     const [prompt, setPrompt] = useState("")
@@ -35,11 +40,14 @@ function NewMindmapPage() {
     const { mutate: createMindmap } = useCreateMindmap()
     const { mutate: uploadFile } = useUploadFile()
     const { mutate: uploadURL } = useUploadURL()
+    const { mutate: clearVtDb } = useClearVtDb()
     const handlePrompt = async () => {
         if (prompt.trim() === "") {
             toast.error("Please enter a message")
             return
         }
+
+        clearVtDb()
 
         handleUploadDocument()
 

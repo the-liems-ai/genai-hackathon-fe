@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import {
+    clearVtDb,
     createMindmap,
     editNodes,
     explainNodes,
@@ -63,5 +64,11 @@ export const useUploadFile = () => {
 export const useUploadURL = () => {
     return useMutation({
         mutationFn: uploadURL,
+    })
+}
+
+export const useClearVtDb = () => {
+    return useMutation({
+        mutationFn: clearVtDb,
     })
 }

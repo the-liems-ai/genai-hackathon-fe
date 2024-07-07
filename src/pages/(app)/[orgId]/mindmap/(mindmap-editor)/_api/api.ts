@@ -27,6 +27,7 @@ enum EditDiagramEndpoint {
 enum AIEndpoint {
     UPLOAD_FILE = "/rag/upload/requirement",
     UPLOAD_URL = "/rag/url-upload/requirement",
+    CLEAR_VERTOR_DB = "/rag/text-upload/requirement",
 }
 
 export const createMindmap = (prompt: string) => {
@@ -140,4 +141,8 @@ export const uploadURL = (url: string) => {
             },
         }
     )
+}
+
+export const clearVtDb = () => {
+    return aiInstance.post(AIEndpoint.CLEAR_VERTOR_DB, "")
 }
