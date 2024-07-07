@@ -7,6 +7,7 @@ import { MindmapCardSkeleton, PaginationBar, SearchBar } from "./_components"
 import { useMemo } from "react"
 import { IconMoodSad } from "@tabler/icons-react"
 import { useClearVtDb } from "../(mindmap-editor)/_api/hooks"
+import { aiInstance } from "@/utils/axios"
 
 const PAGE_SIZE = 8
 
@@ -28,7 +29,7 @@ const MindmapPage = () => {
     const navigate = useNavigate()
     const { mutate: clearVtDb } = useClearVtDb()
     const handleCreateMindmap = () => {
-        clearVtDb()
+        aiInstance.post("/rag/text-upload/requirement", "")
         navigate(`/${orgId}/mindmap/new`)
     }
 
