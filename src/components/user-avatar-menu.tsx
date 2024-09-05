@@ -35,7 +35,7 @@ const UserAvatarMenu = () => {
                     alt={user.name}
                     className="cursor-pointer"
                 >
-                    {user.given_name.charAt(0) + user.family_name.charAt(0)}
+                    {user?.given_name?.charAt(0) + user?.family_name?.charAt(0)}
                 </Avatar>
             </Menu.Target>
             <Menu.Dropdown p={"md"}>
